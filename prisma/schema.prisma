@@ -1,0 +1,156 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("ADMIN")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Destination {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String
+  titleUz       String?
+  titleRu       String?
+  titleTr       String?
+  country       String
+  countryCode   String
+  city          String?
+  coordinates   String?
+  description   String
+  descriptionUz String?
+  descriptionRu String?
+  descriptionTr String?
+  story         String?
+  storyUz       String?
+  storyRu       String?
+  storyTr       String?
+  photos        String   @default("[]") // JSON string of image URLs
+  status        String   @default("PUBLISHED") // PUBLISHED | DRAFT
+  featured      Boolean  @default(false)
+  visitedAt     DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model VisitedCountry {
+  id             String   @id @default(cuid())
+  isoCode        String   @unique // ISO 3166-1 alpha-2 or alpha-3 (e.g. UZ, USA, TUR)
+  countryName    String
+  countryNameUz  String?
+  countryNameRu  String?
+  countryNameTr  String?
+  visitedYear    Int
+  notes          String?
+  flag           String?
+  coordinates    String?
+  highlightColor String?  @default("#d4af37")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model TimelineEvent {
+  id            String   @id @default(cuid())
+  year          Int
+  date          String
+  title         String
+  titleUz       String?
+  titleRu       String?
+  titleTr       String?
+  category      String   // EDUCATION | CAREER | TRAVEL | ACHIEVEMENT | SCIENTIFIC
+  description   String
+  descriptionUz String?
+  descriptionRu String?
+  descriptionTr String?
+  location      String?
+  mediaUrl      String?
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Certificate {
+  id            String   @id @default(cuid())
+  title         String
+  titleUz       String?
+  titleRu       String?
+  titleTr       String?
+  issuer        String
+  issueDate     DateTime
+  credentialUrl String?
+  credentialId  String?
+  imageUrl      String
+  category      String   @default("ACADEMIC") // ACADEMIC | DIPLOMACY | LEADERSHIP | EXPEDITION
+  featured      Boolean  @default(true)
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Publication {
+  id          String   @id @default(cuid())
+  title       String
+  titleUz     String?
+  titleRu     String?
+  titleTr     String?
+  authors     String
+  journal     String
+  year        Int
+  doi         String?
+  link        String?
+  pdfUrl      String?
+  abstract    String
+  abstractUz  String?
+  abstractRu  String?
+  abstractTr  String?
+  tags        String   @default("[]") // JSON string of tags
+  citations   Int      @default(0)
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AudienceStat {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  label         String
+  labelUz       String?
+  labelRu       String?
+  labelTr       String?
+  value         Int
+  prefix        String?  @default("")
+  suffix        String?  @default("")
+  isSimulated   Boolean  @default(true)
+  incrementRate Float    @default(0.05) // increment per simulated tick
+  order         Int      @default(0)
+  updatedAt     DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  isRead    Boolean  @default(false)
+  isReplied Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model SiteSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String   // JSON or text
+  description String?
+}
