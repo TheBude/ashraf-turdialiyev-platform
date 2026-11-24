@@ -9,40 +9,46 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#08090c",
-        surface: "#10131a",
-        "surface-card": "#161b26",
-        "surface-hover": "#1e2433",
-        border: "#252d3d",
-        gold: {
-          50: "#fdfbf4",
-          100: "#fbf6e7",
-          200: "#f6eccb",
-          300: "#eedda5",
-          400: "#e4c673",
-          500: "#d4af37", // Signature brand luxury gold
-          600: "#b89028",
-          700: "#926e22",
-          800: "#775722",
-          900: "#644722",
-          950: "#39260f",
+        background: "#F8F8F5", // Warm off-white primary background
+        surface: "#FFFFFF",    // Pure white cards & containers
+        "surface-muted": "#F3F3EE",
+        "soft-blue": "#EAF1F8",
+        charcoal: "#252B35",
+        navy: {
+          50: "#F0F4F8",
+          100: "#EAF1F8",
+          200: "#D3E2F0",
+          300: "#ACC7E1",
+          400: "#7CA4CD",
+          500: "#5181B5",
+          600: "#386498",
+          700: "#2B4D76",
+          800: "#223B5A",
+          900: "#17243A", // Deep navy typography & header
+          950: "#0D1522",
         },
-        accent: {
-          cyan: "#38bdf8",
-          emerald: "#10b981",
-        }
+        gold: {
+          50: "#FAF8F2",
+          100: "#F3EDE0",
+          200: "#E6D7BC",
+          300: "#D6BF93",
+          400: "#C7AA6F",
+          500: "#B99A5B", // Elegant muted gold accent
+          600: "#A48446",
+          700: "#836735",
+          800: "#6B532C",
+          900: "#594426",
+        },
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "Inter", "sans-serif"],
+        sans: ["var(--font-sans)", "Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
         serif: ["var(--font-serif)", "Playfair Display", "Georgia", "serif"],
       },
       boxShadow: {
-        gold: "0 0 30px -5px rgba(212, 175, 55, 0.25)",
-        "gold-lg": "0 0 50px -5px rgba(212, 175, 55, 0.35)",
-        glow: "0 0 25px -5px rgba(56, 189, 248, 0.25)",
-      },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        subtle: "0 1px 3px 0 rgba(23, 36, 58, 0.04), 0 1px 2px -1px rgba(23, 36, 58, 0.04)",
+        card: "0 4px 20px -2px rgba(23, 36, 58, 0.05)",
+        "card-hover": "0 14px 34px -4px rgba(23, 36, 58, 0.10)",
+        "gold-glow": "0 0 25px -4px rgba(185, 154, 91, 0.25)",
       },
     },
   },

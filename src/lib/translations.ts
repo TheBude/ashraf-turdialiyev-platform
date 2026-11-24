@@ -4,14 +4,20 @@ export interface TranslationDictionary {
   nav: {
     home: string;
     about: string;
-    destinations: string;
-    map: string;
-    timeline: string;
-    publications: string;
+    travels: string;
+    globe: string;
+    journey: string;
+    research: string;
     certificates: string;
+    experience: string;
+    audience: string;
     contact: string;
     admin: string;
     logout: string;
+    destinations?: string;
+    map?: string;
+    timeline?: string;
+    publications?: string;
   };
   hero: {
     badge: string;
@@ -19,11 +25,13 @@ export interface TranslationDictionary {
     exploreJourney: string;
     getInTouch: string;
     readBio: string;
+    viewGlobe: string;
   };
   stats: {
     title: string;
     subtitle: string;
     liveSimulated: string;
+    viewAllMetrics: string;
   };
   destinations: {
     title: string;
@@ -33,16 +41,21 @@ export interface TranslationDictionary {
     viewGallery: string;
     visitedOn: string;
     allCountries: string;
+    searchPlaceholder: string;
   };
-  map: {
+  globe: {
     title: string;
     subtitle: string;
-    hint: string;
-    selectedCountry: string;
-    visitedYear: string;
-    notes: string;
-    countriesVisitedCount: string;
+    rotateHint: string;
+    selectedLocation: string;
+    visitedDate: string;
+    coordinates: string;
+    openDestination: string;
+    resetView: string;
+    autoRotate: string;
+    locationsExplored: string;
   };
+  map?: any;
   timeline: {
     title: string;
     subtitle: string;
@@ -69,6 +82,13 @@ export interface TranslationDictionary {
     viewCredential: string;
     verify: string;
   };
+  experience: {
+    title: string;
+    subtitle: string;
+    appointments: string;
+    advisory: string;
+    fellowships: string;
+  };
   contact: {
     title: string;
     subtitle: string;
@@ -87,35 +107,127 @@ export interface TranslationDictionary {
     tagline: string;
     quickLinks: string;
     connect: string;
-  };
-  admin: {
-    dashboard: string;
-    destinations: string;
-    mapCountries: string;
-    timeline: string;
-    certificates: string;
-    publications: string;
-    audienceCounter: string;
-    messages: string;
-    settings: string;
-    loginTitle: string;
-    loginSubtitle: string;
-    signIn: string;
-    email: string;
-    password: string;
+    pages: string;
   };
 }
 
 export const translations: Record<Language, TranslationDictionary> = {
+  uz: {
+    nav: {
+      home: 'Bosh sahifa',
+      about: 'Haqida',
+      travels: 'Sayohatlar',
+      globe: '3D Yer Shari',
+      journey: 'Faoliyat yo‘li',
+      research: 'Ilmiy ishlar',
+      certificates: 'Sertifikatlar',
+      experience: 'Tajriba',
+      audience: 'Auditoriya',
+      contact: 'Aloqa',
+      admin: 'CMS Portal',
+      logout: 'Chiqish',
+    },
+    hero: {
+      badge: 'Rasmiy Shaxsiy Brend Platformasi',
+      subtitle: 'Xalqaro tadqiqotchi, sayyoh va intellektual yetakchi. Sivilizatsiyalar, ilm-fan va kelajak innovatsiyalarini bog‘lovchi platforma.',
+      exploreJourney: 'Sayohatlar xronikasi',
+      getInTouch: 'Muloqot boshlash',
+      readBio: 'Batafsil tarjimai hol',
+      viewGlobe: '3D Globusni ko‘rish',
+    },
+    stats: {
+      title: 'Xalqaro Natijalar va Qamrov',
+      subtitle: 'Xalqaro ekspeditsiyalar, akademik iqtiboslar va global auditoriya ko‘rsatkichlari.',
+      liveSimulated: 'Jonli telemetriya faol',
+      viewAllMetrics: 'Barcha ko‘rsatkichlar',
+    },
+    destinations: {
+      title: 'Tanlangan Ekspeditsiyalar',
+      subtitle: 'Baland tog‘ tadqiqotlari, tarixiy chorrahalar va qit’alar bo‘ylab madaniy sayohatlar kundaligi.',
+      viewAll: 'Barcha sayohatlarni ko‘rish',
+      readStory: 'Tarixni o‘qish',
+      viewGallery: 'Fotogalereya',
+      visitedOn: 'Tashrif yili',
+      allCountries: 'Barcha davlatlar',
+      searchPlaceholder: 'Shahar yoki davlat bo‘yicha izlash...',
+    },
+    globe: {
+      title: 'Interaktiv 3D Yer Shari',
+      subtitle: 'Yer sharini aylantiring, nuqtalarni tanlang va xalqaro ekspeditsiyalarni real 3D makonda kashf eting.',
+      rotateHint: 'Sichqoncha yoki barmoq bilan 3D sharini aylantiring va yaqinlashtiring',
+      selectedLocation: 'Hudud Dosyesi',
+      visitedDate: 'Ekspeditsiya sanasi',
+      coordinates: 'Geografik koordinatalar',
+      openDestination: 'To‘liq ekspeditsiya ocherki',
+      resetView: 'Qayta tiklash',
+      autoRotate: 'Avtomatik aylanish',
+      locationsExplored: 'Kashf etilgan nuqtalar',
+    },
+    timeline: {
+      title: 'Bosib O‘tilgan Yo‘l',
+      subtitle: 'Akademik, diplomatik, alpinizm va davlat miqyosidagi asosiy yutuqlar xronologiyasi.',
+      filterAll: 'Barcha voqealar',
+      filterEducation: 'Ta’lim',
+      filterCareer: 'Yetakchilik',
+      filterTravel: 'Ekspeditsiyalar',
+      filterAchievement: 'Mukofotlar',
+      filterScientific: 'Ilmiy faoliyat',
+    },
+    publications: {
+      title: 'Ilmiy Nashrlar va Risolalar',
+      subtitle: 'Yevroosiyo tranzit logistikasi, Alp muzliklari gidrologiyasi va raqamli iqtisodiyotga oid nufuzli maqolalar.',
+      searchPlaceholder: 'Mavzu, kalit so‘z yoki jurnal nomi bo‘yicha izlash...',
+      citations: 'Iqtiboslar',
+      readPaper: 'Maqolani o‘qish',
+      doi: 'Raqamli identifikator (DOI)',
+      journal: 'Jurnal / Nashr',
+    },
+    certificates: {
+      title: 'Diplom va Sertifikatlar',
+      subtitle: 'Xalqaro diplomlar, ilmiy akkreditatsiyalar va baland tog‘ xavfsizligi sertifikatlari.',
+      issuedBy: 'Bergan tashkilot',
+      viewCredential: 'Hujjatni ko‘rish',
+      verify: 'Aslligini tekshirish',
+    },
+    experience: {
+      title: 'Kasbiy Tajriba va Maslahatchilik',
+      subtitle: 'Akademik tayinlovlar, xalqaro dasturlar rahbarligi va ilmiy hamkorliklar.',
+      appointments: 'Akademik lavozimlar',
+      advisory: 'Maslahatchilik faoliyati',
+      fellowships: 'Xalqaro stipendiyalar',
+    },
+    contact: {
+      title: 'Hamkorlikni Boshlash',
+      subtitle: 'Xalqaro anjumanlarda plenar ma’ruza, akademik konsalting, tadqiqot loyihalari va media muloqotlari uchun ochiq.',
+      fullName: 'To‘liq ism-sharifingiz',
+      email: 'Elektron pochta',
+      subject: 'Mavzu yoki yo‘nalish',
+      message: 'Xabaringiz yoki taklifingiz matni',
+      send: 'Xabarni yuborish',
+      sending: 'Yuborilmoqda...',
+      successMessage: 'Tashakkur! Xabaringiz muvaffaqiyatli qabul qilindi. Tez orada ko‘rib chiqiladi.',
+      errorMessage: 'Xatolik yuz berdi. Maydonlarni tekshirib, qayta urinib ko‘ring.',
+      directReach: 'To‘g‘ridan-to‘g‘ri aloqa',
+    },
+    footer: {
+      rights: 'Barcha huquqlar himoyalangan.',
+      tagline: 'Qadimiy Ufqlar va Ertangi Innovatsiyalar Ko‘prigi.',
+      quickLinks: 'Bo‘limlar',
+      connect: 'Ijtimoiy tarmoqlar',
+      pages: 'Sahifalar',
+    },
+  },
   en: {
     nav: {
       home: 'Home',
       about: 'About',
-      destinations: 'Destinations',
-      map: 'World Map',
-      timeline: 'Journey',
-      publications: 'Research',
+      travels: 'Expeditions',
+      globe: '3D Globe',
+      journey: 'Journey',
+      research: 'Research',
       certificates: 'Credentials',
+      experience: 'Experience',
+      audience: 'Audience',
       contact: 'Contact',
       admin: 'CMS Portal',
       logout: 'Sign Out',
@@ -123,32 +235,38 @@ export const translations: Record<Language, TranslationDictionary> = {
     hero: {
       badge: 'Official Personal Brand Platform',
       subtitle: 'International explorer, academic researcher, and youth leadership advocate connecting civilizations, science, and the future.',
-      exploreJourney: 'Explore My Journey',
+      exploreJourney: 'Explore Expeditions',
       getInTouch: 'Initiate Dialogue',
-      readBio: 'Read Biography',
+      readBio: 'Full Biography',
+      viewGlobe: 'Explore 3D Earth',
     },
     stats: {
-      title: 'Global Impact & Reach',
-      subtitle: 'Empirical milestones from international expeditions, academic citations, and worldwide audience engagement.',
+      title: 'Global Reach & Empirical Milestones',
+      subtitle: 'Key data from international expeditions, academic citations, and worldwide readership.',
       liveSimulated: 'Live Telemetry Active',
+      viewAllMetrics: 'View All Telemetry',
     },
     destinations: {
       title: 'Curated Expeditions',
-      subtitle: 'High-altitude research treks, historical crossroads, and cultural chronicles from across continents.',
-      viewAll: 'Explore All Destinations',
+      subtitle: 'High-altitude research treks, historical crossroads, and cultural chronicles across continents.',
+      viewAll: 'View All Expeditions',
       readStory: 'Read Chronicle',
       viewGallery: 'Visual Gallery',
-      visitedOn: 'Explored in',
-      allCountries: 'All Regions',
+      visitedOn: 'Explored on',
+      allCountries: 'All Nations',
+      searchPlaceholder: 'Search by city or country...',
     },
-    map: {
-      title: 'Interactive Global Footprint',
-      subtitle: 'Click or hover over highlighted countries to inspect research records, field notes, and expedition dates.',
-      hint: 'Select a highlighted territory to view field documentation',
-      selectedCountry: 'Territory Dossier',
-      visitedYear: 'Year of Expedition',
-      notes: 'Expedition Summary',
-      countriesVisitedCount: 'Sovereign Territories Explored',
+    globe: {
+      title: 'Interactive 3D Earth Globe',
+      subtitle: 'Rotate, zoom, and inspect geo-located research waypoints across the globe.',
+      rotateHint: 'Drag to rotate, pinch or scroll to zoom in/out',
+      selectedLocation: 'Territory Dossier',
+      visitedDate: 'Date of Expedition',
+      coordinates: 'Geographic Coordinates',
+      openDestination: 'Open Detailed Chronicle',
+      resetView: 'Reset View',
+      autoRotate: 'Auto-Rotate',
+      locationsExplored: 'Waypoints Mapped',
     },
     timeline: {
       title: 'The Journey Timeline',
@@ -163,10 +281,10 @@ export const translations: Record<Language, TranslationDictionary> = {
     publications: {
       title: 'Scientific Publications',
       subtitle: 'Peer-reviewed research on Eurasian transit logistics, alpine glaciology, and urban knowledge economies.',
-      searchPlaceholder: 'Search by topic, keyword, or journal...',
+      searchPlaceholder: 'Search by title, author, or journal...',
       citations: 'Citations',
       readPaper: 'Access Research',
-      doi: 'Digital Object Identifier',
+      doi: 'Digital Object Identifier (DOI)',
       journal: 'Journal / Series',
     },
     certificates: {
@@ -174,7 +292,14 @@ export const translations: Record<Language, TranslationDictionary> = {
       subtitle: 'International diplomas, scientific accreditations, and high-altitude safety certifications.',
       issuedBy: 'Conferred by',
       viewCredential: 'Open Credential',
-      verify: 'Verify Issuer Record',
+      verify: 'Verify Record',
+    },
+    experience: {
+      title: 'Professional Experience & Advisory',
+      subtitle: 'Academic appointments, international project directorships, and scholarly advisory councils.',
+      appointments: 'Academic Appointments',
+      advisory: 'Advisory Roles',
+      fellowships: 'Research Fellowships',
     },
     contact: {
       title: 'Initiate Collaboration',
@@ -194,138 +319,20 @@ export const translations: Record<Language, TranslationDictionary> = {
       tagline: 'Bridging Ancient Horizons & Tomorrow’s Innovation.',
       quickLinks: 'Navigation',
       connect: 'Official Channels',
-    },
-    admin: {
-      dashboard: 'Executive Dashboard',
-      destinations: 'Destinations Manager',
-      mapCountries: 'World Map Territories',
-      timeline: 'Journey Events',
-      certificates: 'Credentials Vault',
-      publications: 'Research Papers',
-      audienceCounter: 'Telemetry & Counters',
-      messages: 'Inbound Dispatches',
-      settings: 'Platform Settings',
-      loginTitle: 'Security Authentication',
-      loginSubtitle: 'Restricted administrative portal for Ashraf Turdialiyev platform.',
-      signIn: 'Authenticate & Enter',
-      email: 'Administrative Email',
-      password: 'Security Passphrase',
-    },
-  },
-  uz: {
-    nav: {
-      home: 'Bosh sahifa',
-      about: 'Haqida',
-      destinations: 'Sayohatlar',
-      map: 'Dunyo xaritasi',
-      timeline: 'Faoliyat yo‘li',
-      publications: 'Ilmiy ishlar',
-      certificates: 'Sertifikatlar',
-      contact: 'Aloqa',
-      admin: 'Boshqaruv (CMS)',
-      logout: 'Chiqish',
-    },
-    hero: {
-      badge: 'Rasmiy Shaxsiy Brend Platformasi',
-      subtitle: 'Xalqaro tadqiqotchi, sayyoh va yoshlar intellektual yetakchisi. Madaniyatlar, ilm-fan va kelajakni o‘zaro bog‘lovchi platforma.',
-      exploreJourney: 'Sayohatlarimni kashf eting',
-      getInTouch: 'Muloqot boshlash',
-      readBio: 'Tarjimai hol',
-    },
-    stats: {
-      title: 'Xalqaro Natijalar va Qamrov',
-      subtitle: 'Xalqaro ekspeditsiyalar, ilmiy iqtiboslar va global auditoriya ko‘rsatkichlari.',
-      liveSimulated: 'Jonli telemetriya faol',
-    },
-    destinations: {
-      title: 'Tanlangan Ekspeditsiyalar',
-      subtitle: 'Baland tog‘ tadqiqotlari, tarixiy chorrahalar va qit’alar bo‘ylab madaniy sayohatlar kundaligi.',
-      viewAll: 'Barcha manzillarni ko‘rish',
-      readStory: 'Tarixni o‘qish',
-      viewGallery: 'Fotogalereya',
-      visitedOn: 'Tashrif yili',
-      allCountries: 'Barcha hududlar',
-    },
-    map: {
-      title: 'Interaktiv Dunyo Xaritasi',
-      subtitle: 'Tadqiqot yozuvlari, ekspeditsiya sanalari va xotiralarni ko‘rish uchun belgilangan davlatlarni tanlang.',
-      hint: 'Dala hujjatlarini ko‘rish uchun xaritadagi davlatni bosing',
-      selectedCountry: 'Davlat dosyesi',
-      visitedYear: 'Ekspeditsiya yili',
-      notes: 'Ekspeditsiya xulosasi',
-      countriesVisitedCount: 'Tashrif buyurilgan davlatlar',
-    },
-    timeline: {
-      title: 'Bosib O‘tilgan Yo‘l',
-      subtitle: 'Akademik, diplomatik, alpinizm va davlat miqyosidagi asosiy yutuqlar xronologiyasi.',
-      filterAll: 'Barcha voqealar',
-      filterEducation: 'Ta’lim',
-      filterCareer: 'Yetakchilik',
-      filterTravel: 'Ekspeditsiyalar',
-      filterAchievement: 'Mukofotlar',
-      filterScientific: 'Ilmiy faoliyat',
-    },
-    publications: {
-      title: 'Ilmiy Nashrlar',
-      subtitle: 'Yevroosiyo tranzit logistikasi, Alp muzliklari gidrologiyasi va raqamli iqtisodiyotga oid nufuzli maqolalar.',
-      searchPlaceholder: 'Mavzu, kalit so‘z yoki jurnal nomi bo‘yicha izlash...',
-      citations: 'Iqtiboslar',
-      readPaper: 'Maqolani o‘qish',
-      doi: 'Raqamli identifikator (DOI)',
-      journal: 'Jurnal / To‘plam',
-    },
-    certificates: {
-      title: 'Diplom va Sertifikatlar',
-      subtitle: 'Xalqaro diplomlar, ilmiy akkreditatsiyalar va baland tog‘ xavfsizligi sertifikatlari.',
-      issuedBy: 'Bergan tashkilot',
-      viewCredential: 'Hujjatni ko‘rish',
-      verify: 'Aslligini tekshirish',
-    },
-    contact: {
-      title: 'Hamkorlikni Boshlash',
-      subtitle: 'Xalqaro konferensiyalarda ma’ruza, ilmiy konsalting, tadqiqot loyihalari va media muloqotlari uchun ochiq.',
-      fullName: 'To‘liq ism-sharifingiz',
-      email: 'Elektron pochta',
-      subject: 'Mavzu yoki yo‘nalish',
-      message: 'Xabaringiz yoki taklifingiz matni',
-      send: 'Xabarni yuborish',
-      sending: 'Yuborilmoqda...',
-      successMessage: 'Tashakkur! Xabaringiz muvaffaqiyatli qabul qilindi. Tez orada ko‘rib chiqiladi.',
-      errorMessage: 'Xatolik yuz berdi. Maydonlarni tekshirib, qayta urinib ko‘ring.',
-      directReach: 'Aloqa ma’lumotlari',
-    },
-    footer: {
-      rights: 'Barcha huquqlar himoyalangan.',
-      tagline: 'Qadimiy Ufqlar va Ertangi Innovatsiyalar Ko‘prigi.',
-      quickLinks: 'Bo‘limlar',
-      connect: 'Ijtimoiy tarmoqlar',
-    },
-    admin: {
-      dashboard: 'Boshqaruv paneli',
-      destinations: 'Sayohatlar boshqaruvi',
-      mapCountries: 'Xarita hududlari',
-      timeline: 'Faoliyat xronologiyasi',
-      certificates: 'Sertifikatlar ombori',
-      publications: 'Ilmiy maqolalar',
-      audienceCounter: 'Auditoriya hisoblagichlari',
-      messages: 'Kelgan xabarlar',
-      settings: 'Sayt sozlamalari',
-      loginTitle: 'Tizimga Kirish',
-      loginSubtitle: 'Ashraf Turdialiyev platformasi ma’muriy boshqaruv qismi.',
-      signIn: 'Tizimga kirish',
-      email: 'Admin elektron pochtasi',
-      password: 'Maxfiy kalit so‘z',
+      pages: 'Independent Pages',
     },
   },
   ru: {
     nav: {
       home: 'Главная',
       about: 'Обо мне',
-      destinations: 'Экспедиции',
-      map: 'Карта мира',
-      timeline: 'Хронология',
-      publications: 'Публикации',
+      travels: 'Экспедиции',
+      globe: '3D Глобус',
+      journey: 'Хронология',
+      research: 'Публикации',
       certificates: 'Сертификаты',
+      experience: 'Опыт',
+      audience: 'Аудитория',
       contact: 'Контакты',
       admin: 'Панель CMS',
       logout: 'Выйти',
@@ -335,30 +342,36 @@ export const translations: Record<Language, TranslationDictionary> = {
       subtitle: 'Международный исследователь, путешественник и общественный деятель, объединяющий цивилизации, науку и будущее.',
       exploreJourney: 'Исследовать экспедиции',
       getInTouch: 'Связаться со мной',
-      readBio: 'Биография',
+      readBio: 'Полная биография',
+      viewGlobe: 'Исследовать 3D Глобус',
     },
     stats: {
-      title: 'Глобальный Охват и Влияние',
+      title: 'Глобальный Охват и Метрики',
       subtitle: 'Ключевые показатели международных исследований, академических цитирований и аудитории.',
       liveSimulated: 'Живая телеметрия активна',
+      viewAllMetrics: 'Все показатели',
     },
     destinations: {
       title: 'Избранные Экспедиции',
-      subtitle: 'Высокогорные треки, исторические перекрестки и путевые заметки с разных континентов.',
-      viewAll: 'Все направления',
+      subtitle: 'Высокогорные треки, исторические перекрестки и путевые очерки с разных континентов.',
+      viewAll: 'Все экспедиции',
       readStory: 'Читать очерк',
       viewGallery: 'Галерея',
       visitedOn: 'Экспедиция состоялась в',
       allCountries: 'Все регионы',
+      searchPlaceholder: 'Поиск по городу или стране...',
     },
-    map: {
-      title: 'Интерактивная Карта Мира',
-      subtitle: 'Нажмите на выделенную страну, чтобы изучить научные отчеты, путевые заметки и даты экспедиций.',
-      hint: 'Выберите отмеченную страну для просмотра полевых данных',
-      selectedCountry: 'Досье территории',
-      visitedYear: 'Год экспедиции',
-      notes: 'Резюме экспедиции',
-      countriesVisitedCount: 'Посещенные суверенные государства',
+    globe: {
+      title: 'Интерактивный 3D Глобус Земли',
+      subtitle: 'Вращайте глобус, приближайте и исследуйте географические точки экспедиций.',
+      rotateHint: 'Вращайте мышью или жестом, масштабируйте колесиком',
+      selectedLocation: 'Досье территории',
+      visitedDate: 'Дата экспедиции',
+      coordinates: 'Географические координаты',
+      openDestination: 'Открыть подробный очерк',
+      resetView: 'Сбросить вид',
+      autoRotate: 'Авто-вращение',
+      locationsExplored: 'Исследованные точки',
     },
     timeline: {
       title: 'Хроника Пути',
@@ -386,6 +399,13 @@ export const translations: Record<Language, TranslationDictionary> = {
       viewCredential: 'Посмотреть документ',
       verify: 'Проверить подлинность',
     },
+    experience: {
+      title: 'Профессиональный Опыт и Консалтинг',
+      subtitle: 'Академические назначения, руководство проектами и научно-консультационная деятельность.',
+      appointments: 'Академические назначения',
+      advisory: 'Консультационная деятельность',
+      fellowships: 'Научные стипендии',
+    },
     contact: {
       title: 'Начать Сотрудничество',
       subtitle: 'Открыт для международных выступлений, академического консалтинга, исследовательских партнерств и прессы.',
@@ -404,33 +424,20 @@ export const translations: Record<Language, TranslationDictionary> = {
       tagline: 'Мост между древним наследием и инновациями завтрашнего дня.',
       quickLinks: 'Разделы',
       connect: 'Социальные сети',
-    },
-    admin: {
-      dashboard: 'Панель управления',
-      destinations: 'Управление экспедициями',
-      mapCountries: 'Страны на карте',
-      timeline: 'События хронологии',
-      certificates: 'Реестр сертификатов',
-      publications: 'Научные статьи',
-      audienceCounter: 'Счетчики и телеметрия',
-      messages: 'Входящие сообщения',
-      settings: 'Настройки платформы',
-      loginTitle: 'Авторизация в CMS',
-      loginSubtitle: 'Закрытый портал администрирования платформы Ашрафа Турдиалиева.',
-      signIn: 'Войти в панель',
-      email: 'Email администратора',
-      password: 'Пароль доступа',
+      pages: 'Страницы сайта',
     },
   },
   tr: {
     nav: {
       home: 'Ana Sayfa',
       about: 'Hakkımda',
-      destinations: 'Keşifler',
-      map: 'Dünya Haritası',
-      timeline: 'Zaman Çizelgesi',
-      publications: 'Yayınlar',
+      travels: 'Keşifler',
+      globe: '3D Küre',
+      journey: 'Zaman Çizelgesi',
+      research: 'Yayınlar',
       certificates: 'Sertifikalar',
+      experience: 'Deneyim',
+      audience: 'Kitle',
       contact: 'İletişim',
       admin: 'CMS Paneli',
       logout: 'Çıkış Yap',
@@ -438,32 +445,38 @@ export const translations: Record<Language, TranslationDictionary> = {
     hero: {
       badge: 'Resmi Kişisel Marka Platformu',
       subtitle: 'Medeniyetleri, bilimi ve geleceği bir araya getiren uluslararası kâşif, araştırmacı ve gençlik lideri.',
-      exploreJourney: 'Yolculuğumu Keşfedin',
+      exploreJourney: 'Keşif Günlükleri',
       getInTouch: 'İletişime Geçin',
-      readBio: 'Biyografi',
+      readBio: 'Kapsamlı Biyografi',
+      viewGlobe: '3D Küreyi Keşfedin',
     },
     stats: {
-      title: 'Küresel Etki ve Erişim',
+      title: 'Küresel Etki ve Göstergeler',
       subtitle: 'Uluslararası seferler, akademik atıflar ve küresel okuyucu kitlesinden önemli kilometre taşları.',
       liveSimulated: 'Canlı Telemetri Aktif',
+      viewAllMetrics: 'Tüm Göstergeler',
     },
     destinations: {
       title: 'Öne Çıkan Keşifler',
       subtitle: 'Yüksek irtifa araştırma rotaları, tarihi kavşaklar ve kıtalararası kültürel seyahat günlükleri.',
-      viewAll: 'Tüm Rotaları İncele',
+      viewAll: 'Tüm Keşifleri İncele',
       readStory: 'Hikayeyi Oku',
       viewGallery: 'Görsel Galeri',
       visitedOn: 'Ziyaret Yılı',
-      allCountries: 'Tüm Bölgeler',
+      allCountries: 'Tüm Ülkeler',
+      searchPlaceholder: 'Şehir veya ülke adına göre ara...',
     },
-    map: {
-      title: 'İnteraktif Dünya Haritası',
-      subtitle: 'Araştırma kayıtlarını, saha notlarını ve keşif tarihlerini incelemek için işaretli ülkeleri seçin.',
-      hint: 'Saha belgelerini görüntülemek için haritadan bir ülke seçin',
-      selectedCountry: 'Bölge Dosyası',
-      visitedYear: 'Keşif Yılı',
-      notes: 'Keşif Özeti',
-      countriesVisitedCount: 'Ziyaret Edilen Ülke Sayısı',
+    globe: {
+      title: 'İnteraktif 3D Dünya Küresi',
+      subtitle: 'Dünya küresini döndürün, yakınlaştırın ve coğrafi keşif rotalarını 3D uzayda inceleyin.',
+      rotateHint: 'Döndürmek için sürükleyin, yakınlaştırmak için tekerleği kullanın',
+      selectedLocation: 'Bölge Dosyası',
+      visitedDate: 'Keşif Tarihi',
+      coordinates: 'Coğrafi Koordinatlar',
+      openDestination: 'Detaylı Keşif Hikayesi',
+      resetView: 'Sıfırla',
+      autoRotate: 'Otomatik Döndür',
+      locationsExplored: 'Haritalanan Noktalar',
     },
     timeline: {
       title: 'Yolculuk Kronolojisi',
@@ -491,6 +504,13 @@ export const translations: Record<Language, TranslationDictionary> = {
       viewCredential: 'Belgeyi Aç',
       verify: 'Doğrula',
     },
+    experience: {
+      title: 'Mesleki Deneyim ve Danışmanlık',
+      subtitle: 'Akademik görevler, uluslararası proje liderlikleri ve bilimsel danışma kurulları.',
+      appointments: 'Akademik Görevler',
+      advisory: 'Danışmanlık Rolleri',
+      fellowships: 'Araştırma Bursları',
+    },
     contact: {
       title: 'İş Birliği Başlatın',
       subtitle: 'Uluslararası açılış konuşmaları, akademik danışmanlık, araştırma ortaklıkları ve medya talepleri için iletişime geçebilirsiniz.',
@@ -509,22 +529,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       tagline: 'Antik Ufuklar ile Geleceğin İnovasyonu Arasındaki Köprü.',
       quickLinks: 'Bölümler',
       connect: 'Sosyal Ağlar',
-    },
-    admin: {
-      dashboard: 'Yönetim Paneli',
-      destinations: 'Keşif Rotaları Yönetimi',
-      mapCountries: 'Harita Ülkeleri',
-      timeline: 'Zaman Çizelgesi Olayları',
-      certificates: 'Sertifika Kasası',
-      publications: 'Akademik Makaleler',
-      audienceCounter: 'Sayaçlar ve Telemetri',
-      messages: 'Gelen Bildirimler',
-      settings: 'Site Ayarları',
-      loginTitle: 'Güvenli Yönetici Girişi',
-      loginSubtitle: 'Ashraf Turdialiyev platformu kapalı yönetim paneli.',
-      signIn: 'Giriş Yap',
-      email: 'Yönetici E-postası',
-      password: 'Güvenlik Parolası',
+      pages: 'Sayfalar',
     },
   },
 };

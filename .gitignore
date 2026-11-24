@@ -17,7 +17,9 @@
 # sqlite database
 prisma/*.db
 prisma/*.db-journal
+prisma/*.backup
 dev.db
+*.tsbuildinfo
 
 # logs
 npm-debug.log*

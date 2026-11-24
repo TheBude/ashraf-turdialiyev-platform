@@ -16,6 +16,7 @@ interface DashboardProps {
   initialStats: any[];
   initialMessages: any[];
   initialSettings: Record<string, string>;
+  initialTab?: 'destinations' | 'map' | 'timeline' | 'certificates' | 'publications' | 'audience' | 'messages' | 'settings';
 }
 
 export default function AdminDashboardClient({
@@ -27,8 +28,9 @@ export default function AdminDashboardClient({
   initialStats,
   initialMessages,
   initialSettings,
+  initialTab = 'destinations',
 }: DashboardProps) {
-  const [activeTab, setActiveTab] = useState<'destinations' | 'map' | 'timeline' | 'certificates' | 'publications' | 'audience' | 'messages' | 'settings'>('destinations');
+  const [activeTab, setActiveTab] = useState<'destinations' | 'map' | 'timeline' | 'certificates' | 'publications' | 'audience' | 'messages' | 'settings'>(initialTab);
 
   // State
   const [destinations, setDestinations] = useState<any[]>(initialDestinations);
