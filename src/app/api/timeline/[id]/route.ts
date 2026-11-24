@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
+import { timelineEventUpdateSchema } from '@/lib/validations';
 
 export async function GET(
   _request: Request,
@@ -29,13 +30,34 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
+    const parsed = timelineEventUpdateSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues.map((e: { message: string }) => e.message).join(', ') },
+        { status: 400 }
+      );
+    }
+
+    const data = parsed.data;
 
     const updated = await prisma.timelineEvent.update({
       where: { id },
       data: {
-        ...body,
-        year: body.year ? Number(body.year) : undefined,
-        order: body.order !== undefined ? Number(body.order) : undefined,
+        ...(data.year !== undefined && { year: data.year }),
+        ...(data.date !== undefined && { date: data.date }),
+        ...(data.title !== undefined && { title: data.title }),
+        ...(data.titleUz !== undefined && { titleUz: data.titleUz }),
+        ...(data.titleRu !== undefined && { titleRu: data.titleRu }),
+        ...(data.titleTr !== undefined && { titleTr: data.titleTr }),
+        ...(data.category !== undefined && { category: data.category }),
+        ...(data.description !== undefined && { description: data.description }),
+        ...(data.descriptionUz !== undefined && { descriptionUz: data.descriptionUz }),
+        ...(data.descriptionRu !== undefined && { descriptionRu: data.descriptionRu }),
+        ...(data.descriptionTr !== undefined && { descriptionTr: data.descriptionTr }),
+        ...(data.location !== undefined && { location: data.location }),
+        ...(data.mediaUrl !== undefined && { mediaUrl: data.mediaUrl }),
+        ...(data.order !== undefined && { order: data.order }),
       },
     });
 

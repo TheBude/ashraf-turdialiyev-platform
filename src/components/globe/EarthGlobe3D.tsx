@@ -77,10 +77,32 @@ export default function EarthGlobe3D({
   const [activeLocation, setActiveLocation] = useState<GlobeLocationItem | null>(null);
   const [pickedCoord, setPickedCoord] = useState<{ lat: number; lng: number } | null>(null);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
+  const isAutoRotatingRef = useRef(true);
   const [filterCategory, setFilterCategory] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Sync ref with state
+  useEffect(() => {
+    isAutoRotatingRef.current = isAutoRotating;
+  }, [isAutoRotating]);
+
+  // Check prefers-reduced-motion
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setIsAutoRotating(false);
+      isAutoRotatingRef.current = false;
+    }
+  }, []);
+
+  // Fresh references to avoid recreating Three.js scene
+  const locationsRef = useRef(locations);
+  locationsRef.current = locations;
+  const interactivePickerRef = useRef(interactivePicker);
+  interactivePickerRef.current = interactivePicker;
+  const onPickCoordinatesRef = useRef(onPickCoordinates);
+  onPickCoordinatesRef.current = onPickCoordinates;
 
   // References for Three.js instance
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -370,7 +392,7 @@ export default function EarthGlobe3D({
           }
           if (topObj && topObj.userData.locationId) {
             const locId = topObj.userData.locationId;
-            const found = locations.find((l) => l.id === locId);
+            const found = locationsRef.current.find((l) => l.id === locId);
             if (found) {
               focusOnLocation(found);
               return;
@@ -380,7 +402,7 @@ export default function EarthGlobe3D({
       }
 
       // Check click on Earth for interactive picker
-      if (interactivePicker && earthMeshRef.current) {
+      if (interactivePickerRef.current && earthMeshRef.current) {
         const earthIntersects = raycaster.intersectObject(earthMeshRef.current);
         if (earthIntersects.length > 0) {
           const hit = earthIntersects[0].point;
@@ -388,8 +410,8 @@ export default function EarthGlobe3D({
           const localHit = earthMeshRef.current.worldToLocal(hit.clone());
           const coords = vector3ToLatLng(localHit, GLOBE_RADIUS);
           setPickedCoord(coords);
-          if (onPickCoordinates) {
-            onPickCoordinates(coords.lat, coords.lng);
+          if (onPickCoordinatesRef.current) {
+            onPickCoordinatesRef.current(coords.lat, coords.lng);
           }
         }
       }
@@ -416,13 +438,45 @@ export default function EarthGlobe3D({
     };
     window.addEventListener('resize', handleResize);
 
-    // 14. Animation Loop
+    // 14. Page Visibility API (pause when tab hidden to save battery & GPU)
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (reqAnimRef.current) {
+          cancelAnimationFrame(reqAnimRef.current);
+          reqAnimRef.current = null;
+        }
+      } else {
+        if (!reqAnimRef.current) {
+          clock.start();
+          animate();
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // 15. WebGL Context Loss Handlers
+    const handleContextLost = (e: Event) => {
+      e.preventDefault();
+      if (reqAnimRef.current) {
+        cancelAnimationFrame(reqAnimRef.current);
+        reqAnimRef.current = null;
+      }
+      console.warn('WebGL context lost. Pausing render loop.');
+    };
+    const handleContextRestored = () => {
+      console.info('WebGL context restored. Resuming render loop.');
+      if (!reqAnimRef.current) animate();
+    };
+    dom.addEventListener('webglcontextlost', handleContextLost);
+    dom.addEventListener('webglcontextrestored', handleContextRestored);
+
+    // 16. Animation Loop
     let clock = new THREE.Clock();
     const animate = () => {
       reqAnimRef.current = requestAnimationFrame(animate);
       const delta = clock.getDelta();
 
-      if (isAutoRotating) {
+      if (isAutoRotatingRef.current) {
         targetRotation.current.y += delta * 0.08;
       }
 
@@ -473,9 +527,31 @@ export default function EarthGlobe3D({
       dom.removeEventListener('wheel', onWheel);
       dom.removeEventListener('click', onClick);
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      dom.removeEventListener('webglcontextlost', handleContextLost);
+      dom.removeEventListener('webglcontextrestored', handleContextRestored);
+
+      // Dispose geometries
+      earthGeometry.dispose();
+      cloudsGeometry.dispose();
+      atmosphereGeometry.dispose();
+      starGeometry.dispose();
+
+      // Dispose materials
+      earthMaterial.dispose();
+      cloudsMaterial.dispose();
+      atmosphereMaterial.dispose();
+      starMaterial.dispose();
+
+      // Dispose textures
+      dayTexture.dispose();
+      normalTexture.dispose();
+      specularTexture.dispose();
+      cloudsTexture.dispose();
+
       renderer.dispose();
     };
-  }, [interactivePicker, locations]);
+  }, []);
 
   // Re-render markers whenever locations or pickedCoord changes
   useEffect(() => {

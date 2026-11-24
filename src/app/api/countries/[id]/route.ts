@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
+import { countryUpdateSchema } from '@/lib/validations';
 
 export async function GET(
   _request: Request,
@@ -33,13 +34,30 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
+    const parsed = countryUpdateSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues.map((e: { message: string }) => e.message).join(', ') },
+        { status: 400 }
+      );
+    }
+
+    const data = parsed.data;
 
     const updated = await prisma.visitedCountry.update({
       where: { id },
       data: {
-        ...body,
-        isoCode: body.isoCode ? body.isoCode.toUpperCase().trim() : undefined,
-        visitedYear: body.visitedYear ? Number(body.visitedYear) : undefined,
+        ...(data.isoCode !== undefined && { isoCode: data.isoCode.toUpperCase().trim() }),
+        ...(data.countryName !== undefined && { countryName: data.countryName }),
+        ...(data.countryNameUz !== undefined && { countryNameUz: data.countryNameUz }),
+        ...(data.countryNameRu !== undefined && { countryNameRu: data.countryNameRu }),
+        ...(data.countryNameTr !== undefined && { countryNameTr: data.countryNameTr }),
+        ...(data.visitedYear !== undefined && { visitedYear: data.visitedYear }),
+        ...(data.notes !== undefined && { notes: data.notes }),
+        ...(data.flag !== undefined && { flag: data.flag }),
+        ...(data.coordinates !== undefined && { coordinates: data.coordinates }),
+        ...(data.highlightColor !== undefined && { highlightColor: data.highlightColor }),
       },
     });
 

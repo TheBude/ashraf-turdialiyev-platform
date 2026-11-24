@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
+import { certificateUpdateSchema } from '@/lib/validations';
 
 export async function GET(
   _request: Request,
@@ -29,14 +30,32 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
+    const parsed = certificateUpdateSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues.map((e: { message: string }) => e.message).join(', ') },
+        { status: 400 }
+      );
+    }
+
+    const data = parsed.data;
 
     const updated = await prisma.certificate.update({
       where: { id },
       data: {
-        ...body,
-        issueDate: body.issueDate ? new Date(body.issueDate) : undefined,
-        featured: body.featured !== undefined ? Boolean(body.featured) : undefined,
-        order: body.order !== undefined ? Number(body.order) : undefined,
+        ...(data.title !== undefined && { title: data.title }),
+        ...(data.titleUz !== undefined && { titleUz: data.titleUz }),
+        ...(data.titleRu !== undefined && { titleRu: data.titleRu }),
+        ...(data.titleTr !== undefined && { titleTr: data.titleTr }),
+        ...(data.issuer !== undefined && { issuer: data.issuer }),
+        ...(data.issueDate !== undefined && { issueDate: data.issueDate ? new Date(data.issueDate) : undefined }),
+        ...(data.credentialUrl !== undefined && { credentialUrl: data.credentialUrl }),
+        ...(data.credentialId !== undefined && { credentialId: data.credentialId }),
+        ...(data.imageUrl !== undefined && { imageUrl: data.imageUrl }),
+        ...(data.category !== undefined && { category: data.category }),
+        ...(data.featured !== undefined && { featured: data.featured }),
+        ...(data.order !== undefined && { order: data.order }),
       },
     });
 

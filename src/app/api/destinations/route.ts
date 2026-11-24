@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
+import { getSession } from '@/lib/auth';
+import { destinationCreateSchema, destinationUpdateSchema } from '@/lib/validations';
 
 export async function GET(request: Request) {
   try {
@@ -8,9 +10,13 @@ export async function GET(request: Request) {
     const status = searchParams.get('status');
     const featured = searchParams.get('featured');
 
-    const where: any = {};
+    const session = await getSession();
+
+    const where: Record<string, unknown> = {};
     if (status) {
       where.status = status;
+    } else if (!session) {
+      where.status = 'PUBLISHED';
     }
     if (featured === 'true') {
       where.featured = true;
@@ -34,40 +40,20 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const {
-      title,
-      titleUz,
-      titleRu,
-      titleTr,
-      country,
-      countryCode,
-      city,
-      coordinates,
-      description,
-      descriptionUz,
-      descriptionRu,
-      descriptionTr,
-      story,
-      storyUz,
-      storyRu,
-      storyTr,
-      photos,
-      status,
-      featured,
-      visitedAt,
-      slug,
-    } = body;
+    const parsed = destinationCreateSchema.safeParse(body);
 
-    if (!title || !country || !countryCode || !description) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Title, country, country code, and description are required' },
+        { error: parsed.error.issues.map((e: { message: string }) => e.message).join(', ') },
         { status: 400 }
       );
     }
 
+    const data = parsed.data;
+
     const generatedSlug =
-      slug ||
-      title
+      data.slug ||
+      data.title
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-+|-+$/g, '') +
@@ -76,26 +62,26 @@ export async function POST(request: Request) {
 
     const destination = await prisma.destination.create({
       data: {
-        title,
-        titleUz,
-        titleRu,
-        titleTr,
-        country,
-        countryCode: countryCode.toUpperCase(),
-        city,
-        coordinates,
-        description,
-        descriptionUz,
-        descriptionRu,
-        descriptionTr,
-        story,
-        storyUz,
-        storyRu,
-        storyTr,
-        photos: typeof photos === 'string' ? photos : JSON.stringify(photos || []),
-        status: status || 'PUBLISHED',
-        featured: Boolean(featured),
-        visitedAt: visitedAt ? new Date(visitedAt) : new Date(),
+        title: data.title,
+        titleUz: data.titleUz,
+        titleRu: data.titleRu,
+        titleTr: data.titleTr,
+        country: data.country,
+        countryCode: data.countryCode.toUpperCase(),
+        city: data.city,
+        coordinates: data.coordinates,
+        description: data.description,
+        descriptionUz: data.descriptionUz,
+        descriptionRu: data.descriptionRu,
+        descriptionTr: data.descriptionTr,
+        story: data.story,
+        storyUz: data.storyUz,
+        storyRu: data.storyRu,
+        storyTr: data.storyTr,
+        photos: typeof data.photos === 'string' ? data.photos : JSON.stringify(data.photos || []),
+        status: data.status,
+        featured: data.featured,
+        visitedAt: data.visitedAt ? new Date(data.visitedAt) : new Date(),
         slug: generatedSlug,
       },
     });

@@ -1,6 +1,6 @@
 const http = require('http');
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://127.0.0.1:3000';
 let adminCookie = '';
 
 function request(path, options = {}) {
@@ -223,13 +223,51 @@ async function runTests() {
     if (!Array.isArray(json)) throw new Error('Expected array of media assets');
   });
 
-  // 6. ADMIN MODULAR ROUTES
-  console.log('\n6. Testing Admin Modular Management Routes...');
+  // 6. EXPERIENCE CRUD & SECURITY AUDIT
+  console.log('\n6. Testing Experience API & Security Guarding...');
+  let createdExpId = '';
+  await assert('POST /api/experience creates new appointment with auth', async () => {
+    const res = await request('/api/experience', {
+      method: 'POST',
+      cookie: adminCookie,
+      body: {
+        period: '2025 — 2026',
+        role: 'Visiting Chair in Geopolitics',
+        roleUz: 'Geosiyosat bo‘yicha taklif etilgan kafedra mudiri',
+        organization: 'International Academy of Science',
+        location: 'Geneva, Switzerland',
+        description: 'Delivering keynote lectures and steering research colloquiums.',
+        type: 'ACADEMIC',
+        order: 10,
+      },
+    });
+    if (res.status !== 200 && res.status !== 201) throw new Error(`Status ${res.status}: ${res.data}`);
+    const json = res.json();
+    if (!json.id) throw new Error('No ID returned');
+    createdExpId = json.id;
+  });
+
+  await assert('DELETE /api/experience/[id] removes appointment', async () => {
+    const res = await request(`/api/experience/${createdExpId}`, {
+      method: 'DELETE',
+      cookie: adminCookie,
+    });
+    if (res.status !== 200) throw new Error(`Status ${res.status}`);
+  });
+
+  await assert('GET /api/settings is protected and rejects unauthenticated request (401)', async () => {
+    const res = await request('/api/settings');
+    if (res.status !== 401) throw new Error(`Expected 401 Unauthorized, got ${res.status}`);
+  });
+
+  // 7. ADMIN MODULAR ROUTES
+  console.log('\n7. Testing Admin Modular Management Routes...');
   const adminRoutes = [
     '/admin',
     '/admin/globe',
     '/admin/media',
     '/admin/travels',
+    '/admin/experience',
     '/admin/timeline',
     '/admin/research',
     '/admin/certificates',

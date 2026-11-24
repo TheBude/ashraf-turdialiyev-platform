@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
+import { publicationCreateSchema, publicationUpdateSchema } from '@/lib/validations';
 
 export async function GET(request: Request) {
   try {
@@ -8,10 +9,8 @@ export async function GET(request: Request) {
     const search = searchParams.get('q');
     const featured = searchParams.get('featured');
 
-    const where: any = {};
-    if (featured === 'true') {
-      where.featured = true;
-    }
+    const where: Record<string, unknown> = {};
+    if (featured === 'true') where.featured = true;
     if (search) {
       where.OR = [
         { title: { contains: search } },
@@ -41,52 +40,36 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const {
-      title,
-      titleUz,
-      titleRu,
-      titleTr,
-      authors,
-      journal,
-      year,
-      doi,
-      link,
-      pdfUrl,
-      abstract,
-      abstractUz,
-      abstractRu,
-      abstractTr,
-      tags,
-      citations,
-      featured,
-    } = body;
+    const parsed = publicationCreateSchema.safeParse(body);
 
-    if (!title || !authors || !journal || !year || !abstract) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Title, authors, journal, year, and abstract are required' },
+        { error: parsed.error.issues.map((e: { message: string }) => e.message).join(', ') },
         { status: 400 }
       );
     }
 
+    const data = parsed.data;
+
     const publication = await prisma.publication.create({
       data: {
-        title,
-        titleUz,
-        titleRu,
-        titleTr,
-        authors,
-        journal,
-        year: Number(year),
-        doi,
-        link,
-        pdfUrl,
-        abstract,
-        abstractUz,
-        abstractRu,
-        abstractTr,
-        tags: typeof tags === 'string' ? tags : JSON.stringify(tags || []),
-        citations: citations ? Number(citations) : 0,
-        featured: Boolean(featured),
+        title: data.title,
+        titleUz: data.titleUz,
+        titleRu: data.titleRu,
+        titleTr: data.titleTr,
+        authors: data.authors,
+        journal: data.journal,
+        year: data.year,
+        doi: data.doi,
+        link: data.link,
+        pdfUrl: data.pdfUrl,
+        abstract: data.abstract,
+        abstractUz: data.abstractUz,
+        abstractRu: data.abstractRu,
+        abstractTr: data.abstractTr,
+        tags: typeof data.tags === 'string' ? data.tags : JSON.stringify(data.tags || []),
+        citations: data.citations,
+        featured: data.featured,
       },
     });
 

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
+import { certificateCreateSchema, certificateUpdateSchema } from '@/lib/validations';
 
 export async function GET(request: Request) {
   try {
@@ -8,13 +9,9 @@ export async function GET(request: Request) {
     const category = searchParams.get('category');
     const featured = searchParams.get('featured');
 
-    const where: any = {};
-    if (category && category !== 'ALL') {
-      where.category = category.toUpperCase();
-    }
-    if (featured === 'true') {
-      where.featured = true;
-    }
+    const where: Record<string, unknown> = {};
+    if (category && category !== 'ALL') where.category = category.toUpperCase();
+    if (featured === 'true') where.featured = true;
 
     const certificates = await prisma.certificate.findMany({
       where,
@@ -34,42 +31,31 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const {
-      title,
-      titleUz,
-      titleRu,
-      titleTr,
-      issuer,
-      issueDate,
-      credentialUrl,
-      credentialId,
-      imageUrl,
-      category,
-      featured,
-      order,
-    } = body;
+    const parsed = certificateCreateSchema.safeParse(body);
 
-    if (!title || !issuer || !imageUrl) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Title, issuer, and image URL are required' },
+        { error: parsed.error.issues.map((e: { message: string }) => e.message).join(', ') },
         { status: 400 }
       );
     }
 
+    const data = parsed.data;
+
     const certificate = await prisma.certificate.create({
       data: {
-        title,
-        titleUz,
-        titleRu,
-        titleTr,
-        issuer,
-        issueDate: issueDate ? new Date(issueDate) : new Date(),
-        credentialUrl,
-        credentialId,
-        imageUrl,
-        category: category || 'ACADEMIC',
-        featured: featured !== undefined ? Boolean(featured) : true,
-        order: order ? Number(order) : 0,
+        title: data.title,
+        titleUz: data.titleUz,
+        titleRu: data.titleRu,
+        titleTr: data.titleTr,
+        issuer: data.issuer,
+        issueDate: data.issueDate ? new Date(data.issueDate) : new Date(),
+        credentialUrl: data.credentialUrl,
+        credentialId: data.credentialId,
+        imageUrl: data.imageUrl,
+        category: data.category,
+        featured: data.featured,
+        order: data.order,
       },
     });
 

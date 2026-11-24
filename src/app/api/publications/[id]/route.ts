@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
+import { publicationUpdateSchema } from '@/lib/validations';
 
 export async function GET(
   _request: Request,
@@ -29,19 +30,39 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
+    const parsed = publicationUpdateSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues.map((e: { message: string }) => e.message).join(', ') },
+        { status: 400 }
+      );
+    }
+
+    const data = parsed.data;
 
     const updated = await prisma.publication.update({
       where: { id },
       data: {
-        ...body,
-        year: body.year ? Number(body.year) : undefined,
-        citations: body.citations !== undefined ? Number(body.citations) : undefined,
-        featured: body.featured !== undefined ? Boolean(body.featured) : undefined,
-        tags: body.tags !== undefined
-          ? typeof body.tags === 'string'
-            ? body.tags
-            : JSON.stringify(body.tags)
-          : undefined,
+        ...(data.title !== undefined && { title: data.title }),
+        ...(data.titleUz !== undefined && { titleUz: data.titleUz }),
+        ...(data.titleRu !== undefined && { titleRu: data.titleRu }),
+        ...(data.titleTr !== undefined && { titleTr: data.titleTr }),
+        ...(data.authors !== undefined && { authors: data.authors }),
+        ...(data.journal !== undefined && { journal: data.journal }),
+        ...(data.year !== undefined && { year: data.year }),
+        ...(data.doi !== undefined && { doi: data.doi }),
+        ...(data.link !== undefined && { link: data.link }),
+        ...(data.pdfUrl !== undefined && { pdfUrl: data.pdfUrl }),
+        ...(data.abstract !== undefined && { abstract: data.abstract }),
+        ...(data.abstractUz !== undefined && { abstractUz: data.abstractUz }),
+        ...(data.abstractRu !== undefined && { abstractRu: data.abstractRu }),
+        ...(data.abstractTr !== undefined && { abstractTr: data.abstractTr }),
+        ...(data.tags !== undefined && {
+          tags: typeof data.tags === 'string' ? data.tags : JSON.stringify(data.tags),
+        }),
+        ...(data.citations !== undefined && { citations: data.citations }),
+        ...(data.featured !== undefined && { featured: data.featured }),
       },
     });
 

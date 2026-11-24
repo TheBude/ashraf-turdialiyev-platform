@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
+import { countryCreateSchema, countryUpdateSchema } from '@/lib/validations';
 
 export async function GET() {
   try {
@@ -20,38 +21,29 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const {
-      isoCode,
-      countryName,
-      countryNameUz,
-      countryNameRu,
-      countryNameTr,
-      visitedYear,
-      notes,
-      flag,
-      coordinates,
-      highlightColor,
-    } = body;
+    const parsed = countryCreateSchema.safeParse(body);
 
-    if (!isoCode || !countryName || !visitedYear) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'ISO code, country name, and visited year are required' },
+        { error: parsed.error.issues.map((e: { message: string }) => e.message).join(', ') },
         { status: 400 }
       );
     }
 
+    const data = parsed.data;
+
     const country = await prisma.visitedCountry.create({
       data: {
-        isoCode: isoCode.toUpperCase().trim(),
-        countryName,
-        countryNameUz,
-        countryNameRu,
-        countryNameTr,
-        visitedYear: Number(visitedYear),
-        notes,
-        flag,
-        coordinates,
-        highlightColor: highlightColor || '#d4af37',
+        isoCode: data.isoCode.toUpperCase().trim(),
+        countryName: data.countryName,
+        countryNameUz: data.countryNameUz,
+        countryNameRu: data.countryNameRu,
+        countryNameTr: data.countryNameTr,
+        visitedYear: data.visitedYear,
+        notes: data.notes,
+        flag: data.flag,
+        coordinates: data.coordinates,
+        highlightColor: data.highlightColor,
       },
     });
 

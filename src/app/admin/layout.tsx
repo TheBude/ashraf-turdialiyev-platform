@@ -13,6 +13,7 @@ import {
   Inbox,
   Settings,
   Image as ImageIcon,
+  Briefcase,
 } from 'lucide-react';
 import AdminLogoutButton from '@/components/admin/AdminLogoutButton';
 
@@ -28,6 +29,7 @@ export default async function AdminLayout({
     { href: '/admin/globe', label: '3D Earth Globe', icon: Globe, badge: '3D' },
     { href: '/admin/media', label: 'Media Library', icon: ImageIcon },
     { href: '/admin/travels', label: 'Expeditions', icon: Compass },
+    { href: '/admin/experience', label: 'Experience & Roles', icon: Briefcase },
     { href: '/admin/timeline', label: 'Milestones', icon: Calendar },
     { href: '/admin/research', label: 'Publications', icon: BookOpen },
     { href: '/admin/certificates', label: 'Certificates', icon: Award },

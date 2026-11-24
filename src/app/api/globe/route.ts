@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
+import { getSession } from '@/lib/auth';
+import { globeLocationCreateSchema, globeLocationUpdateSchema } from '@/lib/validations';
 
 export async function GET(request: Request) {
   try {
@@ -9,8 +11,18 @@ export async function GET(request: Request) {
     const category = searchParams.get('category');
     const featured = searchParams.get('featured');
 
-    const where: any = {};
-    if (status) where.status = status;
+    // Check if request is authenticated
+    const session = await getSession();
+
+    const where: Record<string, unknown> = {};
+
+    if (status) {
+      where.status = status;
+    } else if (!session) {
+      // Public visitors only see PUBLISHED content
+      where.status = 'PUBLISHED';
+    }
+
     if (category && category !== 'ALL') where.category = category.toUpperCase();
     if (featured === 'true') where.featured = true;
 
@@ -32,85 +44,43 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const {
-      title,
-      titleUz,
-      titleRu,
-      titleTr,
-      country,
-      countryCode,
-      city,
-      latitude,
-      longitude,
-      visitDate,
-      description,
-      descriptionUz,
-      descriptionRu,
-      descriptionTr,
-      story,
-      storyUz,
-      storyRu,
-      storyTr,
-      category,
-      coverImage,
-      photos,
-      status,
-      featured,
-      order,
-    } = body;
+    const parsed = globeLocationCreateSchema.safeParse(body);
 
-    // Validate required fields
-    if (!title || !country || latitude === undefined || longitude === undefined || !description) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Title, country, latitude, longitude, and description are required' },
+        { error: parsed.error.issues.map((e: { message: string }) => e.message).join(', ') },
         { status: 400 }
       );
     }
 
-    const lat = Number(latitude);
-    const lng = Number(longitude);
-
-    // Validate coordinate ranges
-    if (isNaN(lat) || lat < -90 || lat > 90) {
-      return NextResponse.json(
-        { error: 'Latitude must be a valid number between -90 and 90' },
-        { status: 400 }
-      );
-    }
-
-    if (isNaN(lng) || lng < -180 || lng > 180) {
-      return NextResponse.json(
-        { error: 'Longitude must be a valid number between -180 and 180' },
-        { status: 400 }
-      );
-    }
+    const data = parsed.data;
 
     const location = await prisma.globeLocation.create({
       data: {
-        title,
-        titleUz,
-        titleRu,
-        titleTr,
-        country,
-        countryCode: (countryCode || 'XX').toUpperCase(),
-        city,
-        latitude: lat,
-        longitude: lng,
-        visitDate: visitDate ? new Date(visitDate) : new Date(),
-        description,
-        descriptionUz,
-        descriptionRu,
-        descriptionTr,
-        story,
-        storyUz,
-        storyRu,
-        storyTr,
-        category: category || 'EXPEDITION',
-        coverImage,
-        photos: typeof photos === 'string' ? photos : JSON.stringify(photos || []),
-        status: status || 'PUBLISHED',
-        featured: Boolean(featured),
-        order: order ? Number(order) : 0,
+        title: data.title,
+        titleUz: data.titleUz,
+        titleRu: data.titleRu,
+        titleTr: data.titleTr,
+        country: data.country,
+        countryCode: data.countryCode.toUpperCase(),
+        city: data.city,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        visitDate: data.visitDate ? new Date(data.visitDate) : new Date(),
+        description: data.description,
+        descriptionUz: data.descriptionUz,
+        descriptionRu: data.descriptionRu,
+        descriptionTr: data.descriptionTr,
+        story: data.story,
+        storyUz: data.storyUz,
+        storyRu: data.storyRu,
+        storyTr: data.storyTr,
+        category: data.category,
+        coverImage: data.coverImage,
+        photos: typeof data.photos === 'string' ? data.photos : JSON.stringify(data.photos || []),
+        status: data.status,
+        featured: data.featured,
+        order: data.order,
       },
     });
 

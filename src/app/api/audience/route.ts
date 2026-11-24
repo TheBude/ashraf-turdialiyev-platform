@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
+import { audienceStatSchema } from '@/lib/validations';
+import { z } from 'zod';
+
+const audienceBatchSchema = z.object({
+  stats: z.array(audienceStatSchema),
+});
 
 export async function GET() {
   try {
@@ -20,14 +26,16 @@ export async function PUT(request: Request) {
 
   try {
     const body = await request.json();
-    const { stats } = body;
+    const parsed = audienceBatchSchema.safeParse(body);
 
-    if (!Array.isArray(stats)) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Array of stats is required' },
+        { error: parsed.error.issues.map(e => e.message).join(', ') },
         { status: 400 }
       );
     }
+
+    const { stats } = parsed.data;
 
     const updatedStats = [];
     for (const item of stats) {

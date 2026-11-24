@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
+import { timelineEventCreateSchema, timelineEventUpdateSchema } from '@/lib/validations';
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
 
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (category && category !== 'ALL') {
       where.category = category.toUpperCase();
     }
@@ -30,46 +31,33 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const {
-      year,
-      date,
-      title,
-      titleUz,
-      titleRu,
-      titleTr,
-      category,
-      description,
-      descriptionUz,
-      descriptionRu,
-      descriptionTr,
-      location,
-      mediaUrl,
-      order,
-    } = body;
+    const parsed = timelineEventCreateSchema.safeParse(body);
 
-    if (!year || !date || !title || !description) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Year, date, title, and description are required' },
+        { error: parsed.error.issues.map((e: { message: string }) => e.message).join(', ') },
         { status: 400 }
       );
     }
 
+    const data = parsed.data;
+
     const event = await prisma.timelineEvent.create({
       data: {
-        year: Number(year),
-        date,
-        title,
-        titleUz,
-        titleRu,
-        titleTr,
-        category: category || 'ACHIEVEMENT',
-        description,
-        descriptionUz,
-        descriptionRu,
-        descriptionTr,
-        location,
-        mediaUrl,
-        order: order ? Number(order) : 0,
+        year: data.year,
+        date: data.date,
+        title: data.title,
+        titleUz: data.titleUz,
+        titleRu: data.titleRu,
+        titleTr: data.titleTr,
+        category: data.category,
+        description: data.description,
+        descriptionUz: data.descriptionUz,
+        descriptionRu: data.descriptionRu,
+        descriptionTr: data.descriptionTr,
+        location: data.location,
+        mediaUrl: data.mediaUrl,
+        order: data.order,
       },
     });
 

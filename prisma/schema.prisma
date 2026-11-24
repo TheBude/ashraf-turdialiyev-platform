@@ -42,6 +42,9 @@ model Destination {
   visitedAt     DateTime @default(now())
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  @@index([status, featured])
+  @@index([visitedAt])
 }
 
 model VisitedCountry {
@@ -88,6 +91,10 @@ model GlobeLocation {
   order         Int      @default(0)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  @@index([status, featured])
+  @@index([category])
+  @@index([order])
 }
 
 model MediaAsset {
@@ -101,6 +108,9 @@ model MediaAsset {
   height    Int?
   category  String   @default("GENERAL") // DESTINATION | GLOBE | CERTIFICATE | PUBLICATION | AVATAR | GENERAL
   createdAt DateTime @default(now())
+
+  @@index([category])
+  @@index([createdAt])
 }
 
 model TimelineEvent {
@@ -121,6 +131,9 @@ model TimelineEvent {
   order         Int      @default(0)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  @@index([category])
+  @@index([year, order])
 }
 
 model Certificate {
@@ -139,6 +152,9 @@ model Certificate {
   order         Int      @default(0)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  @@index([category, featured])
+  @@index([order])
 }
 
 model Publication {
@@ -162,6 +178,9 @@ model Publication {
   featured    Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([year])
+  @@index([featured])
 }
 
 model AudienceStat {
@@ -189,6 +208,9 @@ model ContactMessage {
   isRead    Boolean  @default(false)
   isReplied Boolean  @default(false)
   createdAt DateTime @default(now())
+
+  @@index([isRead])
+  @@index([createdAt])
 }
 
 model SiteSetting {
@@ -196,4 +218,26 @@ model SiteSetting {
   key         String   @unique
   value       String   // JSON or text
   description String?
+}
+
+model Experience {
+  id            String   @id @default(cuid())
+  period        String   // e.g. "2022 — Present"
+  role          String
+  roleUz        String?
+  roleRu        String?
+  roleTr        String?
+  organization  String
+  location      String?
+  description   String
+  descriptionUz String?
+  descriptionRu String?
+  descriptionTr String?
+  type          String   @default("ACADEMIC") // ACADEMIC | POLICY | EXPEDITION | ADVISORY
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([order])
+  @@index([type])
 }

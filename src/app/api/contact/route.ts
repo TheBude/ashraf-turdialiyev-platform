@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
+import { contactMessageSchema } from '@/lib/validations';
 
 export async function GET() {
   const auth = await requireAuth();
@@ -20,36 +21,30 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, subject, message } = body;
+    const parsed = contactMessageSchema.safeParse(body);
 
-    if (!name || !email || !subject || !message) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'All fields are required' },
+        { error: parsed.error.issues.map((e: { message: string }) => e.message).join(', ') },
         { status: 400 }
       );
     }
 
-    // Basic email format check
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      return NextResponse.json(
-        { error: 'Please provide a valid email address' },
-        { status: 400 }
-      );
-    }
+    const data = parsed.data;
 
     const newMessage = await prisma.contactMessage.create({
       data: {
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
-        subject: subject.trim(),
-        message: message.trim(),
+        name: data.name,
+        email: data.email.toLowerCase(),
+        subject: data.subject,
+        message: data.message,
       },
     });
 
     return NextResponse.json(
       {
         success: true,
-        message: 'Your inquiry has been dispatched to Ashraf Turdialiyev successfully.',
+        message: 'Your inquiry has been dispatched successfully.',
         id: newMessage.id,
       },
       { status: 201 }

@@ -3,6 +3,8 @@ import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
+import { validateMagicBytes } from '@/lib/magic-bytes';
+import { uploadCategorySchema } from '@/lib/validations';
 
 export async function GET(request: Request) {
   const auth = await requireAuth();
@@ -41,7 +43,9 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const files = formData.getAll('files') as File[];
-    const category = (formData.get('category') as string) || 'GENERAL';
+    const rawCategory = (formData.get('category') as string) || 'GENERAL';
+    const catParsed = uploadCategorySchema.safeParse(rawCategory);
+    const category = catParsed.success ? catParsed.data : 'GENERAL';
 
     if (!files || files.length === 0) {
       // Check for single 'file' fallback
@@ -70,6 +74,12 @@ export async function POST(request: Request) {
       }
 
       const bytes = await file.arrayBuffer();
+
+      // Magic byte validation to prevent MIME spoofing
+      if (!validateMagicBytes(bytes, file.type)) {
+        continue; // skip spoofed files
+      }
+
       const buffer = Buffer.from(bytes);
 
       const ext = path.extname(file.name).toLowerCase() || '.jpg';

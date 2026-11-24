@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-guard';
+import { getSession } from '@/lib/auth';
+import { globeLocationUpdateSchema } from '@/lib/validations';
 
 export async function GET(
   _request: Request,
@@ -8,10 +10,18 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
+    const session = await getSession();
+
     const location = await prisma.globeLocation.findUnique({ where: { id } });
     if (!location) {
       return NextResponse.json({ error: 'Globe location not found' }, { status: 404 });
     }
+
+    // Non-authenticated users cannot view DRAFT content
+    if (!session && location.status !== 'PUBLISHED') {
+      return NextResponse.json({ error: 'Globe location not found' }, { status: 404 });
+    }
+
     return NextResponse.json(location);
   } catch (error) {
     console.error('Error fetching globe location:', error);
@@ -29,35 +39,44 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
+    const parsed = globeLocationUpdateSchema.safeParse(body);
 
-    if (body.latitude !== undefined) {
-      const lat = Number(body.latitude);
-      if (isNaN(lat) || lat < -90 || lat > 90) {
-        return NextResponse.json({ error: 'Latitude must be between -90 and 90' }, { status: 400 });
-      }
-      body.latitude = lat;
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues.map((e: { message: string }) => e.message).join(', ') },
+        { status: 400 }
+      );
     }
 
-    if (body.longitude !== undefined) {
-      const lng = Number(body.longitude);
-      if (isNaN(lng) || lng < -180 || lng > 180) {
-        return NextResponse.json({ error: 'Longitude must be between -180 and 180' }, { status: 400 });
-      }
-      body.longitude = lng;
-    }
+    const data = parsed.data;
 
     const updated = await prisma.globeLocation.update({
       where: { id },
       data: {
-        ...body,
-        photos: body.photos !== undefined
-          ? typeof body.photos === 'string'
-            ? body.photos
-            : JSON.stringify(body.photos)
-          : undefined,
-        visitDate: body.visitDate ? new Date(body.visitDate) : undefined,
-        order: body.order !== undefined ? Number(body.order) : undefined,
-        featured: body.featured !== undefined ? Boolean(body.featured) : undefined,
+        ...(data.title !== undefined && { title: data.title }),
+        ...(data.titleUz !== undefined && { titleUz: data.titleUz }),
+        ...(data.titleRu !== undefined && { titleRu: data.titleRu }),
+        ...(data.titleTr !== undefined && { titleTr: data.titleTr }),
+        ...(data.country !== undefined && { country: data.country }),
+        ...(data.countryCode !== undefined && { countryCode: data.countryCode.toUpperCase() }),
+        ...(data.city !== undefined && { city: data.city }),
+        ...(data.latitude !== undefined && { latitude: data.latitude }),
+        ...(data.longitude !== undefined && { longitude: data.longitude }),
+        ...(data.visitDate !== undefined && { visitDate: data.visitDate ? new Date(data.visitDate) : undefined }),
+        ...(data.description !== undefined && { description: data.description }),
+        ...(data.descriptionUz !== undefined && { descriptionUz: data.descriptionUz }),
+        ...(data.descriptionRu !== undefined && { descriptionRu: data.descriptionRu }),
+        ...(data.descriptionTr !== undefined && { descriptionTr: data.descriptionTr }),
+        ...(data.story !== undefined && { story: data.story }),
+        ...(data.storyUz !== undefined && { storyUz: data.storyUz }),
+        ...(data.storyRu !== undefined && { storyRu: data.storyRu }),
+        ...(data.storyTr !== undefined && { storyTr: data.storyTr }),
+        ...(data.category !== undefined && { category: data.category }),
+        ...(data.coverImage !== undefined && { coverImage: data.coverImage }),
+        ...(data.photos !== undefined && { photos: typeof data.photos === 'string' ? data.photos : JSON.stringify(data.photos) }),
+        ...(data.status !== undefined && { status: data.status }),
+        ...(data.featured !== undefined && { featured: data.featured }),
+        ...(data.order !== undefined && { order: data.order }),
       },
     });
 
