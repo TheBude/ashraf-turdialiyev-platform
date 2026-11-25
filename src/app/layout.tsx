@@ -5,6 +5,7 @@ import { LanguageProvider } from '@/context/LanguageContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://ashrafturdialiyev.uz'),
   title: 'Ashraf Turdialiyev | Official Personal Brand Platform',
   description: 'International explorer, academic researcher, and youth leadership advocate connecting civilizations, science, and the future.',
   keywords: ['Ashraf Turdialiyev', 'Explorer', 'Silk Road', 'Academic Researcher', 'Geopolitics', 'Global Thinker'],
@@ -12,9 +13,24 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Ashraf Turdialiyev | Official Personal Brand Platform',
     description: 'International explorer, academic researcher, and youth leadership advocate.',
+    url: 'https://ashrafturdialiyev.uz',
     type: 'website',
-    locale: 'en_US',
+    locale: 'uz_UZ',
     siteName: 'Ashraf Turdialiyev',
+    images: [
+      {
+        url: '/images/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Ashraf Turdialiyev — Global Explorer & Academic Scholar',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ashraf Turdialiyev | Official Personal Brand Platform',
+    description: 'International explorer, academic researcher, and youth leadership advocate connecting civilizations, science, and the future.',
+    images: ['/images/og-image.jpg'],
   },
 };
 

@@ -58,11 +58,28 @@ export async function generateMetadata({
         tr: '/tr',
       },
     },
+    metadataBase: new URL('https://ashrafturdialiyev.uz'),
     openGraph: {
       title: meta.title,
       description: meta.description,
+      url: `https://ashrafturdialiyev.uz/${locale}`,
       type: 'website',
       siteName: 'Ashraf Turdialiyev Platform',
+      images: [
+        {
+          url: '/images/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: meta.title,
+        },
+      ],
+      locale: locale === 'uz' ? 'uz_UZ' : locale === 'ru' ? 'ru_RU' : locale === 'tr' ? 'tr_TR' : 'en_US',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: meta.title,
+      description: meta.description,
+      images: ['/images/og-image.jpg'],
     },
   };
 }
