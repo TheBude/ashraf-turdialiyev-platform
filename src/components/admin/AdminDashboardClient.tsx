@@ -6,6 +6,7 @@ import {
   Plus, Trash2, Edit3, CheckCircle, Eye, EyeOff, Save, Loader2, ExternalLink
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useAdminLanguage } from '@/context/AdminLanguageContext';
 
 interface DashboardProps {
   initialDestinations: any[];
@@ -31,6 +32,8 @@ export default function AdminDashboardClient({
   initialTab = 'destinations',
 }: DashboardProps) {
   const [activeTab, setActiveTab] = useState<'destinations' | 'map' | 'timeline' | 'certificates' | 'publications' | 'audience' | 'messages' | 'settings'>(initialTab);
+  const { adminT, adminLang } = useAdminLanguage();
+  const isUz = adminLang === 'uz';
 
   // State
   const [destinations, setDestinations] = useState<any[]>(initialDestinations);
@@ -383,51 +386,51 @@ export default function AdminDashboardClient({
         <div className="p-3.5 rounded-xl bg-[#10141e] border border-slate-800 text-center">
           <Compass className="w-4 h-4 text-[#d4af37] mx-auto mb-1" />
           <span className="text-xl font-bold text-white block">{destinations.length}</span>
-          <span className="text-[10px] text-slate-400">Destinations</span>
+          <span className="text-[10px] text-slate-400">{isUz ? 'Sayohatlar' : 'Destinations'}</span>
         </div>
         <div className="p-3.5 rounded-xl bg-[#10141e] border border-slate-800 text-center">
           <Globe className="w-4 h-4 text-sky-400 mx-auto mb-1" />
           <span className="text-xl font-bold text-white block">{countries.length}</span>
-          <span className="text-[10px] text-slate-400">Map Territories</span>
+          <span className="text-[10px] text-slate-400">{isUz ? 'Xarita davlatlari' : 'Map Territories'}</span>
         </div>
         <div className="p-3.5 rounded-xl bg-[#10141e] border border-slate-800 text-center">
           <Calendar className="w-4 h-4 text-violet-400 mx-auto mb-1" />
           <span className="text-xl font-bold text-white block">{timeline.length}</span>
-          <span className="text-[10px] text-slate-400">Timeline Events</span>
+          <span className="text-[10px] text-slate-400">{isUz ? 'Xronologiya' : 'Timeline Events'}</span>
         </div>
         <div className="p-3.5 rounded-xl bg-[#10141e] border border-slate-800 text-center">
           <Award className="w-4 h-4 text-amber-400 mx-auto mb-1" />
           <span className="text-xl font-bold text-white block">{certificates.length}</span>
-          <span className="text-[10px] text-slate-400">Certificates</span>
+          <span className="text-[10px] text-slate-400">{isUz ? 'Sertifikatlar' : 'Certificates'}</span>
         </div>
         <div className="p-3.5 rounded-xl bg-[#10141e] border border-slate-800 text-center">
           <BookOpen className="w-4 h-4 text-emerald-400 mx-auto mb-1" />
           <span className="text-xl font-bold text-white block">{publications.length}</span>
-          <span className="text-[10px] text-slate-400">Publications</span>
+          <span className="text-[10px] text-slate-400">{isUz ? 'Ilmiy nashrlar' : 'Publications'}</span>
         </div>
         <div className="p-3.5 rounded-xl bg-[#10141e] border border-slate-800 text-center">
           <Inbox className="w-4 h-4 text-rose-400 mx-auto mb-1" />
           <span className="text-xl font-bold text-white block">{messages.length}</span>
-          <span className="text-[10px] text-slate-400">Inbound Messages</span>
+          <span className="text-[10px] text-slate-400">{isUz ? 'Kelgan xabarlar' : 'Inbound Messages'}</span>
         </div>
         <div className="p-3.5 rounded-xl bg-[#10141e] border border-slate-800 text-center col-span-2 sm:col-span-1">
           <Activity className="w-4 h-4 text-emerald-400 mx-auto mb-1" />
-          <span className="text-xl font-bold text-emerald-400 block">Active</span>
-          <span className="text-[10px] text-slate-400">Telemetry</span>
+          <span className="text-xl font-bold text-emerald-400 block">{isUz ? 'Faol' : 'Active'}</span>
+          <span className="text-[10px] text-slate-400">{isUz ? 'Telemetriya' : 'Telemetry'}</span>
         </div>
       </div>
 
       {/* Navigation Tabs */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-800">
         {[
-          { key: 'destinations', label: 'Destinations', icon: Compass },
-          { key: 'map', label: 'World Map', icon: Globe },
-          { key: 'timeline', label: 'Timeline Events', icon: Calendar },
-          { key: 'certificates', label: 'Certificates Vault', icon: Award },
-          { key: 'publications', label: 'Research Papers', icon: BookOpen },
-          { key: 'audience', label: 'Audience Counters', icon: Activity },
-          { key: 'messages', label: `Messages (${messages.filter(m => !m.isRead).length} new)`, icon: Inbox },
-          { key: 'settings', label: 'Site Settings & Bio', icon: Settings },
+          { key: 'destinations', label: adminT.tabs.destinations, icon: Compass },
+          { key: 'map', label: adminT.tabs.map, icon: Globe },
+          { key: 'timeline', label: adminT.tabs.timeline, icon: Calendar },
+          { key: 'certificates', label: adminT.tabs.certificates, icon: Award },
+          { key: 'publications', label: adminT.tabs.publications, icon: BookOpen },
+          { key: 'audience', label: adminT.tabs.audience, icon: Activity },
+          { key: 'messages', label: `${adminT.tabs.messages} (${messages.filter(m => !m.isRead).length} ${isUz ? 'yangi' : 'new'})`, icon: Inbox },
+          { key: 'settings', label: adminT.tabs.settings, icon: Settings },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.key;

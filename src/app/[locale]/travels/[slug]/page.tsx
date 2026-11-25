@@ -2,9 +2,32 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
-import { ArrowLeft, MapPin, Calendar, Compass, Share2 } from 'lucide-react';
+import { ArrowLeft, MapPin, Calendar } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+
+const SLUG_I18N = {
+  uz: {
+    back: 'Barcha Ekspeditsiyalarga Qaytish',
+    chronicleTitle: 'Dala Xronikasi va Ilmiy Hujjatlashtirish',
+    galleryTitle: (count: number) => `Ekspeditsiya Fotogalereyasi (${count} ta fotosurat)`,
+  },
+  en: {
+    back: 'Back to All Expeditions',
+    chronicleTitle: 'Field Chronicle & Research Documentation',
+    galleryTitle: (count: number) => `Expedition Visual Gallery (${count} photographs)`,
+  },
+  ru: {
+    back: 'Назад ко всем экспедициям',
+    chronicleTitle: 'Полевая хроника и научная документация',
+    galleryTitle: (count: number) => `Фотогалерея экспедиции (${count} фотографий)`,
+  },
+  tr: {
+    back: 'Tüm Seferlere Geri Dön',
+    chronicleTitle: 'Saha Günlüğü ve Bilimsel Dokümantasyon',
+    galleryTitle: (count: number) => `Sefer Fotoğraf Galerisi (${count} fotoğraf)`,
+  },
+};
 
 export default async function DestinationStoryPage({
   params,
@@ -12,6 +35,12 @@ export default async function DestinationStoryPage({
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { locale, slug } = await params;
+  const isUz = locale === 'uz';
+  const isRu = locale === 'ru';
+  const isTr = locale === 'tr';
+
+  const t = SLUG_I18N[locale as keyof typeof SLUG_I18N] || SLUG_I18N.uz;
+
   const destination = await prisma.destination.findUnique({
     where: { slug },
   });
@@ -19,6 +48,10 @@ export default async function DestinationStoryPage({
   if (!destination) {
     notFound();
   }
+
+  const title = (isUz && destination.titleUz) || (isRu && destination.titleRu) || (isTr && destination.titleTr) || destination.title;
+  const description = (isUz && destination.descriptionUz) || (isRu && destination.descriptionRu) || (isTr && destination.descriptionTr) || destination.description;
+  const story = (isUz && (destination as any).storyUz) || (isRu && (destination as any).storyRu) || (isTr && (destination as any).storyTr) || destination.story || description;
 
   let photos: string[] = [];
   try {
@@ -35,7 +68,7 @@ export default async function DestinationStoryPage({
         className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-[#17243A] transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
-        <span>Back to All Expeditions</span>
+        <span>{t.back}</span>
       </Link>
 
       {/* Title & Metadata */}
@@ -57,11 +90,11 @@ export default async function DestinationStoryPage({
         </div>
 
         <h1 className="text-3xl sm:text-5xl font-extrabold text-[#17243A] font-serif leading-tight">
-          {destination.title}
+          {title}
         </h1>
 
         <p className="text-lg text-slate-600 font-serif leading-relaxed">
-          {destination.description}
+          {description}
         </p>
       </div>
 
@@ -70,7 +103,7 @@ export default async function DestinationStoryPage({
         <div className="rounded-3xl overflow-hidden border border-slate-200 shadow-card aspect-[16/9] bg-slate-100">
           <img
             src={photos[0]}
-            alt={destination.title}
+            alt={title}
             className="w-full h-full object-cover"
           />
         </div>
@@ -79,10 +112,10 @@ export default async function DestinationStoryPage({
       {/* Narrative Story Section */}
       <div className="p-8 sm:p-10 rounded-3xl bg-white border border-slate-200 shadow-subtle space-y-6 text-slate-800 leading-relaxed text-base">
         <h2 className="text-xl font-bold text-[#17243A] font-serif border-b border-slate-100 pb-3">
-          Field Chronicle & Research Documentation
+          {t.chronicleTitle}
         </h2>
         <div className="prose prose-slate max-w-none text-slate-700 space-y-4 leading-relaxed">
-          <p>{destination.story || destination.description}</p>
+          <p>{story}</p>
         </div>
       </div>
 
@@ -90,15 +123,15 @@ export default async function DestinationStoryPage({
       {photos.length > 1 && (
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-[#17243A] font-serif">
-            Expedition Visual Gallery ({photos.length} photographs)
+            {t.galleryTitle(photos.length)}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {photos.slice(1).map((imgUrl, i) => (
               <div key={i} className="rounded-2xl overflow-hidden border border-slate-200 shadow-subtle aspect-[4/3] bg-slate-100">
                 <img
                   src={imgUrl}
-                  alt={`${destination.title} photo ${i + 2}`}
-                  className="w-full h-full object-cover hover:scale-102 transition-transform duration-500"
+                  alt={`${title} photo ${i + 2}`}
+                  className="w-full h-full object-cover"
                 />
               </div>
             ))}

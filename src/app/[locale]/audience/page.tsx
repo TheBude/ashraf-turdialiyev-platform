@@ -33,12 +33,42 @@ export default async function AudiencePage({ params }: AudiencePageProps) {
     : 'Audience Reach & Global Telemetry';
 
   const subtitle = isUz
-    ? "O'quvchilar, ilmiy izdoshlar, talabalar va xalqaro hamjamiyat qamrovi bo'yicha dinamik telemetriya ko'rsatkichlari."
+    ? "O‘quvchilar, ilmiy izdoshlar, talabalar va xalqaro hamjamiyat qamrovi bo‘yicha dinamik telemetriya ko‘rsatkichlari."
     : isRu
     ? 'Динамические показатели телеметрии: читательская аудитория, исследователи, студенты и охват публикаций.'
     : isTr
     ? 'Okuyucular, bilim insanları, öğrenciler ve uluslararası topluluk erişimine dair dinamik telemetri göstergeleri.'
     : 'Real-time telemetry and simulated readership dynamics across academic lectures, digital platforms, and expedition followers.';
+
+  const card1Tag = isUz ? '01 • Akademik Iqtiboslar' : isRu ? '01 • Академические Цитаты' : isTr ? '01 • Akademik Atıflar' : '01 • Academic Citations';
+  const card1Title = isUz ? 'Xalqaro Ilmiy Qamrov' : isRu ? 'Рецензируемый Охват' : isTr ? 'Hakemli Erişim' : 'Peer-Reviewed Reach';
+  const card1Desc = isUz 
+    ? '28 dan ortiq davlat olimlari tomonidan o‘rganilgan va nufuzli xalqaro indekslangan ma’lumotlar bazalariga kiritilgan ilmiy nashrlar.' 
+    : isRu 
+    ? 'Научные публикации, индексируемые в международных базах данных, с исследователями из более чем 28 стран.' 
+    : isTr 
+    ? '28den fazla ülkeden araştırmacının eriştiği, uluslararası indeksli veri tabanlarında yer alan bilimsel yayınlar.' 
+    : 'Research publications indexed in international indexing databases with researchers spanning 28+ countries.';
+
+  const card2Tag = isUz ? '02 • Raqamli Mentorlik' : isRu ? '02 • Цифровое Наставничество' : isTr ? '02 • Dijital Mentorluk' : '02 • Digital Mentorship';
+  const card2Title = isUz ? 'Kelajak Avlod Olimlari' : isRu ? 'Молодые Ученые' : isTr ? 'Gelecek Nesil Bilim İnsanları' : 'Next-Gen Scholars';
+  const card2Desc = isUz 
+    ? 'Markaziy Osiyo va xorijiy talabalar uchun o‘tkazilgan amaliy seminarlar, mahorat darslari va ta’limiy vebinarlar.' 
+    : isRu 
+    ? 'Семинары, мастер-классы и образовательные вебинары для молодых ученых Центральной Азии и зарубежных стран.' 
+    : isTr 
+    ? 'Orta Asya ve yabancı ülkelerdeki genç bilim insanları için düzenlenen seminerler, ustalık sınıfları ve eğitim web seminerleri.' 
+    : 'Seminars, masterclasses, and educational webinars delivered to aspiring Central Asian tech and science fellows.';
+
+  const card3Tag = isUz ? '03 • Ekspeditsiya Hamjamiyati' : isRu ? '03 • Сообщество Экспедиций' : isTr ? '03 • Keşif Topluluğu' : '03 • Expedition Community';
+  const card3Title = isUz ? 'Alp va Sayohat Qaydnomalari' : isRu ? 'Альпийские и Путевые Заметки' : isTr ? 'Alp ve Seyahat Günlükleri' : 'Alpine & Travel Logs';
+  const card3Desc = isUz 
+    ? 'Geografik ocherklar, professional fotoxronikalar va baland tog‘ dala eslatmalari bilan muntazam tanishuvchi sayyohlar va ilmiy muxlislar.' 
+    : isRu 
+    ? 'Исследователи и любители гор, следящие за географическими публикациями, фотографиями и высокогорными отчетами.' 
+    : isTr 
+    ? 'Coğrafi yayınlar, fotoğrafçılık ve yüksek irtifa saha notlarıyla etkileşimde bulunan gezginler ve dağ severler.' 
+    : 'Explorers and mountain enthusiasts engaging with geographical dispatches, photography, and high-altitude field notes.';
 
   return (
     <div className="bg-[#F8F8F5] min-h-screen pt-32 pb-24">
@@ -66,37 +96,37 @@ export default async function AudiencePage({ params }: AudiencePageProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-8 rounded-3xl bg-white border border-navy/5 shadow-sm">
             <span className="text-xs font-mono font-bold text-gold uppercase tracking-wider block mb-2">
-              01 • Academic Citations
+              {card1Tag}
             </span>
             <h3 className="font-editorial text-2xl font-bold text-navy mb-2">
-              Peer-Reviewed Reach
+              {card1Title}
             </h3>
             <p className="text-sm text-charcoal/70 leading-relaxed">
-              Research publications indexed in international indexing databases with researchers spanning 28+ countries.
+              {card1Desc}
             </p>
           </div>
 
           <div className="p-8 rounded-3xl bg-white border border-navy/5 shadow-sm">
             <span className="text-xs font-mono font-bold text-gold uppercase tracking-wider block mb-2">
-              02 • Digital Mentorship
+              {card2Tag}
             </span>
             <h3 className="font-editorial text-2xl font-bold text-navy mb-2">
-              Next-Gen Scholars
+              {card2Title}
             </h3>
             <p className="text-sm text-charcoal/70 leading-relaxed">
-              Seminars, masterclasses, and educational webinars delivered to aspiring Central Asian tech and science fellows.
+              {card2Desc}
             </p>
           </div>
 
           <div className="p-8 rounded-3xl bg-white border border-navy/5 shadow-sm">
             <span className="text-xs font-mono font-bold text-gold uppercase tracking-wider block mb-2">
-              03 • Expedition Community
+              {card3Tag}
             </span>
             <h3 className="font-editorial text-2xl font-bold text-navy mb-2">
-              Alpine & Travel Logs
+              {card3Title}
             </h3>
             <p className="text-sm text-charcoal/70 leading-relaxed">
-              Explorers and mountain enthusiasts engaging with geographical dispatches, photography, and high-altitude field notes.
+              {card3Desc}
             </p>
           </div>
         </div>

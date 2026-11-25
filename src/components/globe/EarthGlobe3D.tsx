@@ -71,7 +71,22 @@ export default function EarthGlobe3D({
   showControls = true,
   showSidebar = true,
 }: EarthGlobe3DProps) {
-  const { currentLocale } = useLanguage();
+  const { lang, currentLocale } = useLanguage();
+  const isUz = (lang || currentLocale) === 'uz';
+  const isRu = (lang || currentLocale) === 'ru';
+  const isTr = (lang || currentLocale) === 'tr';
+
+  const globeI18n = {
+    expeditions: isUz ? 'Ekspeditsiyalar' : isRu ? 'Экспедиции' : isTr ? 'Seferler' : 'Expeditions',
+    closeList: isUz ? 'Yopish' : isRu ? 'Закрыть' : isTr ? 'Kapat' : 'Close List',
+    reCenter: isUz ? 'Markazga qaytarish' : isRu ? 'По центру' : isTr ? 'Yeniden ortala' : 'Re-center',
+    expeditionIndex: isUz ? 'Ekspeditsiyalar Indeksi' : isRu ? 'Индекс Экспедиций' : isTr ? 'Keşif Dizini' : 'Expeditions Index',
+    searchPlaceholder: isUz ? 'Shahar yoki davlat bo‘yicha izlash...' : isRu ? 'Поиск страны или города...' : isTr ? 'Ülke veya şehir ara...' : 'Search country or city...',
+    noLocations: isUz ? 'Mos keluvchi manzillar topilmadi' : isRu ? 'Локации не найдены' : isTr ? 'Konum bulunamadı' : 'No locations match query',
+    all: isUz ? 'Barchasi' : isRu ? 'Все' : isTr ? 'Tümü' : 'ALL',
+    interactiveTitle: isUz ? 'Geografik Koordinatani Tanlash' : isRu ? 'Выбор координат на глобусе' : isTr ? 'Görsel Konum Seçici' : 'Visual Location Picker',
+    interactiveHint: isUz ? 'Aniq geografik koordinatani belgilash uchun 3D yer sharining istalgan nuqtasini bosing.' : isRu ? 'Нажмите на любую точку глобуса для фиксации точных координат.' : isTr ? 'Kesin coğrafi koordinatları seçmek için kürenin herhangi bir yerine tıklayın.' : 'Click anywhere on the globe to pick exact geographical coordinates.',
+  };
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [activeLocation, setActiveLocation] = useState<GlobeLocationItem | null>(null);
@@ -717,7 +732,7 @@ export default function EarthGlobe3D({
                 onClick={() => setSidebarOpen(!sidebarOpen)}
                 className="px-3.5 py-2 rounded-2xl bg-gold text-navy font-semibold text-xs tracking-wider uppercase transition shadow-md hover:bg-gold-light"
               >
-                {sidebarOpen ? 'Close List' : 'Expeditions'}
+                {sidebarOpen ? globeI18n.closeList : globeI18n.expeditions}
               </button>
             )}
           </div>
@@ -728,10 +743,10 @@ export default function EarthGlobe3D({
       {interactivePicker && (
         <div className="absolute bottom-4 left-4 z-20 bg-navy/90 backdrop-blur-md border border-gold/30 px-4 py-3 rounded-2xl text-white shadow-xl max-w-sm pointer-events-auto">
           <p className="text-xs font-semibold text-gold uppercase tracking-wider mb-1">
-            Visual Location Picker
+            {globeI18n.interactiveTitle}
           </p>
           <p className="text-xs text-white/80">
-            Click anywhere on the globe to pick exact geographical coordinates.
+            {globeI18n.interactiveHint}
           </p>
           {pickedCoord && (
             <div className="mt-2 pt-2 border-t border-white/10 flex items-center justify-between text-xs font-mono">
@@ -803,7 +818,7 @@ export default function EarthGlobe3D({
               onClick={() => focusOnLocation(activeLocation)}
               className="text-xs text-gold font-semibold hover:underline"
             >
-              Re-center
+              {globeI18n.reCenter}
             </button>
           </div>
         </div>
@@ -813,7 +828,7 @@ export default function EarthGlobe3D({
       {sidebarOpen && (
         <div className="absolute top-20 left-4 bottom-4 w-80 max-w-[calc(100vw-2rem)] bg-navy/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl border border-white/10 z-20 flex flex-col text-white pointer-events-auto">
           <div className="flex items-center justify-between mb-3">
-            <h4 className="font-editorial text-lg text-gold font-bold">Expeditions Index</h4>
+            <h4 className="font-editorial text-lg text-gold font-bold">{globeI18n.expeditionIndex}</h4>
             <button
               onClick={() => setSidebarOpen(false)}
               className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xs"
@@ -827,7 +842,7 @@ export default function EarthGlobe3D({
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search country or city..."
+            placeholder={globeI18n.searchPlaceholder}
             className="w-full px-3.5 py-2 rounded-xl bg-white/10 border border-white/10 text-white placeholder-white/40 text-xs mb-3 focus:outline-none focus:border-gold"
           />
 
@@ -843,7 +858,7 @@ export default function EarthGlobe3D({
                     : 'bg-white/10 text-white/70 hover:bg-white/20'
                 }`}
               >
-                {cat}
+                {cat === 'ALL' ? globeI18n.all : cat}
               </button>
             ))}
           </div>
@@ -851,7 +866,7 @@ export default function EarthGlobe3D({
           {/* List items */}
           <div className="flex-1 overflow-y-auto space-y-2 pr-1">
             {filteredLocations.length === 0 ? (
-              <p className="text-xs text-white/50 text-center py-8">No locations match query</p>
+              <p className="text-xs text-white/50 text-center py-8">{globeI18n.noLocations}</p>
             ) : (
               filteredLocations.map((loc) => (
                 <div

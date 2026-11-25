@@ -9,13 +9,98 @@ interface ContactProps {
   contactEmail?: string;
 }
 
+const SUBJECT_OPTIONS = {
+  uz: [
+    { value: 'Keynote & Speaking Invitation', label: 'Yalpi Majlis & Ma’ruza Taklifi' },
+    { value: 'Academic Collaboration', label: 'Ilmiy va Akademik Hamkorlik' },
+    { value: 'High-Altitude Expedition Inquiry', label: 'Baland Tog‘ Ekspeditsiyasi Bo‘yicha Taklif' },
+    { value: 'Media & Press Interview', label: 'OAV va Matbuot Intervyusi' },
+    { value: 'General Correspondence', label: 'Umumiy Rasmiy Murojaat' },
+  ],
+  en: [
+    { value: 'Keynote & Speaking Invitation', label: 'Keynote & Speaking Invitation' },
+    { value: 'Academic Collaboration', label: 'Academic & Research Collaboration' },
+    { value: 'High-Altitude Expedition Inquiry', label: 'High-Altitude Expedition Inquiry' },
+    { value: 'Media & Press Interview', label: 'Media & Press Interview' },
+    { value: 'General Correspondence', label: 'General Correspondence' },
+  ],
+  ru: [
+    { value: 'Keynote & Speaking Invitation', label: 'Приглашение с докладом / На конференцию' },
+    { value: 'Academic Collaboration', label: 'Научно-академическое сотрудничество' },
+    { value: 'High-Altitude Expedition Inquiry', label: 'Запрос по высокогорным экспедициям' },
+    { value: 'Media & Press Interview', label: 'Интервью для СМИ и прессы' },
+    { value: 'General Correspondence', label: 'Общая официальная переписка' },
+  ],
+  tr: [
+    { value: 'Keynote & Speaking Invitation', label: 'Açılış Konuşması & Konferans Daveti' },
+    { value: 'Academic Collaboration', label: 'Akademik ve Araştırma İş Birliği' },
+    { value: 'High-Altitude Expedition Inquiry', label: 'Yüksek İrtifa Keşif Talebi' },
+    { value: 'Media & Press Interview', label: 'Medya ve Basın Röportajı' },
+    { value: 'General Correspondence', label: 'Genel Resmi Yazışma' },
+  ],
+};
+
+const CONTACT_LOCALIZED = {
+  uz: {
+    dialogue: 'Xalqaro Muloqot Boshlash',
+    officialInquiries: 'Rasmiy Murojaatlar',
+    officeTitle: 'Akademik & Aloqa Ofisi',
+    officeCity: 'Toshkent, O‘zbekiston',
+    officeDesc: 'Global ilmiy konferensiyalar, xalqaro sammitlar va ma’ruzalar uchun ochiq',
+    messageTransmitted: 'Xabaringiz Qabul Qilindi',
+    sendAnother: 'Yana bir murojaat yuborish',
+    namePlaceholder: 'Masalan: Prof. Jasur Aliyev',
+    emailPlaceholder: 'jasur@institut.uz',
+    messagePlaceholder: 'Taklif mazmuni, rejalashtirilgan sanalar yoki hamkorlik maqsadlari haqida qisqacha ma’lumot...',
+  },
+  en: {
+    dialogue: 'Initiate a Global Dialogue',
+    officialInquiries: 'Official Inquiries',
+    officeTitle: 'Academic & Liaison Office',
+    officeCity: 'Tashkent, Uzbekistan',
+    officeDesc: 'Available for global conferences and scientific summits',
+    messageTransmitted: 'Message Transmitted',
+    sendAnother: 'Send Another Inquiry',
+    namePlaceholder: 'e.g. Dr. Alexander Wright',
+    emailPlaceholder: 'alexander@institute.org',
+    messagePlaceholder: 'Brief outline of the proposal, dates, or objectives...',
+  },
+  ru: {
+    dialogue: 'Начать Международный Диалог',
+    officialInquiries: 'Официальные Запросы',
+    officeTitle: 'Академический Офис Связи',
+    officeCity: 'Ташкент, Узбекистан',
+    officeDesc: 'Открыт для участия в глобальных конференциях и научных саммитах',
+    messageTransmitted: 'Сообщение Передано',
+    sendAnother: 'Отправить еще одно сообщение',
+    namePlaceholder: 'Например: Д-р Александр Смирнов',
+    emailPlaceholder: 'alexander@institute.org',
+    messagePlaceholder: 'Краткое описание предложения, дат или целей сотрудничества...',
+  },
+  tr: {
+    dialogue: 'Küresel Bir Diyalog Başlatın',
+    officialInquiries: 'Resmi Başvurular',
+    officeTitle: 'Akademik ve İrtibat Ofisi',
+    officeCity: 'Taşkent, Özbekistan',
+    officeDesc: 'Küresel konferanslar ve bilimsel zirveler için müsait',
+    messageTransmitted: 'Mesaj İletildi',
+    sendAnother: 'Yeni Bir Başvuru Gönder',
+    namePlaceholder: 'Örn: Dr. Ahmet Yılmaz',
+    emailPlaceholder: 'ahmet@enstitu.org',
+    messagePlaceholder: 'Teklifin özeti, tarihler veya iş birliği hedefleri...',
+  },
+};
+
 export default function ContactSection({ contactEmail = 'contact@ashrafturdialiyev.com' }: ContactProps) {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
+  const cLang = (lang as keyof typeof CONTACT_LOCALIZED) || 'uz';
+  const loc = CONTACT_LOCALIZED[cLang] || CONTACT_LOCALIZED.uz;
+  const subjectList = SUBJECT_OPTIONS[cLang] || SUBJECT_OPTIONS.uz;
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: 'Keynote & Speaking Invitation',
+    subject: subjectList[0].value,
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,7 +130,7 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
       setFormData({
         name: '',
         email: '',
-        subject: 'Keynote & Speaking Invitation',
+        subject: subjectList[0].value,
         message: '',
       });
     } catch (err: any) {
@@ -67,7 +152,7 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
               <span>{t.contact.title}</span>
             </div>
             <h2 className="font-editorial text-3xl sm:text-4xl font-bold text-navy">
-              Initiate a Global Dialogue
+              {loc.dialogue}
             </h2>
             <p className="text-sm sm:text-base text-charcoal/80 leading-relaxed">
               {t.contact.subtitle}
@@ -81,7 +166,7 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
               </div>
               <div>
                 <span className="text-xs uppercase tracking-wider text-charcoal/60 font-semibold block">
-                  Official Inquiries
+                  {loc.officialInquiries}
                 </span>
                 <a
                   href={`mailto:${contactEmail}`}
@@ -98,13 +183,13 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
               </div>
               <div>
                 <span className="text-xs uppercase tracking-wider text-charcoal/60 font-semibold block">
-                  Academic & Liaison Office
+                  {loc.officeTitle}
                 </span>
                 <span className="text-sm sm:text-base font-bold text-navy">
-                  Tashkent, Uzbekistan
+                  {loc.officeCity}
                 </span>
                 <span className="text-xs text-charcoal/60 block mt-0.5">
-                  Available for global conferences and scientific summits
+                  {loc.officeDesc}
                 </span>
               </div>
             </div>
@@ -120,7 +205,7 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <h3 className="font-editorial text-2xl font-bold text-navy">
-                  Message Transmitted
+                  {loc.messageTransmitted}
                 </h3>
                 <p className="text-sm text-charcoal/80 max-w-md mx-auto">
                   {t.contact.successMessage}
@@ -130,7 +215,7 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
                   onClick={() => setSubmitted(false)}
                   className="mt-4 px-6 py-2.5 rounded-xl bg-navy text-white text-xs font-semibold tracking-wider hover:bg-navy/90 transition shadow-sm"
                 >
-                  Send Another Inquiry
+                  {loc.sendAnother}
                 </button>
               </div>
             ) : (
@@ -152,7 +237,7 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="e.g. Dr. Alexander Wright"
+                      placeholder={loc.namePlaceholder}
                       className="w-full px-4 py-3 rounded-xl bg-white border border-navy/10 text-navy placeholder:text-charcoal/40 text-sm focus:outline-none focus:border-gold transition shadow-sm"
                     />
                   </div>
@@ -166,7 +251,7 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="alexander@institute.org"
+                      placeholder={loc.emailPlaceholder}
                       className="w-full px-4 py-3 rounded-xl bg-white border border-navy/10 text-navy placeholder:text-charcoal/40 text-sm focus:outline-none focus:border-gold transition shadow-sm"
                     />
                   </div>
@@ -181,11 +266,11 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-white border border-navy/10 text-navy text-sm focus:outline-none focus:border-gold transition shadow-sm"
                   >
-                    <option value="Keynote & Speaking Invitation">Keynote & Speaking Invitation</option>
-                    <option value="Academic Collaboration">Academic & Research Collaboration</option>
-                    <option value="High-Altitude Expedition Inquiry">High-Altitude Expedition Inquiry</option>
-                    <option value="Media & Press Interview">Media & Press Interview</option>
-                    <option value="General Correspondence">General Correspondence</option>
+                    {subjectList.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -198,7 +283,7 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
                     rows={5}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Brief outline of the proposal, dates, or objectives..."
+                    placeholder={loc.messagePlaceholder}
                     className="w-full px-4 py-3 rounded-xl bg-white border border-navy/10 text-navy placeholder:text-charcoal/40 text-sm focus:outline-none focus:border-gold transition shadow-sm resize-none"
                   />
                 </div>

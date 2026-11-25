@@ -2,9 +2,80 @@ import React from 'react';
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
 import ModernHeroSection from '@/components/ModernHeroSection';
-import { ArrowRight, Compass, Globe, BookOpen, Award, Shield, Sparkles, MapPin, Calendar, ExternalLink, Activity } from 'lucide-react';
+import { ArrowRight, Globe, BookOpen, MapPin, Activity, ExternalLink } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+
+const I18N = {
+  uz: {
+    telemetryBadge: 'Tasdiqlangan Global Qamrov va Tahlil',
+    telemetryTitle: 'Empirik Telemetriya va Natijalar',
+    telemetryLink: 'Batafsil Auditoriya Tahlili',
+    telemetryLive: 'Jonli telemetriya faol',
+    globeBadge: 'Fotorealistik WebGL Kartografiya',
+    globeTitle: 'Sayyorani Haqiqiy 3D Makonda Kashf Eting',
+    globeDesc: 'Fotorealistik, aylanuvchi 3D Yer shariga kiring. Yevroosiyo va Amerika qit’alari bo‘ylab baland tog‘ ilmiy ekspeditsiyalari, qadimiy Buyuk Ipak yo‘li manzillari va diplomatik sammitlarni ko‘zdan kechiring.',
+    globeButton: '3D Globusni Ochish',
+    expeditionsBadge: 'Dala Xronikalari',
+    expeditionsTitle: 'Saralangan Sayohat Ekspeditsiyalari',
+    expeditionsLink: 'Barcha Ekspeditsiyalarni Ko‘rish',
+    readChronicle: 'Kundalikni o‘qish',
+    researchBadge: 'Asosiy Ilmiy Risola',
+    accessPapers: 'Ilmiy Maqolalarga Kirish',
+    doiLink: 'To‘g‘ridan-to‘g‘ri DOI Havolasi',
+  },
+  en: {
+    telemetryBadge: 'Verified Global Reach & Analytics',
+    telemetryTitle: 'Empirical Telemetry & Impact',
+    telemetryLink: 'Detailed Audience Analytics',
+    telemetryLive: 'Live telemetry feed',
+    globeBadge: 'Photorealistic WebGL Cartography',
+    globeTitle: 'Explore the Planet in Real 3D Space',
+    globeDesc: 'Step into a photorealistic, rotating 3D Earth globe. Inspect high-altitude research expeditions, ancient Silk Road waypoints, and diplomatic summits across Eurasia and the Americas.',
+    globeButton: 'Launch 3D Globe',
+    expeditionsBadge: 'Field Chronicles',
+    expeditionsTitle: 'Curated Travel Expeditions',
+    expeditionsLink: 'View All Expeditions',
+    readChronicle: 'Read Chronicle',
+    researchBadge: 'Featured Scholarly Treatise',
+    accessPapers: 'Access Research Papers',
+    doiLink: 'Direct DOI Link',
+  },
+  ru: {
+    telemetryBadge: 'Проверенный глобальный охват и аналитика',
+    telemetryTitle: 'Эмпирическая телеметрия и результаты',
+    telemetryLink: 'Подробная аналитика аудитории',
+    telemetryLive: 'Живой поток телеметрии',
+    globeBadge: 'Фотореалистичная WebGL-картография',
+    globeTitle: 'Исследуйте планету в реальном 3D-пространстве',
+    globeDesc: 'Погрузитесь в фотореалистичный вращающийся 3D-глобус Земли. Исследуйте высокогорные научные экспедиции, древние караванные пути Шелкового пути и дипломатические саммиты по всей Евразии и Америке.',
+    globeButton: 'Запустить 3D-глобус',
+    expeditionsBadge: 'Полевые Хроники',
+    expeditionsTitle: 'Избранные Экспедиции',
+    expeditionsLink: 'Все экспедиции',
+    readChronicle: 'Читать хронику',
+    researchBadge: 'Главный Научный Труд',
+    accessPapers: 'Перейти к научным статьям',
+    doiLink: 'Прямая ссылка DOI',
+  },
+  tr: {
+    telemetryBadge: 'Doğrulanmış Küresel Erişim ve Analitik',
+    telemetryTitle: 'Ampirik Telemetri ve Etki',
+    telemetryLink: 'Ayrıntılı Hedef Kitle Analitiği',
+    telemetryLive: 'Canlı telemetri akışı',
+    globeBadge: 'Fotogerçekçi WebGL Haritacılığı',
+    globeTitle: 'Gezegeni Gerçek 3D Uzayda Keşfedin',
+    globeDesc: 'Fotogerçekçi, dönen 3D Dünya küresine adım atın. Avrasya ve Amerika genelindeki yüksek irtifa araştırma seferlerini, antik İpek Yolu duraklarını ve diplomatik zirveleri keşfedin.',
+    globeButton: '3D Küreyi Başlat',
+    expeditionsBadge: 'Saha Günlükleri',
+    expeditionsTitle: 'Seçilmiş Seyahat Seferleri',
+    expeditionsLink: 'Tüm Seferleri Gör',
+    readChronicle: 'Günlüğü Oku',
+    researchBadge: 'Öne Çıkan Bilimsel Makale',
+    accessPapers: 'Makalelere Eriş',
+    doiLink: 'Doğrudan DOI Bağlantısı',
+  },
+};
 
 export default async function LocalizedHomePage({
   params,
@@ -12,6 +83,19 @@ export default async function LocalizedHomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const isUz = locale === 'uz';
+  const isRu = locale === 'ru';
+  const isTr = locale === 'tr';
+
+  const t = I18N[locale as keyof typeof I18N] || I18N.uz;
+
+  const getLoc = (item: any, field: string) => {
+    if (!item) return '';
+    if (isUz && item[`${field}Uz`]) return item[`${field}Uz`];
+    if (isRu && item[`${field}Ru`]) return item[`${field}Ru`];
+    if (isTr && item[`${field}Tr`]) return item[`${field}Tr`];
+    return item[field] || item[`${field}Uz`] || item[`${field}En`] || '';
+  };
 
   const [
     featuredDestinations,
@@ -63,17 +147,17 @@ export default async function LocalizedHomePage({
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-[#B99A5B] flex items-center gap-1.5 mb-1">
                 <span className="w-2 h-2 rounded-full bg-[#B99A5B] animate-pulse" />
-                Verified Global Reach & Analytics
+                {t.telemetryBadge}
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-[#17243A] font-serif">
-                Empirical Telemetry & Impact
+                {t.telemetryTitle}
               </h2>
             </div>
             <Link
               href={`/${locale}/audience`}
               className="group text-xs font-bold text-[#17243A] hover:text-[#B99A5B] flex items-center gap-2 self-start sm:self-auto px-4 py-2 rounded-xl bg-slate-50 hover:bg-[#EAF1F8] transition-all"
             >
-              <span>Detailed Audience Analytics</span>
+              <span>{t.telemetryLink}</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
@@ -86,7 +170,7 @@ export default async function LocalizedHomePage({
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-medium text-slate-500 block truncate">
-                    {stat.label}
+                    {getLoc(stat, 'label')}
                   </span>
                   <Activity className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#B99A5B] transition-colors" />
                 </div>
@@ -96,7 +180,7 @@ export default async function LocalizedHomePage({
                 {stat.isSimulated && (
                   <span className="text-[10px] text-emerald-600 font-bold flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                    Live telemetry feed
+                    {t.telemetryLive}
                   </span>
                 )}
               </div>
@@ -116,13 +200,13 @@ export default async function LocalizedHomePage({
             <div className="lg:col-span-8 space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-[#B99A5B]/40 text-xs font-bold text-[#eedda5]">
                 <Globe className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '12s' }} />
-                <span>Photorealistic WebGL Cartography</span>
+                <span>{t.globeBadge}</span>
               </div>
               <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight font-serif leading-tight">
-                Explore the Planet in Real 3D Space
+                {t.globeTitle}
               </h2>
               <p className="text-slate-300 text-sm sm:text-base max-w-xl leading-relaxed font-normal">
-                Step into a photorealistic, rotating 3D Earth globe. Inspect high-altitude research expeditions, ancient Silk Road waypoints, and diplomatic summits across Eurasia and the Americas.
+                {t.globeDesc}
               </p>
             </div>
             <div className="lg:col-span-4 flex lg:justify-end">
@@ -131,7 +215,7 @@ export default async function LocalizedHomePage({
                 className="group relative inline-flex items-center gap-3 px-8 py-4.5 rounded-2xl bg-[#B99A5B] text-black font-extrabold text-sm shadow-card hover:bg-[#eedda5] hover:scale-105 transition-all duration-300"
               >
                 <Globe className="w-5 h-5 text-black group-hover:rotate-180 transition-transform duration-700" />
-                <span>Launch 3D Globe</span>
+                <span>{t.globeButton}</span>
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
@@ -144,15 +228,15 @@ export default async function LocalizedHomePage({
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <span className="text-xs font-bold uppercase tracking-widest text-[#B99A5B] block mb-1">
-              Field Chronicles
+              {t.expeditionsBadge}
             </span>
-            <h2 className="text-3xl font-extrabold text-[#17243A]">Curated Travel Expeditions</h2>
+            <h2 className="text-3xl font-extrabold text-[#17243A] font-serif">{t.expeditionsTitle}</h2>
           </div>
           <Link
             href={`/${locale}/travels`}
             className="text-xs font-bold text-[#17243A] hover:text-[#B99A5B] flex items-center gap-1.5"
           >
-            <span>View All Expeditions</span>
+            <span>{t.expeditionsLink}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -162,6 +246,8 @@ export default async function LocalizedHomePage({
             let photos = [];
             try { photos = JSON.parse(dest.photos); } catch { photos = []; }
             const cover = photos[0] || 'https://images.unsplash.com/photo-1596484552829-9e8c07c29377?q=80&w=1200';
+            const destTitle = getLoc(dest, 'title');
+            const destDesc = getLoc(dest, 'description');
 
             return (
               <Link
@@ -172,7 +258,7 @@ export default async function LocalizedHomePage({
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                   <img
                     src={cover}
-                    alt={dest.title}
+                    alt={destTitle}
                     className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
                   />
                   <div className="absolute top-3 left-3 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-[11px] font-bold text-[#17243A] shadow-sm flex items-center gap-1.5 border border-white/40">
@@ -184,10 +270,10 @@ export default async function LocalizedHomePage({
                 <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
                   <div className="space-y-2">
                     <h3 className="text-lg font-bold text-[#17243A] group-hover:text-[#B99A5B] transition-colors line-clamp-2 font-serif">
-                      {dest.title}
+                      {destTitle}
                     </h3>
                     <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
-                      {dest.description}
+                      {destDesc}
                     </p>
                   </div>
 
@@ -196,7 +282,7 @@ export default async function LocalizedHomePage({
                       {new Date(dest.visitedAt).toLocaleDateString()}
                     </span>
                     <span className="flex items-center gap-1.5 text-[#B99A5B] group-hover:translate-x-1 transition-transform">
-                      Read Chronicle &rarr;
+                      {t.readChronicle} &rarr;
                     </span>
                   </div>
                 </div>
@@ -213,16 +299,16 @@ export default async function LocalizedHomePage({
             <div className="space-y-3 max-w-2xl">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-[#ACC7E1] text-[11px] font-bold uppercase tracking-wider text-[#2B4D76]">
                 <BookOpen className="w-3.5 h-3.5 text-[#B99A5B]" />
-                Featured Scholarly Treatise
+                {t.researchBadge}
               </span>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-[#17243A] font-serif leading-snug">
-                {featuredPub.title}
+                {getLoc(featuredPub, 'title')}
               </h3>
               <p className="text-xs text-slate-600 font-medium">
                 {featuredPub.authors} &bull; <span className="italic">{featuredPub.journal}</span> ({featuredPub.year})
               </p>
               <p className="text-sm text-slate-700 leading-relaxed line-clamp-2">
-                {featuredPub.abstract}
+                {getLoc(featuredPub, 'abstract')}
               </p>
             </div>
 
@@ -231,7 +317,7 @@ export default async function LocalizedHomePage({
                 href={`/${locale}/research`}
                 className="px-7 py-3.5 rounded-2xl bg-[#17243A] text-white font-bold text-xs tracking-wide shadow-card hover:bg-[#2B4D76] transition-all text-center"
               >
-                Access Research Papers
+                {t.accessPapers}
               </Link>
               {featuredPub.link && (
                 <a
@@ -240,7 +326,7 @@ export default async function LocalizedHomePage({
                   rel="noopener noreferrer"
                   className="px-6 py-3.5 rounded-2xl bg-white border border-slate-200 text-[#17243A] font-bold text-xs hover:border-[#B99A5B] hover:shadow-subtle transition-all flex items-center justify-center gap-1.5"
                 >
-                  <span>Direct DOI Link</span>
+                  <span>{t.doiLink}</span>
                   <ExternalLink className="w-3.5 h-3.5 text-[#B99A5B]" />
                 </a>
               )}

@@ -186,7 +186,9 @@ export default async function GlobePage({ params }: GlobePageProps) {
                   </div>
                   <div className="px-6 pb-6 pt-2 border-t border-navy/5 flex items-center justify-between text-xs font-mono text-charcoal/60">
                     <span>{loc.latitude}° N, {loc.longitude}° E</span>
-                    <span className="text-gold font-semibold">Visited</span>
+                    <span className="text-gold font-semibold">
+                      {isUz ? "Tashrif etilgan" : isRu ? "Посещено" : isTr ? "Ziyaret edildi" : "Visited"}
+                    </span>
                   </div>
                 </div>
               );

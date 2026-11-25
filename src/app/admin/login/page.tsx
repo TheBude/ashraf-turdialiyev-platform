@@ -6,8 +6,38 @@ import Link from 'next/link';
 import { Shield, Lock, Mail, ArrowLeft, Loader2, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 
+type AdminLang = 'uz' | 'en';
+
+const LOGIN_T = {
+  uz: {
+    back: 'Asosiy platformaga qaytish',
+    title: 'CMS Portaliga Kirish',
+    subtitle: 'Ashraf Turdialiyev boshqaruv paneli uchun himoyalangan tizim',
+    emailLabel: 'Admin elektron pochtasi',
+    passwordLabel: 'Xavfsizlik kaliti (Parol)',
+    submit: 'Tasdiqlash va Kirish',
+    loading: 'Ma’lumotlar tekshirilmoqda...',
+    footerNotice: 'Cheklangan kirish huquqi. Administrator login ma’lumotlarini kiriting.',
+    successToast: 'Muvaffaqiyatli autentifikatsiya qilindi. Boshqaruv paneliga yo‘naltirilmoqda...',
+  },
+  en: {
+    back: 'Back to Public Platform',
+    title: 'CMS Portal Authentication',
+    subtitle: 'Restricted access for Ashraf Turdialiyev platform administration',
+    emailLabel: 'Admin Email',
+    passwordLabel: 'Passphrase',
+    submit: 'Authenticate & Enter',
+    loading: 'Verifying Credentials...',
+    footerNotice: 'Restricted access. Enter your administrator credentials.',
+    successToast: 'Authenticated successfully. Entering CMS Portal...',
+  },
+};
+
 export default function AdminLoginPage() {
   const router = useRouter();
+  const [lang, setLang] = useState<AdminLang>('uz');
+  const t = LOGIN_T[lang];
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -32,7 +62,7 @@ export default function AdminLoginPage() {
         throw new Error(data.error || 'Invalid credentials');
       }
 
-      toast.success('Authenticated successfully. Entering CMS Portal...');
+      toast.success(t.successToast);
       router.push('/admin');
       router.refresh();
     } catch (err: any) {
@@ -52,14 +82,37 @@ export default function AdminLoginPage() {
       </div>
 
       <div className="relative w-full max-w-md bg-white border border-slate-200/80 rounded-3xl p-8 sm:p-10 shadow-xl space-y-6">
-        {/* Top return link */}
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-[#17243A] transition-colors"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to Public Platform</span>
-        </Link>
+        {/* Top return link & language switcher */}
+        <div className="flex items-center justify-between">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-[#17243A] transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>{t.back}</span>
+          </Link>
+
+          <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-xl text-xs font-medium">
+            <button
+              type="button"
+              onClick={() => setLang('uz')}
+              className={`px-2.5 py-1 rounded-lg transition-all ${
+                lang === 'uz' ? 'bg-white text-[#17243A] font-bold shadow-xs' : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              🇺🇿 Uz
+            </button>
+            <button
+              type="button"
+              onClick={() => setLang('en')}
+              className={`px-2.5 py-1 rounded-lg transition-all ${
+                lang === 'en' ? 'bg-white text-[#17243A] font-bold shadow-xs' : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              🇬🇧 En
+            </button>
+          </div>
+        </div>
 
         {/* Brand Monogram */}
         <div className="text-center space-y-2">
@@ -67,10 +120,10 @@ export default function AdminLoginPage() {
             AT
           </div>
           <h1 className="text-2xl font-bold text-[#17243A] tracking-tight font-editorial">
-            CMS Portal Authentication
+            {t.title}
           </h1>
           <p className="text-xs text-slate-500">
-            Restricted access for Ashraf Turdialiyev platform administration
+            {t.subtitle}
           </p>
         </div>
 
@@ -86,7 +139,7 @@ export default function AdminLoginPage() {
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-1.5">
             <label className="text-[11px] font-bold uppercase tracking-wider text-slate-600 block">
-              Admin Email
+              {t.emailLabel}
             </label>
             <div className="relative">
               <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -103,7 +156,7 @@ export default function AdminLoginPage() {
 
           <div className="space-y-1.5">
             <label className="text-[11px] font-bold uppercase tracking-wider text-slate-600 block">
-              Passphrase
+              {t.passwordLabel}
             </label>
             <div className="relative">
               <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -133,19 +186,19 @@ export default function AdminLoginPage() {
             {loading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin text-[#B99A5B]" />
-                <span>Verifying Credentials...</span>
+                <span>{t.loading}</span>
               </>
             ) : (
               <>
                 <Shield className="w-4 h-4 text-[#B99A5B]" />
-                <span>Authenticate & Enter</span>
+                <span>{t.submit}</span>
               </>
             )}
           </button>
         </form>
 
         <div className="pt-2 text-center text-[11px] text-slate-400 border-t border-slate-100">
-          Restricted access. Enter your administrator credentials.
+          {t.footerNotice}
         </div>
       </div>
     </div>
