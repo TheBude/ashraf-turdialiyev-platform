@@ -6,22 +6,89 @@ import AuroraBackground from '@/components/ui/AuroraBackground';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { Language } from '@/lib/translations';
 
-const META_TRANSLATIONS: Record<string, { title: string; description: string }> = {
+const META_TRANSLATIONS: Record<
+  string,
+  { title: string; description: string; keywords: string[] }
+> = {
   uz: {
     title: 'Ashraf Turdialiyev — Xalqaro Sayohat va Ilmiy Tadqiqot Platformasi',
-    description: 'Ashraf Turdialiyevning rasmiy shaxsiy portali: 3D interaktiv yer globusi, ilmiy maqolalar, xalqaro sayohatlar va sertifikatlar arxivi.',
+    description:
+      'Ashraf Turdialiyev (Ashraf Turdiyaliev / Ашраф Турдиалиев) rasmiy portali: 3D yer globusi, ilmiy maqolalar, xalqaro sayohatlar va sertifikatlar arxivi.',
+    keywords: [
+      'Ashraf Turdialiyev',
+      'Ashraf',
+      'Turdialiyev',
+      'Ashrafjon Turdialiyev',
+      'Ashraf Turdiyaliev',
+      'Ashraf Turdialiev',
+      'Asraf Turdialiyev',
+      'Ашраф Турдиалиев',
+      'Ашрафжон',
+      'Турдиалиев',
+      'Sayohatchi',
+      'Tadqiqotchi',
+      'Olim',
+      'O‘zbekiston',
+      '3D Globus',
+      'Ipak Yo‘li',
+    ],
   },
   en: {
     title: 'Ashraf Turdialiyev — Global Explorer & Academic Scholar',
-    description: 'Official personal brand platform of Ashraf Turdialiyev: interactive 3D Earth globe, expeditions chronicle, scholarly research, and executive appointments.',
+    description:
+      'Official personal brand platform of Ashraf Turdialiyev: interactive 3D Earth globe, expeditions chronicle, scholarly research, and executive appointments.',
+    keywords: [
+      'Ashraf Turdialiyev',
+      'Ashraf',
+      'Turdialiyev',
+      'Ashraf Turdialiev',
+      'Ashraf Turdiyaliev',
+      'Ashrafjon Turdialiyev',
+      'Asraf Turdialiyev',
+      'Ашраф Турдиалиев',
+      'Global Explorer',
+      'Academic Scholar',
+      'Central Asia Geopolitics',
+      'Silk Road',
+      '3D Earth Globe',
+    ],
   },
   ru: {
     title: 'Ашраф Турдиалиев — Международный исследователь и ученый',
-    description: 'Официальная персональная платформа Ашрафа Турдиалиева: 3D интерактивный глобус, научные публикации, хроника экспедиций и сертификаты.',
+    description:
+      'Официальная персональная платформа Ашрафа Турдиалиева: 3D интерактивный глобус, научные публикации, хроника экспедиций и сертификаты.',
+    keywords: [
+      'Ашраф Турдиалиев',
+      'Ашраф',
+      'Турдиалиев',
+      'Ашрафжон Турдиалиев',
+      'Ашраф Турдиялиев',
+      'Ashraf Turdialiyev',
+      'Ashraf',
+      'Turdialiyev',
+      'Исследователь',
+      'Ученый',
+      'Шелковый путь',
+      'Геополитика',
+      '3D Глобус',
+    ],
   },
   tr: {
     title: 'Ashraf Turdialiyev — Uluslararası Gezgin ve Akademik Araştırmacı',
-    description: 'Ashraf Turdialiyev resmi kişisel platformu: 3D etkileşimli dünya küresi, bilimsel yayınlar, keşif günlükleri ve sertifikalar.',
+    description:
+      'Ashraf Turdialiyev resmi kişisel platformu: 3D etkileşimli dünya küresi, bilimsel yayınlar, keşif günlükleri ve sertifikalar.',
+    keywords: [
+      'Ashraf Turdialiyev',
+      'Ashraf',
+      'Turdialiyev',
+      'Ashraf Turdiyaliev',
+      'Ашраф Турдиалиев',
+      'Uluslararası Gezgin',
+      'Akademik Araştırmacı',
+      'İpek Yolu',
+      'Orta Asya',
+      '3D Küre',
+    ],
   },
 };
 
@@ -39,15 +106,7 @@ export async function generateMetadata({
       template: `%s | Ashraf Turdialiyev`,
     },
     description: meta.description,
-    keywords: [
-      'Ashraf Turdialiyev',
-      'Explorer',
-      'Scholar',
-      'Central Asia',
-      'Geopolitics',
-      'Scientific Research',
-      '3D Globe',
-    ],
+    keywords: meta.keywords,
     authors: [{ name: 'Ashraf Turdialiyev' }],
     alternates: {
       canonical: `/${locale}`,
