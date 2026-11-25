@@ -757,17 +757,18 @@ export default function EarthGlobe3D({
         </div>
       )}
 
-      {/* Selected Location Details Drawer / Popup */}
+      {/* Selected Location Details Drawer / Mobile Bottom Sheet */}
       {activeLocation && (
-        <div className="absolute top-20 right-4 bottom-4 w-96 max-w-[calc(100vw-2rem)] bg-white/95 backdrop-blur-xl rounded-3xl p-6 shadow-2xl border border-navy/10 z-20 overflow-y-auto flex flex-col justify-between animate-fadeIn pointer-events-auto">
+        <div className="fixed sm:absolute inset-x-3 bottom-3 sm:bottom-4 sm:top-20 sm:left-auto sm:right-4 sm:w-96 max-h-[80vh] sm:max-h-none sm:h-auto max-w-[calc(100vw-1.5rem)] bg-white/95 dark:bg-[#101827]/95 backdrop-blur-2xl rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-200/80 dark:border-white/15 z-30 overflow-y-auto flex flex-col justify-between animate-in slide-in-from-bottom-4 sm:slide-in-from-right-4 duration-300 pointer-events-auto text-[#101827] dark:text-white">
           <div>
-            <div className="flex items-center justify-between mb-4">
-              <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-soft-blue text-navy border border-navy/10">
+            <div className="flex items-center justify-between mb-3.5">
+              <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-[#B99A5B]/15 text-[#B99A5B] border border-[#B99A5B]/30">
                 {activeLocation.category}
               </span>
               <button
                 onClick={() => setActiveLocation(null)}
-                className="w-8 h-8 rounded-full bg-navy/5 hover:bg-navy/10 flex items-center justify-center text-navy transition"
+                className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 hover:bg-[#B99A5B]/20 flex items-center justify-center text-slate-600 dark:text-slate-300 transition"
+                aria-label="Close details"
               >
                 ✕
               </button>
@@ -775,48 +776,48 @@ export default function EarthGlobe3D({
 
             {/* Photos Carousel / Cover */}
             {activePhotos.length > 0 && (
-              <div className="relative h-48 w-full rounded-2xl overflow-hidden mb-4 shadow-inner bg-navy/5">
+              <div className="relative h-40 sm:h-48 w-full rounded-2xl overflow-hidden mb-3.5 shadow-inner bg-slate-100 dark:bg-white/5">
                 <img
                   src={activePhotos[0]}
                   alt={activeLocation.title}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
                 {activePhotos.length > 1 && (
-                  <span className="absolute bottom-2 right-2 px-2.5 py-1 rounded-lg bg-navy/80 text-[10px] text-white font-mono">
+                  <span className="absolute bottom-2 right-2 px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-md text-[10px] text-white font-mono border border-white/20">
                     +{activePhotos.length - 1} photos
                   </span>
                 )}
               </div>
             )}
 
-            <h3 className="font-editorial text-2xl font-bold text-navy leading-tight mb-1">
+            <h3 className="font-editorial text-xl sm:text-2xl font-bold text-[#101827] dark:text-white leading-tight mb-1">
               {getLocalized(activeLocation, 'title')}
             </h3>
 
-            <div className="flex items-center space-x-2 text-xs text-charcoal/70 mb-3 font-medium">
+            <div className="flex items-center space-x-2 text-xs text-slate-500 dark:text-slate-400 mb-3 font-medium">
               <span>📍 {activeLocation.city ? `${activeLocation.city}, ` : ''}{activeLocation.country}</span>
               <span>•</span>
               <span>{new Date(activeLocation.visitDate).getFullYear()}</span>
             </div>
 
-            <p className="text-sm text-charcoal/80 leading-relaxed mb-4">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
               {getLocalized(activeLocation, 'description')}
             </p>
 
             {/* Coordinates metadata badge */}
-            <div className="p-3 rounded-xl bg-soft-blue/60 border border-navy/5 flex items-center justify-between text-xs font-mono text-navy">
+            <div className="p-3 rounded-xl bg-slate-100/80 dark:bg-white/5 border border-slate-200/60 dark:border-white/10 flex items-center justify-between text-xs font-mono text-[#101827] dark:text-white">
               <span>{activeLocation.latitude > 0 ? `${activeLocation.latitude}° N` : `${Math.abs(activeLocation.latitude)}° S`}</span>
               <span>{activeLocation.longitude > 0 ? `${activeLocation.longitude}° E` : `${Math.abs(activeLocation.longitude)}° W`}</span>
             </div>
           </div>
 
-          <div className="mt-4 pt-4 border-t border-navy/10 flex items-center justify-between">
-            <span className="text-[11px] text-charcoal/60 uppercase tracking-wider font-semibold">
+          <div className="mt-4 pt-4 border-t border-slate-200/60 dark:border-white/10 flex items-center justify-between">
+            <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">
               Ashraf Turdialiyev Expedition
             </span>
             <button
               onClick={() => focusOnLocation(activeLocation)}
-              className="text-xs text-gold font-semibold hover:underline"
+              className="text-xs text-[#B99A5B] font-bold hover:underline"
             >
               {globeI18n.reCenter}
             </button>
@@ -824,14 +825,15 @@ export default function EarthGlobe3D({
         </div>
       )}
 
-      {/* Expeditions Sidebar List */}
+      {/* Expeditions Sidebar List / Mobile Drawer */}
       {sidebarOpen && (
-        <div className="absolute top-20 left-4 bottom-4 w-80 max-w-[calc(100vw-2rem)] bg-navy/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl border border-white/10 z-20 flex flex-col text-white pointer-events-auto">
+        <div className="fixed sm:absolute inset-x-3 bottom-3 sm:bottom-4 sm:top-20 sm:right-auto sm:left-4 sm:w-80 max-h-[80vh] sm:max-h-none sm:h-auto max-w-[calc(100vw-1.5rem)] bg-[#101827]/95 backdrop-blur-2xl rounded-3xl p-5 shadow-2xl border border-white/15 z-30 flex flex-col text-white pointer-events-auto animate-in slide-in-from-bottom-4 sm:slide-in-from-left-4 duration-300">
           <div className="flex items-center justify-between mb-3">
-            <h4 className="font-editorial text-lg text-gold font-bold">{globeI18n.expeditionIndex}</h4>
+            <h4 className="font-editorial text-lg text-[#eedda5] font-bold">{globeI18n.expeditionIndex}</h4>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xs"
+              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xs transition"
+              aria-label="Close sidebar"
             >
               ✕
             </button>

@@ -58,6 +58,18 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Lock body scroll on mobile when navigation drawer is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   const currentLangObj = languageOptions.find((l) => l.code === lang) || languageOptions[0];
 
   const isUz = lang === 'uz';
@@ -350,23 +362,33 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Responsive Mobile Drawer Menu */}
+      {/* Responsive Mobile Drawer Menu with Smooth Scroll & Touch Targets */}
       {mobileMenuOpen && (
-        <div className="lg:hidden pointer-events-auto max-w-lg mx-auto mt-2 rounded-3xl liquid-glass p-5 shadow-2xl border border-white/70 dark:border-white/15 bg-white/95 dark:bg-[#101827]/95 backdrop-blur-glass animate-in slide-in-from-top-4 duration-300 space-y-4">
+        <div className="lg:hidden pointer-events-auto max-w-lg mx-auto mt-2 rounded-3xl liquid-glass p-5 shadow-2xl border border-white/70 dark:border-white/15 bg-white/95 dark:bg-[#101827]/95 backdrop-blur-glass animate-in slide-in-from-top-4 duration-300 space-y-4 max-h-[calc(100vh-5.5rem)] overflow-y-auto overscroll-contain">
           <div className="flex items-center justify-between pb-3 border-b border-black/5 dark:border-white/10">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#B99A5B]">
-              Navigation Directory
+            <span className="text-xs font-bold uppercase tracking-wider text-[#B99A5B] flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#B99A5B]" />
+              <span>Navigation Directory</span>
             </span>
-            <ThemeSwitcher />
+            <div className="flex items-center gap-2">
+              <ThemeSwitcher compact={true} />
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:text-black dark:hover:text-white transition"
+                aria-label="Close menu"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-3.5">
             {navGroups.map((group) => (
-              <div key={group.id} className="space-y-1">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 block px-2">
+              <div key={group.id} className="space-y-1.5">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 dark:text-slate-500 block px-2">
                   {group.label}
                 </span>
-                <div className="grid grid-cols-2 gap-1.5">
+                <div className="grid grid-cols-2 gap-2">
                   {group.items.map((subItem) => {
                     const isSubActive = isActive(subItem.href);
                     return (
@@ -374,13 +396,13 @@ export default function Header() {
                         key={subItem.href}
                         href={subItem.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`p-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all ${
+                        className={`p-3 rounded-2xl text-xs font-semibold flex items-center gap-2.5 min-h-[44px] transition-all active:scale-[0.98] ${
                           isSubActive
                             ? 'bg-[#B99A5B] text-black font-bold shadow-sm'
-                            : 'bg-black/5 dark:bg-white/5 text-slate-700 dark:text-slate-300'
+                            : 'bg-black/5 dark:bg-white/5 text-slate-700 dark:text-slate-200 hover:bg-[#B99A5B]/15 hover:text-[#B99A5B]'
                         }`}
                       >
-                        <subItem.icon className="w-3.5 h-3.5 text-[#B99A5B]" />
+                        <subItem.icon className="w-4 h-4 text-[#B99A5B] shrink-0" />
                         <span className="truncate">{subItem.title}</span>
                       </Link>
                     );
@@ -394,14 +416,14 @@ export default function Header() {
               <Link
                 href={`/${lang}`}
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 rounded-xl bg-black/5 dark:bg-white/5 text-xs font-semibold text-center text-slate-700 dark:text-slate-300"
+                className="p-3 rounded-2xl bg-black/5 dark:bg-white/5 text-xs font-semibold text-center text-slate-700 dark:text-slate-300 min-h-[44px] flex items-center justify-center active:scale-[0.98]"
               >
                 {t.nav.home}
               </Link>
               <Link
                 href={`/${lang}/contact`}
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 rounded-xl bg-[#B99A5B]/15 text-[#B99A5B] text-xs font-bold text-center"
+                className="p-3 rounded-2xl bg-[#B99A5B]/15 text-[#B99A5B] text-xs font-bold text-center min-h-[44px] flex items-center justify-center active:scale-[0.98]"
               >
                 {t.nav.contact}
               </Link>
@@ -410,7 +432,7 @@ export default function Header() {
             <Link
               href="/admin"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-[#101827] text-white dark:bg-white/10 font-bold text-xs tracking-wider uppercase border border-[#B99A5B]/40 shadow-sm"
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-[#101827] text-white dark:bg-white/10 font-bold text-xs tracking-wider uppercase border border-[#B99A5B]/40 shadow-sm min-h-[48px] active:scale-[0.98]"
             >
               <Shield className="w-4 h-4 text-[#B99A5B]" />
               <span>{t.nav.admin}</span>

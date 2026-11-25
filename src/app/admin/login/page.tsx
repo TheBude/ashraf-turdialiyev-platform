@@ -159,7 +159,7 @@ export default function AdminLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@ashrafturdialiyev.com"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50/80 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-sm text-[#101827] dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#B99A5B] focus:bg-white dark:focus:bg-[#182A42]/50 transition-all"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50/80 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-base sm:text-sm text-[#101827] dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#B99A5B] focus:bg-white dark:focus:bg-[#182A42]/50 transition-all"
               />
             </div>
           </div>
@@ -176,7 +176,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-slate-50/80 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-sm text-[#101827] dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#B99A5B] focus:bg-white dark:focus:bg-[#182A42]/50 transition-all font-mono"
+                className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-slate-50/80 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-base sm:text-sm text-[#101827] dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#B99A5B] focus:bg-white dark:focus:bg-[#182A42]/50 transition-all font-mono"
               />
               <button
                 type="button"

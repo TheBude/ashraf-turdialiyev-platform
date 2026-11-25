@@ -157,10 +157,10 @@ export default function ModernHeroSection({
             </p>
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <Link
                 href={`/${currentLang}/globe`}
-                className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl gold-glow-button font-bold text-xs tracking-wider uppercase"
+                className="group inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl gold-glow-button font-bold text-xs tracking-wider uppercase shadow-lg active:scale-[0.98] transition-all"
               >
                 <Globe className="w-4 h-4 text-[#101827] group-hover:rotate-180 transition-transform duration-700" />
                 <span>{cta.globe}</span>
@@ -169,50 +169,50 @@ export default function ModernHeroSection({
 
               <Link
                 href={`/${currentLang}/travels`}
-                className="group inline-flex items-center gap-2.5 px-7 py-4 rounded-2xl liquid-glass text-slate-800 dark:text-slate-200 font-bold text-xs tracking-wider uppercase hover:border-[#B99A5B] transition-all"
+                className="group inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3.5 sm:py-4 rounded-2xl liquid-glass text-slate-800 dark:text-slate-200 font-bold text-xs tracking-wider uppercase hover:border-[#B99A5B] transition-all active:scale-[0.98]"
               >
                 <Compass className="w-4 h-4 text-[#B99A5B] group-hover:rotate-45 transition-transform" />
                 <span>{cta.travels}</span>
               </Link>
             </div>
 
-            {/* Bottom 3 Floating Key Metrics (Reference Image 4 Style) */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-black/5 dark:border-white/10">
-              <div className="p-4 rounded-2xl liquid-glass-subtle space-y-1">
-                <div className="flex items-center gap-2 text-2xl font-extrabold text-[#101827] dark:text-white font-editorial">
-                  <Globe className="w-4 h-4 text-[#8D9FC5]" />
+            {/* Bottom 3 Floating Key Metrics (Reference Image 4 Style - Mobile Optimized) */}
+            <div className="grid grid-cols-3 gap-2 sm:gap-3.5 pt-6 border-t border-black/5 dark:border-white/10">
+              <div className="p-2.5 sm:p-4 rounded-2xl liquid-glass-subtle space-y-0.5 sm:space-y-1">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-base sm:text-2xl font-extrabold text-[#101827] dark:text-white font-editorial">
+                  <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#8D9FC5] shrink-0" />
                   <span>{statsLabels.stat1Val}</span>
                 </div>
-                <div className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-none">
+                <div className="text-[10px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 leading-tight truncate">
                   {statsLabels.stat1Label}
                 </div>
-                <div className="text-[10px] text-slate-500 dark:text-slate-400">
+                <div className="text-[8px] sm:text-[10px] text-slate-500 dark:text-slate-400 truncate">
                   {statsLabels.stat1Sub}
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl liquid-glass-subtle space-y-1">
-                <div className="flex items-center gap-2 text-2xl font-extrabold text-[#101827] dark:text-white font-editorial">
-                  <BookOpen className="w-4 h-4 text-[#A78BFA]" />
+              <div className="p-2.5 sm:p-4 rounded-2xl liquid-glass-subtle space-y-0.5 sm:space-y-1">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-base sm:text-2xl font-extrabold text-[#101827] dark:text-white font-editorial">
+                  <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#A78BFA] shrink-0" />
                   <span>{statsLabels.stat2Val}</span>
                 </div>
-                <div className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-none">
+                <div className="text-[10px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 leading-tight truncate">
                   {statsLabels.stat2Label}
                 </div>
-                <div className="text-[10px] text-slate-500 dark:text-slate-400">
+                <div className="text-[8px] sm:text-[10px] text-slate-500 dark:text-slate-400 truncate">
                   {statsLabels.stat2Sub}
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl liquid-glass-subtle space-y-1">
-                <div className="flex items-center gap-2 text-2xl font-extrabold text-[#101827] dark:text-white font-editorial">
-                  <Award className="w-4 h-4 text-[#B99A5B]" />
+              <div className="p-2.5 sm:p-4 rounded-2xl liquid-glass-subtle space-y-0.5 sm:space-y-1">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-base sm:text-2xl font-extrabold text-[#101827] dark:text-white font-editorial">
+                  <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#B99A5B] shrink-0" />
                   <span>{statsLabels.stat3Val}</span>
                 </div>
-                <div className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-none">
+                <div className="text-[10px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 leading-tight truncate">
                   {statsLabels.stat3Label}
                 </div>
-                <div className="text-[10px] text-slate-500 dark:text-slate-400">
+                <div className="text-[8px] sm:text-[10px] text-slate-500 dark:text-slate-400 truncate">
                   {statsLabels.stat3Sub}
                 </div>
               </div>
@@ -308,17 +308,17 @@ export default function ModernHeroSection({
                 animate={{ y: [0, -6, 0] }}
                 transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
                 style={{ transform: 'translateZ(65px)' }}
-                className="absolute -top-4 -right-3 sm:-top-5 sm:-right-5 px-4 py-2.5 rounded-2xl liquid-glass shadow-2xl backdrop-blur-glass flex items-center gap-3 z-20 border border-white/60 dark:border-white/15"
+                className="absolute -top-3 right-1 sm:-top-5 sm:-right-5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl liquid-glass shadow-2xl backdrop-blur-glass flex items-center gap-2.5 sm:gap-3 z-20 border border-white/60 dark:border-white/15"
               >
-                <div className="relative flex h-3 w-3">
+                <div className="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-emerald-500"></span>
                 </div>
                 <div>
-                  <span className="text-[9px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold block">
+                  <span className="text-[8px] sm:text-[9px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold block">
                     Status
                   </span>
-                  <span className="text-xs font-bold text-slate-900 dark:text-white">
+                  <span className="text-[11px] sm:text-xs font-bold text-slate-900 dark:text-white">
                     {statusText}
                   </span>
                 </div>
@@ -329,16 +329,16 @@ export default function ModernHeroSection({
                 animate={{ y: [0, 6, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
                 style={{ transform: 'translateZ(65px)' }}
-                className="absolute -bottom-5 -left-3 sm:-bottom-6 sm:-left-5 px-4 py-3 rounded-2xl liquid-glass shadow-2xl backdrop-blur-glass flex items-center gap-3 z-20 border border-white/60 dark:border-white/15"
+                className="absolute -bottom-4 left-1 sm:-bottom-6 sm:-left-5 px-3 sm:px-4 py-2 sm:py-3 rounded-2xl liquid-glass shadow-2xl backdrop-blur-glass flex items-center gap-2.5 sm:gap-3 z-20 border border-white/60 dark:border-white/15 max-w-[85%] sm:max-w-none"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#B99A5B]/20 border border-[#B99A5B]/40 flex items-center justify-center text-[#B99A5B]">
-                  <Mountain className="w-5 h-5 text-[#B99A5B]" />
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#B99A5B]/20 border border-[#B99A5B]/40 flex items-center justify-center text-[#B99A5B] shrink-0">
+                  <Mountain className="w-4 h-4 sm:w-5 sm:h-5 text-[#B99A5B]" />
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase tracking-wider text-[#B99A5B] font-bold block">
+                  <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-[#B99A5B] font-bold block truncate">
                     High Alpine & Glaciers
                   </span>
-                  <span className="text-xs font-extrabold text-slate-900 dark:text-white">
+                  <span className="text-[11px] sm:text-xs font-extrabold text-slate-900 dark:text-white truncate">
                     Pamir, Alps & Tien Shan
                   </span>
                 </div>

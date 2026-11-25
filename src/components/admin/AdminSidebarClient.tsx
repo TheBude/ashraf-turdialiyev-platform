@@ -42,11 +42,11 @@ export default function AdminSidebarClient() {
   };
 
   return (
-    <aside className="w-full md:w-64 bg-white/70 dark:bg-[#101827]/70 backdrop-blur-xl border-r border-slate-200/80 dark:border-white/10 p-4 space-y-1.5 flex-shrink-0 transition-colors duration-300">
-      <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 dark:text-slate-500 px-3 py-2">
+    <aside className="w-full md:w-64 bg-white/75 dark:bg-[#101827]/75 backdrop-blur-xl border-b md:border-b-0 md:border-r border-slate-200/80 dark:border-white/10 p-2 sm:p-3 md:p-4 flex-shrink-0 transition-colors duration-300 z-30">
+      <div className="hidden md:block text-[10px] font-mono uppercase tracking-widest text-slate-400 dark:text-slate-500 px-3 py-2">
         {adminT.sidebar.modulesHeading}
       </div>
-      <nav className="space-y-1">
+      <nav className="flex md:flex-col overflow-x-auto scrollbar-none gap-1.5 md:space-y-1 py-1 md:py-0">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.href);
@@ -55,22 +55,22 @@ export default function AdminSidebarClient() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition group ${
+              className={`flex items-center justify-between px-3 sm:px-3.5 py-2 md:py-2.5 rounded-xl md:rounded-2xl text-xs font-semibold whitespace-nowrap transition-all group shrink-0 active:scale-[0.98] ${
                 active
-                  ? 'bg-slate-100 dark:bg-white/10 text-[#101827] dark:text-white font-bold border border-[#B99A5B]/40 shadow-xs'
+                  ? 'bg-slate-100 dark:bg-white/15 text-[#101827] dark:text-white font-bold border border-[#B99A5B]/40 shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-[#101827] dark:hover:text-white hover:bg-slate-100/60 dark:hover:bg-white/5'
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 md:gap-3">
                 <Icon
-                  className={`w-4 h-4 transition-colors ${
+                  className={`w-3.5 h-3.5 md:w-4 md:h-4 transition-colors ${
                     active ? 'text-[#B99A5B]' : 'text-slate-400 group-hover:text-[#B99A5B]'
                   }`}
                 />
                 <span>{item.label}</span>
               </div>
               {item.badge && (
-                <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-[#B99A5B]/20 dark:bg-[#B99A5B]/30 text-[#B99A5B] dark:text-[#eedda5]">
+                <span className="ml-2 text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full bg-[#B99A5B]/20 dark:bg-[#B99A5B]/30 text-[#B99A5B] dark:text-[#eedda5]">
                   {item.badge}
                 </span>
               )}

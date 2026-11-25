@@ -238,7 +238,7 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder={loc.namePlaceholder}
-                      className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-black/20 border border-black/10 dark:border-white/10 text-[#101827] dark:text-white placeholder:text-slate-400 text-sm focus:outline-none focus:border-[#B99A5B] transition shadow-sm"
+                      className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-black/20 border border-black/10 dark:border-white/10 text-[#101827] dark:text-white placeholder:text-slate-400 text-base sm:text-sm focus:outline-none focus:border-[#B99A5B] transition shadow-sm"
                     />
                   </div>
 
@@ -252,7 +252,7 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder={loc.emailPlaceholder}
-                      className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-black/20 border border-black/10 dark:border-white/10 text-[#101827] dark:text-white placeholder:text-slate-400 text-sm focus:outline-none focus:border-[#B99A5B] transition shadow-sm"
+                      className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-black/20 border border-black/10 dark:border-white/10 text-[#101827] dark:text-white placeholder:text-slate-400 text-base sm:text-sm focus:outline-none focus:border-[#B99A5B] transition shadow-sm"
                     />
                   </div>
                 </div>
@@ -264,7 +264,7 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
                   <select
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-[#101827] border border-black/10 dark:border-white/10 text-[#101827] dark:text-white text-sm focus:outline-none focus:border-[#B99A5B] transition shadow-sm"
+                    className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-[#101827] border border-black/10 dark:border-white/10 text-[#101827] dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#B99A5B] transition shadow-sm"
                   >
                     {subjectList.map((opt) => (
                       <option key={opt.value} value={opt.value}>
@@ -284,7 +284,7 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder={loc.messagePlaceholder}
-                    className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-black/20 border border-black/10 dark:border-white/10 text-[#101827] dark:text-white placeholder:text-slate-400 text-sm focus:outline-none focus:border-[#B99A5B] transition shadow-sm resize-none"
+                    className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-black/20 border border-black/10 dark:border-white/10 text-[#101827] dark:text-white placeholder:text-slate-400 text-base sm:text-sm focus:outline-none focus:border-[#B99A5B] transition shadow-sm resize-none"
                   />
                 </div>
 
