@@ -1,5 +1,6 @@
 import React from 'react';
 import ContactSection from '@/components/ContactSection';
+import { Mail, Sparkles } from 'lucide-react';
 
 interface ContactPageProps {
   params: Promise<{ locale: string }>;
@@ -29,24 +30,24 @@ export default async function ContactPage({ params }: ContactPageProps) {
     : 'Direct channel for academic partnerships, keynote speaking invitations, press inquiries, and scientific advisory.';
 
   return (
-    <div className="bg-[#F8F8F5] min-h-screen pt-32 pb-24">
+    <div className="min-h-screen py-10 space-y-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-soft-blue border border-navy/10 text-navy text-xs font-semibold uppercase tracking-widest mb-4">
-            <span className="w-2 h-2 rounded-full bg-gold" />
+        <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full liquid-glass-badge text-xs font-semibold text-slate-800 dark:text-slate-200">
+            <Mail className="w-3.5 h-3.5 text-[#B99A5B]" />
             <span>{isUz ? 'Rasmiy Aloqa' : isRu ? 'Связь' : isTr ? 'İletişim' : 'Official Reach'}</span>
           </div>
-          <h1 className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-navy font-bold tracking-tight mb-4">
+          <h1 className="font-editorial text-4xl sm:text-6xl text-[#101827] dark:text-[#F4F5F7] font-extrabold tracking-tight">
             {title}
           </h1>
-          <p className="text-base sm:text-lg text-charcoal/80 leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
             {subtitle}
           </p>
         </div>
 
-        {/* Contact Component with Form and Direct Info */}
-        <div className="bg-white rounded-3xl border border-navy/5 p-6 sm:p-12 shadow-sm">
+        {/* Contact Component with Form and Direct Info in Liquid Glass Card */}
+        <div className="liquid-glass rounded-3xl p-6 sm:p-12 shadow-2xl border border-white/60 dark:border-white/12">
           <ContactSection />
         </div>
       </div>

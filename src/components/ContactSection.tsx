@@ -143,52 +143,52 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
 
   return (
     <div id="contact" className="w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Left Column: Direct Coordinates */}
-        <div className="lg:col-span-5 space-y-8">
+        <div className="lg:col-span-5 space-y-6">
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#B99A5B]">
               <Mail className="w-3.5 h-3.5" />
               <span>{t.contact.title}</span>
             </div>
-            <h2 className="font-editorial text-3xl sm:text-4xl font-bold text-navy">
+            <h2 className="font-editorial text-3xl sm:text-4xl font-bold text-[#101827] dark:text-white">
               {loc.dialogue}
             </h2>
-            <p className="text-sm sm:text-base text-charcoal/80 leading-relaxed">
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
               {t.contact.subtitle}
             </p>
           </div>
 
           <div className="space-y-4">
-            <div className="p-5 rounded-2xl bg-[#F8F8F5] border border-navy/5 flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-white text-navy shadow-sm border border-navy/5">
-                <Mail className="w-5 h-5 text-gold" />
+            <div className="p-5 rounded-2xl liquid-glass-subtle border border-black/5 dark:border-white/10 flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-[#B99A5B]/15 text-[#B99A5B] shadow-sm shrink-0">
+                <Mail className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-xs uppercase tracking-wider text-charcoal/60 font-semibold block">
+                <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold block">
                   {loc.officialInquiries}
                 </span>
                 <a
                   href={`mailto:${contactEmail}`}
-                  className="text-sm sm:text-base font-bold text-navy hover:text-gold transition-colors font-mono"
+                  className="text-sm sm:text-base font-bold text-[#101827] dark:text-white hover:text-[#B99A5B] transition-colors font-mono"
                 >
                   {contactEmail}
                 </a>
               </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-[#F8F8F5] border border-navy/5 flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-white text-navy shadow-sm border border-navy/5">
-                <MapPin className="w-5 h-5 text-gold" />
+            <div className="p-5 rounded-2xl liquid-glass-subtle border border-black/5 dark:border-white/10 flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-[#8D9FC5]/20 text-[#8D9FC5] shadow-sm shrink-0">
+                <MapPin className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-xs uppercase tracking-wider text-charcoal/60 font-semibold block">
+                <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold block">
                   {loc.officeTitle}
                 </span>
-                <span className="text-sm sm:text-base font-bold text-navy">
+                <span className="text-sm sm:text-base font-bold text-[#101827] dark:text-white block">
                   {loc.officeCity}
                 </span>
-                <span className="text-xs text-charcoal/60 block mt-0.5">
+                <span className="text-xs text-slate-500 dark:text-slate-400 block mt-0.5">
                   {loc.officeDesc}
                 </span>
               </div>
@@ -196,40 +196,40 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
           </div>
         </div>
 
-        {/* Right Column: Transmission Form */}
+        {/* Right Column: Transmission Form in Liquid Glass */}
         <div className="lg:col-span-7">
-          <div className="p-8 sm:p-10 rounded-3xl bg-[#F8F8F5] border border-navy/5 shadow-sm">
+          <div className="p-6 sm:p-8 rounded-3xl liquid-glass-subtle border border-black/5 dark:border-white/10 shadow-sm">
             {submitted ? (
-              <div className="py-12 text-center space-y-4 animate-fadeIn">
-                <div className="w-16 h-16 mx-auto rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+              <div className="py-12 text-center space-y-4 animate-in fade-in">
+                <div className="w-16 h-16 mx-auto rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h3 className="font-editorial text-2xl font-bold text-navy">
+                <h3 className="font-editorial text-2xl font-bold text-[#101827] dark:text-white">
                   {loc.messageTransmitted}
                 </h3>
-                <p className="text-sm text-charcoal/80 max-w-md mx-auto">
+                <p className="text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto">
                   {t.contact.successMessage}
                 </p>
                 <button
                   type="button"
                   onClick={() => setSubmitted(false)}
-                  className="mt-4 px-6 py-2.5 rounded-xl bg-navy text-white text-xs font-semibold tracking-wider hover:bg-navy/90 transition shadow-sm"
+                  className="mt-4 px-6 py-2.5 rounded-xl gold-glow-button text-xs font-bold uppercase tracking-wider transition shadow-sm"
                 >
                   {loc.sendAnother}
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 {errorMessage && (
-                  <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-600 text-xs flex items-center gap-2">
+                  <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-400 text-xs flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 flex-shrink-0" />
                     <span>{errorMessage}</span>
                   </div>
                 )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-charcoal/70">
+                    <label className="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 block">
                       {t.contact.fullName}
                     </label>
                     <input
@@ -238,12 +238,12 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder={loc.namePlaceholder}
-                      className="w-full px-4 py-3 rounded-xl bg-white border border-navy/10 text-navy placeholder:text-charcoal/40 text-sm focus:outline-none focus:border-gold transition shadow-sm"
+                      className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-black/20 border border-black/10 dark:border-white/10 text-[#101827] dark:text-white placeholder:text-slate-400 text-sm focus:outline-none focus:border-[#B99A5B] transition shadow-sm"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-charcoal/70">
+                    <label className="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 block">
                       {t.contact.email}
                     </label>
                     <input
@@ -252,19 +252,19 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder={loc.emailPlaceholder}
-                      className="w-full px-4 py-3 rounded-xl bg-white border border-navy/10 text-navy placeholder:text-charcoal/40 text-sm focus:outline-none focus:border-gold transition shadow-sm"
+                      className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-black/20 border border-black/10 dark:border-white/10 text-[#101827] dark:text-white placeholder:text-slate-400 text-sm focus:outline-none focus:border-[#B99A5B] transition shadow-sm"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-charcoal/70">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 block">
                     {t.contact.subject}
                   </label>
                   <select
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-white border border-navy/10 text-navy text-sm focus:outline-none focus:border-gold transition shadow-sm"
+                    className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-[#101827] border border-black/10 dark:border-white/10 text-[#101827] dark:text-white text-sm focus:outline-none focus:border-[#B99A5B] transition shadow-sm"
                   >
                     {subjectList.map((opt) => (
                       <option key={opt.value} value={opt.value}>
@@ -275,23 +275,23 @@ export default function ContactSection({ contactEmail = 'contact@ashrafturdialiy
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-charcoal/70">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 block">
                     {t.contact.message}
                   </label>
                   <textarea
                     required
-                    rows={5}
+                    rows={4}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder={loc.messagePlaceholder}
-                    className="w-full px-4 py-3 rounded-xl bg-white border border-navy/10 text-navy placeholder:text-charcoal/40 text-sm focus:outline-none focus:border-gold transition shadow-sm resize-none"
+                    className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-black/20 border border-black/10 dark:border-white/10 text-[#101827] dark:text-white placeholder:text-slate-400 text-sm focus:outline-none focus:border-[#B99A5B] transition shadow-sm resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 rounded-xl bg-navy text-white text-xs font-bold uppercase tracking-widest hover:bg-gold hover:text-navy transition shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-4 rounded-xl gold-glow-button text-[#101827] text-xs font-bold uppercase tracking-widest transition shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <>

@@ -1,6 +1,7 @@
 import React from 'react';
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
+import { Award, ExternalLink, ShieldCheck, Sparkles } from 'lucide-react';
 
 interface CertificatesPageProps {
   params: Promise<{ locale: string }>;
@@ -41,23 +42,23 @@ export default async function CertificatesPage({ params }: CertificatesPageProps
     : 'Authenticated credentials, government honors, scientific fellowships, and mountaineering accreditations.';
 
   return (
-    <div className="bg-[#F8F8F5] min-h-screen pt-32 pb-24">
+    <div className="min-h-screen py-10 space-y-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-soft-blue border border-navy/10 text-navy text-xs font-semibold uppercase tracking-widest mb-4">
-            <span className="w-2 h-2 rounded-full bg-gold" />
+        <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full liquid-glass-badge text-xs font-semibold text-slate-800 dark:text-slate-200">
+            <Award className="w-3.5 h-3.5 text-[#B99A5B]" />
             <span>{isUz ? 'Rasmiy Guvohnomalar' : isRu ? 'Верификация' : isTr ? 'Doğrulanmış Belgeler' : 'Verified Credentials'}</span>
           </div>
-          <h1 className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-navy font-bold tracking-tight mb-4">
+          <h1 className="font-editorial text-4xl sm:text-6xl text-[#101827] dark:text-[#F4F5F7] font-extrabold tracking-tight">
             {title}
           </h1>
-          <p className="text-base sm:text-lg text-charcoal/80 leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
             {subtitle}
           </p>
         </div>
 
-        {/* Certificates Grid */}
+        {/* Certificates Grid in Liquid Glass Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {certificates.map((cert) => {
             const certTitle = (isUz && cert.titleUz) || (isRu && cert.titleRu) || (isTr && cert.titleTr) || cert.title;
@@ -65,33 +66,33 @@ export default async function CertificatesPage({ params }: CertificatesPageProps
             return (
               <div
                 key={cert.id}
-                className="bg-white rounded-3xl overflow-hidden border border-navy/5 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+                className="liquid-glass rounded-3xl overflow-hidden shadow-glass hover:shadow-2xl hover:border-[#B99A5B]/60 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
                   {/* Certificate Image Canvas */}
-                  <div className="relative h-60 w-full overflow-hidden bg-[#EAF1F8] border-b border-navy/5 flex items-center justify-center p-4">
+                  <div className="relative h-60 w-full overflow-hidden bg-slate-100 dark:bg-slate-900 border-b border-black/5 dark:border-white/10 flex items-center justify-center p-4">
                     <img
                       src={cert.imageUrl}
                       alt={certTitle}
-                      className="max-h-full max-w-full object-contain rounded-lg shadow-md group-hover:scale-105 transition-transform duration-500"
+                      className="max-h-full max-w-full object-contain rounded-xl shadow-md group-hover:scale-105 transition-transform duration-500"
                     />
-                    <span className="absolute top-4 left-4 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-navy/80 text-white backdrop-blur-md">
+                    <span className="absolute top-4 left-4 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase liquid-glass-badge text-[#101827] dark:text-white">
                       {cert.category}
                     </span>
                   </div>
 
-                  <div className="p-6">
-                    <div className="flex items-center justify-between text-xs text-charcoal/60 font-mono mb-2">
+                  <div className="p-6 space-y-2">
+                    <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-mono">
                       <span>{cert.issuer}</span>
                       <span>{new Date(cert.issueDate).getFullYear()}</span>
                     </div>
 
-                    <h2 className="font-editorial text-xl font-bold text-navy group-hover:text-gold transition-colors mb-2">
+                    <h2 className="font-editorial text-xl font-bold text-[#101827] dark:text-white group-hover:text-[#B99A5B] transition-colors leading-snug">
                       {certTitle}
                     </h2>
 
                     {cert.credentialId && (
-                      <p className="text-xs text-charcoal/50 font-mono truncate">
+                      <p className="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">
                         ID: {cert.credentialId}
                       </p>
                     )}
@@ -104,13 +105,14 @@ export default async function CertificatesPage({ params }: CertificatesPageProps
                       href={cert.credentialUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block w-full text-center py-2.5 rounded-xl bg-soft-blue hover:bg-soft-blue/80 text-navy font-semibold text-xs tracking-wider border border-navy/10 transition"
+                      className="block w-full text-center py-2.5 rounded-xl liquid-glass-subtle hover:border-[#B99A5B] text-[#101827] dark:text-white font-bold text-xs tracking-wider transition"
                     >
                       {isUz ? "Haqiqiyligini tekshirish ↗" : isRu ? "Проверить подлинность ↗" : isTr ? "Doğrula ↗" : "Verify Credential ↗"}
                     </a>
                   ) : (
-                    <div className="py-2.5 text-center text-xs text-charcoal/40 font-mono">
-                      Verified & Archived
+                    <div className="py-2.5 text-center text-xs text-slate-400 font-mono flex items-center justify-center gap-1.5">
+                      <ShieldCheck className="w-3.5 h-3.5 text-[#B99A5B]" />
+                      <span>Verified & Archived</span>
                     </div>
                   )}
                 </div>

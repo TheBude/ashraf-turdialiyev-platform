@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
 import ModernHeroSection from '@/components/ModernHeroSection';
-import { ArrowRight, Globe, BookOpen, MapPin, Activity, ExternalLink } from 'lucide-react';
+import { ArrowRight, Globe, BookOpen, MapPin, Activity, ExternalLink, Compass, Sparkles } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -129,7 +129,7 @@ export default async function LocalizedHomePage({
   });
 
   return (
-    <div className="space-y-20 sm:space-y-28 pb-24">
+    <div className="space-y-24 sm:space-y-32 pb-28">
       {/* 1. MODERN ANIMATED HERO SECTION WITH ASHRAF TURDIALIYEV 3D TILT PORTRAIT */}
       <ModernHeroSection 
         settingsMap={settingsMap}
@@ -139,23 +139,24 @@ export default async function LocalizedHomePage({
 
       {/* 2. LIVE AUDIENCE & IMPACT TELEMETRY PREVIEW */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-card space-y-6 overflow-hidden">
-          {/* Subtle gold glow accent */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-[#B99A5B]/5 rounded-full blur-3xl pointer-events-none -z-0" />
+        <div className="relative p-8 sm:p-12 rounded-3xl liquid-glass border border-white/60 dark:border-white/12 shadow-2xl space-y-8 overflow-hidden">
+          {/* Subtle Aurora Ambient Light */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#B99A5B]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#8D9FC5]/10 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+          <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-black/5 dark:border-white/10">
             <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#B99A5B] flex items-center gap-1.5 mb-1">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#B99A5B] flex items-center gap-2 mb-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#B99A5B] animate-pulse" />
                 {t.telemetryBadge}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#17243A] font-serif">
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-[#101827] dark:text-[#F4F5F7] font-editorial tracking-tight">
                 {t.telemetryTitle}
               </h2>
             </div>
             <Link
               href={`/${locale}/audience`}
-              className="group text-xs font-bold text-[#17243A] hover:text-[#B99A5B] flex items-center gap-2 self-start sm:self-auto px-4 py-2 rounded-xl bg-slate-50 hover:bg-[#EAF1F8] transition-all"
+              className="group text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-[#B99A5B] flex items-center gap-2 self-start sm:self-auto px-4 py-2.5 rounded-full liquid-glass-subtle transition-all"
             >
               <span>{t.telemetryLink}</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -166,19 +167,19 @@ export default async function LocalizedHomePage({
             {audienceStats.map((stat) => (
               <div 
                 key={stat.id} 
-                className="space-y-1.5 p-5 rounded-2xl bg-gradient-to-br from-slate-50/90 to-white border border-slate-200/80 shadow-subtle hover:border-[#B99A5B]/60 hover:shadow-card hover:-translate-y-1 transition-all duration-300 group"
+                className="space-y-2 p-5 sm:p-6 rounded-2xl liquid-glass-subtle border border-white/50 dark:border-white/10 shadow-sm hover:border-[#B99A5B]/60 hover:shadow-glass hover:-translate-y-1 transition-all duration-300 group"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-slate-500 block truncate">
+                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400 block truncate">
                     {getLoc(stat, 'label')}
                   </span>
                   <Activity className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#B99A5B] transition-colors" />
                 </div>
-                <div className="text-2xl sm:text-3xl font-extrabold text-[#17243A] tracking-tight group-hover:text-[#2B4D76] transition-colors">
+                <div className="text-2xl sm:text-3xl font-extrabold text-[#101827] dark:text-white tracking-tight font-editorial group-hover:text-[#B99A5B] transition-colors">
                   {stat.prefix}{stat.value.toLocaleString()}{stat.suffix}
                 </div>
                 {stat.isSimulated && (
-                  <span className="text-[10px] text-emerald-600 font-bold flex items-center gap-1.5">
+                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
                     {t.telemetryLive}
                   </span>
@@ -191,18 +192,18 @@ export default async function LocalizedHomePage({
 
       {/* 3. 3D GLOBE CALLOUT PREVIEW */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl bg-gradient-to-r from-[#17243A] via-[#1c2c47] to-[#121c2c] text-white p-8 sm:p-14 shadow-card-hover overflow-hidden border border-[#B99A5B]/30">
+        <div className="relative rounded-3xl bg-gradient-to-r from-[#101827] via-[#182A42] to-[#0B0F19] text-white p-8 sm:p-14 shadow-2xl overflow-hidden border border-[#B99A5B]/35">
           {/* Animated Ambient Light Rings */}
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#B99A5B]/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#A78BFA]/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#8D9FC5]/20 rounded-full blur-3xl pointer-events-none" />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
             <div className="lg:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-[#B99A5B]/40 text-xs font-bold text-[#eedda5]">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-[#B99A5B]/40 text-xs font-bold text-[#eedda5] backdrop-blur-md">
                 <Globe className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '12s' }} />
                 <span>{t.globeBadge}</span>
               </div>
-              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight font-serif leading-tight">
+              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight font-editorial leading-tight">
                 {t.globeTitle}
               </h2>
               <p className="text-slate-300 text-sm sm:text-base max-w-xl leading-relaxed font-normal">
@@ -212,9 +213,9 @@ export default async function LocalizedHomePage({
             <div className="lg:col-span-4 flex lg:justify-end">
               <Link
                 href={`/${locale}/globe`}
-                className="group relative inline-flex items-center gap-3 px-8 py-4.5 rounded-2xl bg-[#B99A5B] text-black font-extrabold text-sm shadow-card hover:bg-[#eedda5] hover:scale-105 transition-all duration-300"
+                className="group relative inline-flex items-center gap-3 px-8 py-4.5 rounded-2xl gold-glow-button text-[#101827] font-extrabold text-sm shadow-xl"
               >
-                <Globe className="w-5 h-5 text-black group-hover:rotate-180 transition-transform duration-700" />
+                <Globe className="w-5 h-5 text-[#101827] group-hover:rotate-180 transition-transform duration-700" />
                 <span>{t.globeButton}</span>
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
               </Link>
@@ -230,11 +231,13 @@ export default async function LocalizedHomePage({
             <span className="text-xs font-bold uppercase tracking-widest text-[#B99A5B] block mb-1">
               {t.expeditionsBadge}
             </span>
-            <h2 className="text-3xl font-extrabold text-[#17243A] font-serif">{t.expeditionsTitle}</h2>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#101827] dark:text-[#F4F5F7] font-editorial">
+              {t.expeditionsTitle}
+            </h2>
           </div>
           <Link
             href={`/${locale}/travels`}
-            className="text-xs font-bold text-[#17243A] hover:text-[#B99A5B] flex items-center gap-1.5"
+            className="text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-[#B99A5B] flex items-center gap-1.5"
           >
             <span>{t.expeditionsLink}</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -253,15 +256,15 @@ export default async function LocalizedHomePage({
               <Link
                 key={dest.id}
                 href={`/${locale}/travels/${dest.slug}`}
-                className="group rounded-3xl bg-white border border-slate-200/90 overflow-hidden shadow-subtle hover:shadow-card-hover hover:border-[#B99A5B]/50 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+                className="group rounded-3xl liquid-glass overflow-hidden shadow-glass hover:shadow-2xl hover:border-[#B99A5B]/60 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between"
               >
-                <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-900">
                   <img
                     src={cover}
                     alt={destTitle}
                     className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
                   />
-                  <div className="absolute top-3 left-3 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-[11px] font-bold text-[#17243A] shadow-sm flex items-center gap-1.5 border border-white/40">
+                  <div className="absolute top-3 left-3 px-3 py-1.5 rounded-full liquid-glass-badge text-[11px] font-bold text-[#101827] dark:text-white shadow-sm flex items-center gap-1.5">
                     <MapPin className="w-3.5 h-3.5 text-[#B99A5B]" />
                     <span>{dest.city ? `${dest.city}, ` : ''}{dest.country}</span>
                   </div>
@@ -269,15 +272,15 @@ export default async function LocalizedHomePage({
 
                 <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
                   <div className="space-y-2">
-                    <h3 className="text-lg font-bold text-[#17243A] group-hover:text-[#B99A5B] transition-colors line-clamp-2 font-serif">
+                    <h3 className="text-lg font-bold text-[#101827] dark:text-white group-hover:text-[#B99A5B] transition-colors line-clamp-2 font-editorial">
                       {destTitle}
                     </h3>
-                    <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
+                    <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
                       {destDesc}
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#17243A]">
+                  <div className="pt-4 border-t border-black/5 dark:border-white/10 flex items-center justify-between text-xs font-bold text-[#101827] dark:text-white">
                     <span className="text-slate-400 font-normal">
                       {new Date(dest.visitedAt).toLocaleDateString()}
                     </span>
@@ -295,27 +298,27 @@ export default async function LocalizedHomePage({
       {/* 5. FEATURED RESEARCH TEASER */}
       {featuredPub && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-[#EAF1F8] via-[#f0f5fb] to-white border border-[#ACC7E1]/70 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-8 overflow-hidden group">
-            <div className="space-y-3 max-w-2xl">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-[#ACC7E1] text-[11px] font-bold uppercase tracking-wider text-[#2B4D76]">
+          <div className="relative p-8 sm:p-12 rounded-3xl liquid-glass border border-white/60 dark:border-white/12 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-8 overflow-hidden group">
+            <div className="space-y-3 max-w-2xl relative z-10">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full liquid-glass-badge text-[11px] font-bold uppercase tracking-wider text-[#B99A5B]">
                 <BookOpen className="w-3.5 h-3.5 text-[#B99A5B]" />
                 {t.researchBadge}
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#17243A] font-serif leading-snug">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#101827] dark:text-white font-editorial leading-snug">
                 {getLoc(featuredPub, 'title')}
               </h3>
-              <p className="text-xs text-slate-600 font-medium">
+              <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
                 {featuredPub.authors} &bull; <span className="italic">{featuredPub.journal}</span> ({featuredPub.year})
               </p>
-              <p className="text-sm text-slate-700 leading-relaxed line-clamp-2">
+              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed line-clamp-2">
                 {getLoc(featuredPub, 'abstract')}
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0">
+            <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0 relative z-10">
               <Link
                 href={`/${locale}/research`}
-                className="px-7 py-3.5 rounded-2xl bg-[#17243A] text-white font-bold text-xs tracking-wide shadow-card hover:bg-[#2B4D76] transition-all text-center"
+                className="px-7 py-3.5 rounded-2xl bg-[#101827] text-white dark:bg-white dark:text-[#101827] font-bold text-xs tracking-wide shadow-card hover:bg-[#B99A5B] dark:hover:bg-[#B99A5B] dark:hover:text-black transition-all text-center"
               >
                 {t.accessPapers}
               </Link>
@@ -324,7 +327,7 @@ export default async function LocalizedHomePage({
                   href={featuredPub.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-3.5 rounded-2xl bg-white border border-slate-200 text-[#17243A] font-bold text-xs hover:border-[#B99A5B] hover:shadow-subtle transition-all flex items-center justify-center gap-1.5"
+                  className="px-6 py-3.5 rounded-2xl liquid-glass-subtle text-[#101827] dark:text-white font-bold text-xs hover:border-[#B99A5B] transition-all flex items-center justify-center gap-1.5"
                 >
                   <span>{t.doiLink}</span>
                   <ExternalLink className="w-3.5 h-3.5 text-[#B99A5B]" />

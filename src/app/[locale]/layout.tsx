@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import AuroraBackground from '@/components/ui/AuroraBackground';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { Language } from '@/lib/translations';
 
@@ -80,12 +81,14 @@ export default async function LocaleLayout({
 
   return (
     <LanguageProvider initialLocale={activeLocale}>
-      <div className="min-h-screen bg-[#F8F8F5] text-[#17243A] flex flex-col justify-between selection:bg-[#B99A5B] selection:text-white">
-        <Header />
-        <main className="flex-1 pt-20 sm:pt-24">
-          {children}
-        </main>
-        <Footer />
+      <div className="min-h-screen bg-[#F4F5F7] dark:bg-[#0B0F19] text-[#101827] dark:text-[#F4F5F7] flex flex-col justify-between selection:bg-[#B99A5B] selection:text-black transition-colors duration-300 relative">
+        <AuroraBackground className="min-h-screen flex flex-col justify-between" intensity="normal">
+          <Header />
+          <main className="flex-1 pt-24 sm:pt-28 relative z-10">
+            {children}
+          </main>
+          <Footer />
+        </AuroraBackground>
       </div>
     </LanguageProvider>
   );

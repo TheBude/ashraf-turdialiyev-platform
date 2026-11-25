@@ -1,6 +1,7 @@
 import React from 'react';
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
+import { BookOpen, ExternalLink, Sparkles, Award } from 'lucide-react';
 
 interface ResearchPageProps {
   params: Promise<{ locale: string }>;
@@ -43,51 +44,51 @@ export default async function ResearchPage({ params }: ResearchPageProps) {
   const totalCitations = publications.reduce((acc, p) => acc + (p.citations || 0), 0);
 
   return (
-    <div className="bg-[#F8F8F5] min-h-screen pt-32 pb-24">
+    <div className="min-h-screen py-10 space-y-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-soft-blue border border-navy/10 text-navy text-xs font-semibold uppercase tracking-widest mb-4">
-            <span className="w-2 h-2 rounded-full bg-gold" />
+        {/* Editorial Header */}
+        <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full liquid-glass-badge text-xs font-semibold text-slate-800 dark:text-slate-200">
+            <BookOpen className="w-3.5 h-3.5 text-[#B99A5B]" />
             <span>{isUz ? 'Akademik Portfel' : isRu ? 'Академический Портфель' : isTr ? 'Akademik Portföy' : 'Academic Portfolio'}</span>
           </div>
-          <h1 className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-navy font-bold tracking-tight mb-4">
+          <h1 className="font-editorial text-4xl sm:text-6xl text-[#101827] dark:text-[#F4F5F7] font-extrabold tracking-tight">
             {title}
           </h1>
-          <p className="text-base sm:text-lg text-charcoal/80 leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
             {subtitle}
           </p>
         </div>
 
-        {/* Metric Badges */}
+        {/* Metric Badges in Liquid Glass */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          <div className="p-6 rounded-2xl bg-white border border-navy/5 shadow-sm text-center">
-            <span className="block text-3xl sm:text-4xl font-editorial font-bold text-navy">{publications.length}</span>
-            <span className="text-xs uppercase tracking-wider text-charcoal/60 font-semibold">
+          <div className="p-6 rounded-3xl liquid-glass-subtle text-center space-y-1 shadow-glass-sm border border-white/50 dark:border-white/10">
+            <span className="block text-3xl sm:text-4xl font-editorial font-bold text-[#101827] dark:text-white">{publications.length}</span>
+            <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
               {isUz ? "Ilmiy nashrlar" : isRu ? "Публикации" : isTr ? "Yayınlar" : "Publications"}
             </span>
           </div>
-          <div className="p-6 rounded-2xl bg-white border border-navy/5 shadow-sm text-center">
-            <span className="block text-3xl sm:text-4xl font-editorial font-bold text-gold">{totalCitations}+</span>
-            <span className="text-xs uppercase tracking-wider text-charcoal/60 font-semibold">
+          <div className="p-6 rounded-3xl liquid-glass-subtle text-center space-y-1 shadow-glass-sm border border-white/50 dark:border-white/10">
+            <span className="block text-3xl sm:text-4xl font-editorial font-bold text-[#B99A5B]">{totalCitations}+</span>
+            <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
               {isUz ? "Iqtiboslar (Citations)" : isRu ? "Индексы цитирования" : isTr ? "Atıflar" : "Total Citations"}
             </span>
           </div>
-          <div className="p-6 rounded-2xl bg-white border border-navy/5 shadow-sm text-center">
-            <span className="block text-3xl sm:text-4xl font-editorial font-bold text-navy">Scopus / WoS</span>
-            <span className="text-xs uppercase tracking-wider text-charcoal/60 font-semibold">
+          <div className="p-6 rounded-3xl liquid-glass-subtle text-center space-y-1 shadow-glass-sm border border-white/50 dark:border-white/10">
+            <span className="block text-2xl sm:text-3xl font-editorial font-bold text-[#8D9FC5]">Scopus &bull; WoS</span>
+            <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
               {isUz ? "Indekslangan jurnallar" : isRu ? "Индексируемые базы" : isTr ? "İndeksli Dergiler" : "Indexed Journals"}
             </span>
           </div>
-          <div className="p-6 rounded-2xl bg-white border border-navy/5 shadow-sm text-center">
-            <span className="block text-3xl sm:text-4xl font-editorial font-bold text-navy">100%</span>
-            <span className="text-xs uppercase tracking-wider text-charcoal/60 font-semibold">
+          <div className="p-6 rounded-3xl liquid-glass-subtle text-center space-y-1 shadow-glass-sm border border-white/50 dark:border-white/10">
+            <span className="block text-3xl sm:text-4xl font-editorial font-bold text-emerald-500">100%</span>
+            <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
               {isUz ? "Ochiq kirish (Open Access)" : isRu ? "Открытый доступ" : isTr ? "Açık Erişim" : "Open Access Available"}
             </span>
           </div>
         </div>
 
-        {/* Publications List */}
+        {/* Publications List in Liquid Glass Cards */}
         <div className="space-y-6">
           {publications.map((pub) => {
             const pubTitle = (isUz && pub.titleUz) || (isRu && pub.titleRu) || (isTr && pub.titleTr) || pub.title;
@@ -101,67 +102,61 @@ export default async function ResearchPage({ params }: ResearchPageProps) {
             return (
               <div
                 key={pub.id}
-                className="bg-white rounded-3xl p-6 sm:p-8 border border-navy/5 shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row md:items-start justify-between gap-6"
+                className="liquid-glass p-7 sm:p-9 rounded-3xl shadow-glass hover:shadow-2xl hover:border-[#B99A5B]/60 transition-all duration-300 space-y-4"
               >
-                <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-2 mb-3">
-                    <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-soft-blue text-navy border border-navy/10">
-                      {pub.journal}
+                <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase liquid-glass-badge text-[#B99A5B]">
+                      {pub.journal || 'Academic Journal'}
                     </span>
-                    <span className="text-xs text-charcoal/60 font-mono">
-                      {pub.year}
+                    <span className="font-mono text-slate-400 dark:text-slate-500">
+                      ({pub.year})
                     </span>
-                    {pub.citations > 0 && (
-                      <span className="text-xs text-gold font-mono font-semibold">
-                        ★ {pub.citations} citations
-                      </span>
-                    )}
                   </div>
-
-                  <h2 className="font-editorial text-2xl font-bold text-navy mb-2 leading-snug">
-                    {pubTitle}
-                  </h2>
-
-                  <p className="text-xs text-charcoal/70 font-mono mb-4">
-                    Authors: {pub.authors}
-                  </p>
-
-                  <p className="text-sm text-charcoal/80 leading-relaxed mb-4">
-                    {pubAbstract}
-                  </p>
-
-                  {/* Tags */}
-                  {parsedTags && parsedTags.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {parsedTags.map((tag, tIdx) => (
-                        <span key={tIdx} className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono bg-[#F8F8F5] text-charcoal/80 border border-navy/5">
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
+                  {pub.citations > 0 && (
+                    <span className="px-2.5 py-0.5 rounded-full bg-[#B99A5B]/15 text-[#B99A5B] font-bold text-xs font-mono">
+                      {pub.citations} {isUz ? 'iqtibos' : 'citations'}
+                    </span>
                   )}
                 </div>
 
-                {/* Action Links */}
-                <div className="flex md:flex-col items-center md:items-end justify-between md:justify-start gap-3 border-t md:border-t-0 pt-4 md:pt-0 border-navy/5">
-                  {pub.doi && (
+                <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#101827] dark:text-white leading-snug">
+                  {pubTitle}
+                </h2>
+
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400 font-sans">
+                  {pub.authors}
+                </p>
+
+                {pubAbstract && (
+                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
+                    {pubAbstract}
+                  </p>
+                )}
+
+                {/* Footer with Tags and Direct DOI */}
+                <div className="pt-4 border-t border-black/5 dark:border-white/10 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex flex-wrap gap-1.5">
+                    {Array.isArray(parsedTags) &&
+                      parsedTags.map((tag: string, i: number) => (
+                        <span
+                          key={i}
+                          className="px-2.5 py-1 rounded-lg bg-black/5 dark:bg-white/5 text-[10px] font-mono text-slate-600 dark:text-slate-400"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                  </div>
+
+                  {pub.link && (
                     <a
-                      href={pub.doi.startsWith('http') ? pub.doi : `https://doi.org/${pub.doi}`}
+                      href={pub.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2 rounded-xl bg-navy text-white text-xs font-semibold tracking-wider hover:bg-navy/90 transition shadow-sm whitespace-nowrap"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl gold-glow-button text-xs font-bold uppercase tracking-wider shrink-0"
                     >
-                      DOI Article ↗
-                    </a>
-                  )}
-                  {pub.pdfUrl && (
-                    <a
-                      href={pub.pdfUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-2 rounded-xl bg-soft-blue text-navy text-xs font-semibold tracking-wider hover:bg-soft-blue/80 border border-navy/10 transition whitespace-nowrap"
-                    >
-                      Download PDF
+                      <span>Direct DOI Link</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                   )}
                 </div>

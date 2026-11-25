@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
-import { Compass, BookOpen, Award, ArrowRight } from 'lucide-react';
+import { Compass, BookOpen, Award, ArrowRight, Sparkles, MapPin, CheckCircle2 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -96,36 +96,37 @@ export default async function AboutPage({
   const headline = settingsMap[`hero_headline_${locale}`] || settingsMap['hero_headline_en'] || t.subheading;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
-      {/* Header */}
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+      {/* Editorial Header */}
       <div className="space-y-4 text-center max-w-3xl mx-auto">
-        <span className="text-xs font-bold uppercase tracking-widest text-[#B99A5B] block">
-          {t.badge}
-        </span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-[#17243A] font-serif">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full liquid-glass-badge text-xs font-semibold text-slate-800 dark:text-slate-200">
+          <Sparkles className="w-3.5 h-3.5 text-[#B99A5B]" />
+          <span>{t.badge}</span>
+        </div>
+        <h1 className="text-4xl sm:text-6xl font-extrabold text-[#101827] dark:text-[#F4F5F7] font-editorial tracking-tight">
           {t.title}
         </h1>
-        <p className="text-lg text-slate-600 font-serif">
+        <p className="text-lg text-slate-600 dark:text-slate-300 font-editorial">
           {headline}
         </p>
       </div>
 
-      {/* Full Portrait & Narrative */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
-        <div className="md:col-span-5 rounded-3xl overflow-hidden border border-slate-200 shadow-card bg-white p-3 sm:p-4 group">
-          <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-gradient-to-br from-[#17243A] to-[#223B5A] relative">
+      {/* Full Portrait & Narrative in Liquid Glass Card */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+        <div className="md:col-span-5 rounded-3xl overflow-hidden liquid-glass p-3 sm:p-4 group shadow-glass">
+          <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-gradient-to-br from-[#101827] via-[#182A42] to-[#0B0F19] relative">
             <img
               src="/images/ashraf-turdialiyev.jpg"
               alt="Ashraf Turdialiyev"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#17243A]/85 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#101827] via-transparent to-transparent pointer-events-none" />
             <div className="absolute bottom-5 left-5 right-5 text-white space-y-1">
               <span className="text-[10px] uppercase font-bold tracking-widest text-[#eedda5] flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#B99A5B] animate-pulse" />
                 Geneva &bull; Tashkent &bull; Global
               </span>
-              <div className="text-xl font-bold font-serif">Ashraf Turdialiyev</div>
+              <div className="text-xl font-bold font-editorial">Ashraf Turdialiyev</div>
               <div className="text-xs text-slate-300 font-normal">
                 {t.role}
               </div>
@@ -133,53 +134,61 @@ export default async function AboutPage({
           </div>
         </div>
 
-        <div className="md:col-span-7 space-y-6 text-slate-700 leading-relaxed text-base">
-          <h2 className="text-2xl font-bold text-[#17243A] font-serif">
+        <div className="md:col-span-7 space-y-6 text-slate-700 dark:text-slate-300 leading-relaxed text-base liquid-glass p-8 sm:p-10 shadow-glass">
+          <h2 className="text-2xl sm:text-3xl font-bold text-[#101827] dark:text-white font-editorial border-b border-black/5 dark:border-white/10 pb-4">
             {t.subheading}
           </h2>
-          <p>{bio}</p>
+          <p className="text-lg text-slate-800 dark:text-slate-200 font-medium leading-relaxed">{bio}</p>
           <p>{t.paragraph1}</p>
           <p>{t.paragraph2}</p>
         </div>
       </div>
 
-      {/* Core Pillars */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-slate-200">
-        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-subtle space-y-2">
-          <Compass className="w-6 h-6 text-[#B99A5B]" />
-          <h3 className="font-bold text-[#17243A] text-lg">{t.pillar1Title}</h3>
-          <p className="text-xs text-slate-600 leading-relaxed">
+      {/* Core Pillars in Liquid Glass Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+        <div className="p-7 rounded-3xl liquid-glass-card space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-[#B99A5B]/15 border border-[#B99A5B]/30 flex items-center justify-center text-[#B99A5B]">
+            <Compass className="w-6 h-6" />
+          </div>
+          <h3 className="font-bold text-[#101827] dark:text-white text-xl font-editorial">{t.pillar1Title}</h3>
+          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
             {t.pillar1Desc}
           </p>
         </div>
-        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-subtle space-y-2">
-          <BookOpen className="w-6 h-6 text-[#2B4D76]" />
-          <h3 className="font-bold text-[#17243A] text-lg">{t.pillar2Title}</h3>
-          <p className="text-xs text-slate-600 leading-relaxed">
+
+        <div className="p-7 rounded-3xl liquid-glass-card space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-[#8D9FC5]/20 border border-[#8D9FC5]/40 flex items-center justify-center text-[#8D9FC5]">
+            <BookOpen className="w-6 h-6" />
+          </div>
+          <h3 className="font-bold text-[#101827] dark:text-white text-xl font-editorial">{t.pillar2Title}</h3>
+          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
             {t.pillar2Desc}
           </p>
         </div>
-        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-subtle space-y-2">
-          <Award className="w-6 h-6 text-[#B99A5B]" />
-          <h3 className="font-bold text-[#17243A] text-lg">{t.pillar3Title}</h3>
-          <p className="text-xs text-slate-600 leading-relaxed">
+
+        <div className="p-7 rounded-3xl liquid-glass-card space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-[#A78BFA]/20 border border-[#A78BFA]/40 flex items-center justify-center text-[#A78BFA]">
+            <Award className="w-6 h-6" />
+          </div>
+          <h3 className="font-bold text-[#101827] dark:text-white text-xl font-editorial">{t.pillar3Title}</h3>
+          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
             {t.pillar3Desc}
           </p>
         </div>
       </div>
 
-      {/* Navigation Call to Action */}
-      <div className="p-8 rounded-3xl bg-[#EAF1F8] border border-[#ACC7E1]/50 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div>
-          <h4 className="font-bold text-[#17243A] text-lg">{t.ctaTitle}</h4>
-          <p className="text-xs text-slate-600">{t.ctaDesc}</p>
+      {/* Navigation Call to Action in Liquid Glass */}
+      <div className="p-8 sm:p-10 rounded-3xl liquid-glass border border-white/60 dark:border-white/15 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl">
+        <div className="space-y-1">
+          <h4 className="font-bold text-[#101827] dark:text-white text-xl font-editorial">{t.ctaTitle}</h4>
+          <p className="text-xs text-slate-600 dark:text-slate-400">{t.ctaDesc}</p>
         </div>
         <Link
           href={`/${locale}/globe`}
-          className="px-6 py-3 rounded-xl bg-[#17243A] text-white font-bold text-xs shadow-card hover:bg-[#2B4D76] transition-colors flex items-center gap-2"
+          className="px-8 py-3.5 rounded-2xl gold-glow-button text-[#101827] font-bold text-xs tracking-wider uppercase flex items-center gap-2 shrink-0"
         >
           <span>{t.ctaButton}</span>
-          <ArrowRight className="w-3.5 h-3.5" />
+          <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
     </div>

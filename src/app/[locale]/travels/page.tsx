@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
-import { MapPin, Calendar, ArrowRight } from 'lucide-react';
+import { MapPin, Calendar, ArrowRight, Sparkles, Compass } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -50,21 +50,22 @@ export default async function TravelsCatalogPage({
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-      {/* Header */}
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+      {/* Editorial Header */}
       <div className="space-y-4 text-center max-w-3xl mx-auto">
-        <span className="text-xs font-bold uppercase tracking-widest text-[#B99A5B] block">
-          {t.badge}
-        </span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-[#17243A] font-serif">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full liquid-glass-badge text-xs font-semibold text-slate-800 dark:text-slate-200">
+          <Compass className="w-3.5 h-3.5 text-[#B99A5B]" />
+          <span>{t.badge}</span>
+        </div>
+        <h1 className="text-4xl sm:text-6xl font-extrabold text-[#101827] dark:text-[#F4F5F7] font-editorial tracking-tight">
           {t.title}
         </h1>
-        <p className="text-base text-slate-600">
+        <p className="text-base text-slate-600 dark:text-slate-300">
           {t.subtitle}
         </p>
       </div>
 
-      {/* Grid of All Destinations */}
+      {/* Grid of All Destinations in Liquid Glass Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {destinations.map((dest) => {
           let photos = [];
@@ -78,36 +79,36 @@ export default async function TravelsCatalogPage({
             <Link
               key={dest.id}
               href={`/${locale}/travels/${dest.slug}`}
-              className="group rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-subtle hover:shadow-card-hover transition-all flex flex-col justify-between"
+              className="group rounded-3xl liquid-glass overflow-hidden shadow-glass hover:shadow-2xl hover:border-[#B99A5B]/60 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between"
             >
-              <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+              <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-900">
                 <img
                   src={cover}
                   alt={destTitle}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-sm text-[11px] font-bold text-[#17243A] shadow-sm flex items-center gap-1">
-                  <MapPin className="w-3 h-3 text-[#B99A5B]" />
+                <div className="absolute top-3 left-3 px-3 py-1.5 rounded-full liquid-glass-badge text-[11px] font-bold text-[#101827] dark:text-white shadow-sm flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5 text-[#B99A5B]" />
                   <span>{dest.city ? `${dest.city}, ` : ''}{dest.country}</span>
                 </div>
               </div>
 
               <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
                 <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-[#17243A] group-hover:text-[#B99A5B] transition-colors">
+                  <h3 className="text-xl font-bold text-[#101827] dark:text-white group-hover:text-[#B99A5B] transition-colors font-editorial">
                     {destTitle}
                   </h3>
-                  <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
                     {destDesc}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#17243A]">
-                  <span className="text-slate-400 font-normal flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                <div className="pt-4 border-t border-black/5 dark:border-white/10 flex items-center justify-between text-xs font-bold text-[#101827] dark:text-white">
+                  <span className="text-slate-400 font-normal flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-[#B99A5B]" />
                     {new Date(dest.visitedAt).toLocaleDateString()}
                   </span>
-                  <span className="flex items-center gap-1 text-[#B99A5B] group-hover:underline">
+                  <span className="flex items-center gap-1 text-[#B99A5B] group-hover:translate-x-1 transition-transform">
                     {t.readChronicle} &rarr;
                   </span>
                 </div>

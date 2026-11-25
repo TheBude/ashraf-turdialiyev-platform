@@ -42,8 +42,8 @@ export default function AdminSidebarClient() {
   };
 
   return (
-    <aside className="w-full md:w-64 bg-white border-r border-slate-200 p-4 space-y-1.5 flex-shrink-0 shadow-subtle">
-      <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 px-3 py-2">
+    <aside className="w-full md:w-64 bg-white/70 dark:bg-[#101827]/70 backdrop-blur-xl border-r border-slate-200/80 dark:border-white/10 p-4 space-y-1.5 flex-shrink-0 transition-colors duration-300">
+      <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 dark:text-slate-500 px-3 py-2">
         {adminT.sidebar.modulesHeading}
       </div>
       <nav className="space-y-1">
@@ -55,10 +55,10 @@ export default function AdminSidebarClient() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition group ${
+              className={`flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition group ${
                 active
-                  ? 'bg-[#EAF1F8] text-[#17243A] font-bold shadow-subtle'
-                  : 'text-slate-600 hover:text-[#17243A] hover:bg-slate-50'
+                  ? 'bg-slate-100 dark:bg-white/10 text-[#101827] dark:text-white font-bold border border-[#B99A5B]/40 shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-[#101827] dark:hover:text-white hover:bg-slate-100/60 dark:hover:bg-white/5'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -70,7 +70,7 @@ export default function AdminSidebarClient() {
                 <span>{item.label}</span>
               </div>
               {item.badge && (
-                <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#eedda5]/60 text-[#17243A]">
+                <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-[#B99A5B]/20 dark:bg-[#B99A5B]/30 text-[#B99A5B] dark:text-[#eedda5]">
                   {item.badge}
                 </span>
               )}

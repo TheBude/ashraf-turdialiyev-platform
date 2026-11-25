@@ -1,5 +1,6 @@
 import React from 'react';
 import prisma from '@/lib/prisma';
+import { Briefcase, Building, MapPin, Sparkles } from 'lucide-react';
 
 interface ExperiencePageProps {
   params: Promise<{ locale: string }>;
@@ -75,7 +76,6 @@ export default async function ExperiencePage({ params }: ExperiencePageProps) {
     ? 'Akademik liderlik, uluslararası danışmanlık, devlet kurulları ve diplomatik görevler.'
     : 'Executive leadership appointments, academic deanships, governmental advisory boards, and scientific commissions.';
 
-  // Fetch experiences from DB, fallback to default roles if DB is empty
   let roles: Array<{
     period: string;
     role: string;
@@ -116,49 +116,57 @@ export default async function ExperiencePage({ params }: ExperiencePageProps) {
   }
 
   return (
-    <div className="bg-[#F8F8F5] min-h-screen pt-32 pb-24">
+    <div className="min-h-screen py-10 space-y-12">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-soft-blue border border-navy/10 text-navy text-xs font-semibold uppercase tracking-widest mb-4">
-            <span className="w-2 h-2 rounded-full bg-gold" />
+        {/* Editorial Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full liquid-glass-badge text-xs font-semibold text-slate-800 dark:text-slate-200">
+            <Briefcase className="w-3.5 h-3.5 text-[#B99A5B]" />
             <span>{isUz ? 'Professional Tajriba' : isRu ? 'Карьера' : isTr ? 'Kariyer' : 'Track Record'}</span>
           </div>
-          <h1 className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-navy font-bold tracking-tight mb-4">
+          <h1 className="font-editorial text-4xl sm:text-6xl text-[#101827] dark:text-[#F4F5F7] font-extrabold tracking-tight">
             {title}
           </h1>
-          <p className="text-base sm:text-lg text-charcoal/80 leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
             {subtitle}
           </p>
         </div>
 
-        {/* Roles List */}
+        {/* Roles List in Liquid Glass Cards */}
         <div className="space-y-8">
           {roles.map((item, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-3xl p-8 sm:p-10 border border-navy/5 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
+              className="liquid-glass rounded-3xl p-8 sm:p-10 shadow-glass hover:shadow-2xl hover:border-[#B99A5B]/60 transition-all duration-300 relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-soft-blue/40 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
-
               <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-                <span className="font-mono text-xs font-bold text-gold tracking-widest uppercase">
+                <span className="font-mono text-xs font-bold text-[#B99A5B] tracking-widest uppercase">
                   {item.period}
                 </span>
-                <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-soft-blue text-navy border border-navy/10">
+                <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase liquid-glass-badge text-[#101827] dark:text-white">
                   {item.type}
                 </span>
               </div>
 
-              <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-navy mb-2">
+              <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#101827] dark:text-white mb-2">
                 {item.role}
               </h2>
 
-              <p className="text-sm font-semibold text-charcoal/70 mb-4">
-                {item.organization} {item.location ? `• ${item.location}` : ''}
+              <p className="text-sm font-semibold text-[#B99A5B] mb-4 flex items-center gap-2">
+                <Building className="w-4 h-4" />
+                <span>{item.organization}</span>
+                {item.location && (
+                  <>
+                    <span className="text-slate-400">&bull;</span>
+                    <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1 font-normal text-xs">
+                      <MapPin className="w-3.5 h-3.5" />
+                      {item.location}
+                    </span>
+                  </>
+                )}
               </p>
 
-              <p className="text-sm sm:text-base text-charcoal/80 leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
                 {item.description}
               </p>
             </div>

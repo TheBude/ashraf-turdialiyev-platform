@@ -1,6 +1,7 @@
 import React from 'react';
 import prisma from '@/lib/prisma';
 import AudienceStatsSection from '@/components/AudienceStatsSection';
+import { Activity, Sparkles } from 'lucide-react';
 
 interface AudiencePageProps {
   params: Promise<{ locale: string }>;
@@ -71,61 +72,61 @@ export default async function AudiencePage({ params }: AudiencePageProps) {
     : 'Explorers and mountain enthusiasts engaging with geographical dispatches, photography, and high-altitude field notes.';
 
   return (
-    <div className="bg-[#F8F8F5] min-h-screen pt-32 pb-24">
+    <div className="min-h-screen py-10 space-y-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-soft-blue border border-navy/10 text-navy text-xs font-semibold uppercase tracking-widest mb-4">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full liquid-glass-badge text-xs font-semibold text-slate-800 dark:text-slate-200">
+            <Activity className="w-3.5 h-3.5 text-emerald-500 animate-pulse" />
             <span>{isUz ? 'Jonli Telemetriya' : isRu ? 'Телеметрия' : isTr ? 'Canlı Telemetri' : 'Live Telemetry'}</span>
           </div>
-          <h1 className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-navy font-bold tracking-tight mb-4">
+          <h1 className="font-editorial text-4xl sm:text-6xl text-[#101827] dark:text-[#F4F5F7] font-extrabold tracking-tight">
             {title}
           </h1>
-          <p className="text-base sm:text-lg text-charcoal/80 leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
             {subtitle}
           </p>
         </div>
 
-        {/* Dynamic Interactive Stats Component */}
-        <div className="mb-16">
+        {/* Dynamic Interactive Stats Component in Liquid Glass */}
+        <div className="mb-14">
           <AudienceStatsSection initialStats={stats} />
         </div>
 
-        {/* Global Demographics / Channel Breakdown */}
+        {/* Global Demographics Breakdown Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-8 rounded-3xl bg-white border border-navy/5 shadow-sm">
-            <span className="text-xs font-mono font-bold text-gold uppercase tracking-wider block mb-2">
+          <div className="p-8 rounded-3xl liquid-glass-card space-y-3">
+            <span className="text-xs font-mono font-bold text-[#B99A5B] uppercase tracking-wider block">
               {card1Tag}
             </span>
-            <h3 className="font-editorial text-2xl font-bold text-navy mb-2">
+            <h3 className="font-editorial text-2xl font-bold text-[#101827] dark:text-white">
               {card1Title}
             </h3>
-            <p className="text-sm text-charcoal/70 leading-relaxed">
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
               {card1Desc}
             </p>
           </div>
 
-          <div className="p-8 rounded-3xl bg-white border border-navy/5 shadow-sm">
-            <span className="text-xs font-mono font-bold text-gold uppercase tracking-wider block mb-2">
+          <div className="p-8 rounded-3xl liquid-glass-card space-y-3">
+            <span className="text-xs font-mono font-bold text-[#8D9FC5] uppercase tracking-wider block">
               {card2Tag}
             </span>
-            <h3 className="font-editorial text-2xl font-bold text-navy mb-2">
+            <h3 className="font-editorial text-2xl font-bold text-[#101827] dark:text-white">
               {card2Title}
             </h3>
-            <p className="text-sm text-charcoal/70 leading-relaxed">
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
               {card2Desc}
             </p>
           </div>
 
-          <div className="p-8 rounded-3xl bg-white border border-navy/5 shadow-sm">
-            <span className="text-xs font-mono font-bold text-gold uppercase tracking-wider block mb-2">
+          <div className="p-8 rounded-3xl liquid-glass-card space-y-3">
+            <span className="text-xs font-mono font-bold text-[#A78BFA] uppercase tracking-wider block">
               {card3Tag}
             </span>
-            <h3 className="font-editorial text-2xl font-bold text-navy mb-2">
+            <h3 className="font-editorial text-2xl font-bold text-[#101827] dark:text-white">
               {card3Title}
             </h3>
-            <p className="text-sm text-charcoal/70 leading-relaxed">
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
               {card3Desc}
             </p>
           </div>
