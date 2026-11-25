@@ -19,8 +19,12 @@ export default function Footer() {
           {/* Brand info */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white/10 border border-[#B99A5B]/50 flex items-center justify-center font-serif text-lg font-bold text-[#eedda5]">
-                AT
+              <div className="relative w-11 h-11 rounded-xl overflow-hidden border border-[#B99A5B]/60 shadow-lg bg-[#17243A]">
+                <img
+                  src="/images/ashraf-turdialiyev-avatar.jpg"
+                  alt="Ashraf Turdialiyev"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
                 <span className="text-xl font-bold text-white tracking-tight block">

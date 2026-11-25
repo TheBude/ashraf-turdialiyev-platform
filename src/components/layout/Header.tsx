@@ -62,8 +62,12 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Brand Monogram & Identity */}
           <Link href={`/${lang}`} className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-white border border-[#B99A5B]/40 flex items-center justify-center font-serif text-lg font-bold text-[#17243A] shadow-subtle group-hover:border-[#B99A5B] transition-all">
-              AT
+            <div className="relative w-10 h-10 rounded-xl overflow-hidden border border-[#B99A5B]/50 bg-[#17243A] shadow-subtle group-hover:border-[#B99A5B] transition-all">
+              <img
+                src="/images/ashraf-turdialiyev-avatar.jpg"
+                alt="Ashraf Turdialiyev"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+              />
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-[#17243A] text-base tracking-tight leading-snug group-hover:text-[#B99A5B] transition-colors">

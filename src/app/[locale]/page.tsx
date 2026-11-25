@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
-import { ArrowRight, Compass, Globe, BookOpen, Award, Shield, Sparkles, MapPin, Calendar, ExternalLink } from 'lucide-react';
+import ModernHeroSection from '@/components/ModernHeroSection';
+import { ArrowRight, Compass, Globe, BookOpen, Award, Shield, Sparkles, MapPin, Calendar, ExternalLink, Activity } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,114 +44,59 @@ export default async function LocalizedHomePage({
     settingsMap[s.key] = s.value;
   });
 
-  const headline = settingsMap[`hero_headline_${locale}`] || settingsMap['hero_headline_en'] || 'Explorer. Scholar. Global Thinker.';
-  const bio = settingsMap[`bio_${locale}`] || settingsMap['bio_en'] || 'Connecting historical scientific heritage with cutting-edge global innovation.';
-
   return (
-    <div className="space-y-24 sm:space-y-32 pb-24">
-      {/* 1. EDITORIAL HERO SECTION */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left Text Column */}
-          <div className="lg:col-span-7 space-y-6 sm:space-y-8">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF1F8] border border-[#ACC7E1] text-xs font-bold text-[#17243A]">
-              <span className="w-2 h-2 rounded-full bg-[#B99A5B] animate-pulse"></span>
-              <span>Official Personal Brand Platform</span>
-              <span className="text-slate-300">&bull;</span>
-              <span className="text-[#2B4D76]">{globeLocationsCount}+ Expeditions Mapped</span>
-            </div>
-
-            <div className="space-y-3">
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[#17243A] leading-[1.08]">
-                Ashraf <span className="font-serif italic font-normal text-[#B99A5B]">Turdialiyev</span>
-              </h1>
-              <p className="text-lg sm:text-2xl font-serif text-[#252B35] leading-relaxed">
-                {headline}
-              </p>
-            </div>
-
-            <p className="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed">
-              {bio}
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Link
-                href={`/${locale}/globe`}
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#17243A] text-white font-semibold text-xs tracking-wide shadow-card hover:bg-[#2B4D76] hover:shadow-card-hover transition-all"
-              >
-                <Globe className="w-4 h-4 text-[#eedda5]" />
-                <span>Explore 3D Earth Globe</span>
-                <ArrowRight className="w-3.5 h-3.5 ml-1 text-[#eedda5]" />
-              </Link>
-
-              <Link
-                href={`/${locale}/travels`}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white border border-slate-200 text-[#17243A] font-semibold text-xs tracking-wide shadow-subtle hover:border-[#B99A5B] transition-all"
-              >
-                <Compass className="w-4 h-4 text-[#B99A5B]" />
-                <span>Curated Expeditions</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Editorial Portrait & Cards */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-card p-3 sm:p-4">
-              <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-slate-100 relative">
-                <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200"
-                  alt="Ashraf Turdialiyev"
-                  className="w-full h-full object-cover grayscale-[15%] contrast-105 hover:scale-102 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#17243A]/80 via-transparent to-transparent"></div>
-
-                <div className="absolute bottom-6 left-6 right-6 text-white space-y-1">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#eedda5] block">
-                    Geneva &bull; Tashkent &bull; Global
-                  </span>
-                  <div className="text-xl font-bold font-serif">Ashraf Turdialiyev</div>
-                  <div className="text-xs text-slate-200 font-normal">
-                    International Researcher, Alpinist & Keynote Speaker
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    <div className="space-y-20 sm:space-y-28 pb-24">
+      {/* 1. MODERN ANIMATED HERO SECTION WITH ASHRAF TURDIALIYEV 3D TILT PORTRAIT */}
+      <ModernHeroSection 
+        settingsMap={settingsMap}
+        globeLocationsCount={globeLocationsCount}
+        locale={locale}
+      />
 
       {/* 2. LIVE AUDIENCE & IMPACT TELEMETRY PREVIEW */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-card space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+        <div className="relative p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-card space-y-6 overflow-hidden">
+          {/* Subtle gold glow accent */}
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[#B99A5B]/5 rounded-full blur-3xl pointer-events-none -z-0" />
+
+          <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
             <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#B99A5B] block mb-1">
-                Verified Global Reach
+              <span className="text-xs font-bold uppercase tracking-widest text-[#B99A5B] flex items-center gap-1.5 mb-1">
+                <span className="w-2 h-2 rounded-full bg-[#B99A5B] animate-pulse" />
+                Verified Global Reach & Analytics
               </span>
-              <h2 className="text-2xl font-bold text-[#17243A]">Empirical Telemetry & Metrics</h2>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#17243A] font-serif">
+                Empirical Telemetry & Impact
+              </h2>
             </div>
             <Link
               href={`/${locale}/audience`}
-              className="text-xs font-bold text-[#17243A] hover:text-[#B99A5B] flex items-center gap-1.5 self-start sm:self-auto"
+              className="group text-xs font-bold text-[#17243A] hover:text-[#B99A5B] flex items-center gap-2 self-start sm:self-auto px-4 py-2 rounded-xl bg-slate-50 hover:bg-[#EAF1F8] transition-all"
             >
               <span>Detailed Audience Analytics</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
             {audienceStats.map((stat) => (
-              <div key={stat.id} className="space-y-1 p-4 rounded-2xl bg-slate-50/70 border border-slate-100">
-                <span className="text-xs font-medium text-slate-500 block truncate">
-                  {stat.label}
-                </span>
-                <div className="text-2xl sm:text-3xl font-extrabold text-[#17243A] tracking-tight">
+              <div 
+                key={stat.id} 
+                className="space-y-1.5 p-5 rounded-2xl bg-gradient-to-br from-slate-50/90 to-white border border-slate-200/80 shadow-subtle hover:border-[#B99A5B]/60 hover:shadow-card hover:-translate-y-1 transition-all duration-300 group"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-medium text-slate-500 block truncate">
+                    {stat.label}
+                  </span>
+                  <Activity className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#B99A5B] transition-colors" />
+                </div>
+                <div className="text-2xl sm:text-3xl font-extrabold text-[#17243A] tracking-tight group-hover:text-[#2B4D76] transition-colors">
                   {stat.prefix}{stat.value.toLocaleString()}{stat.suffix}
                 </div>
                 {stat.isSimulated && (
-                  <span className="text-[10px] text-emerald-600 font-bold flex items-center gap-1">
+                  <span className="text-[10px] text-emerald-600 font-bold flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                    Live telemetry active
+                    Live telemetry feed
                   </span>
                 )}
               </div>
@@ -161,27 +107,32 @@ export default async function LocalizedHomePage({
 
       {/* 3. 3D GLOBE CALLOUT PREVIEW */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl bg-[#17243A] text-white p-8 sm:p-14 shadow-card-hover overflow-hidden relative">
+        <div className="relative rounded-3xl bg-gradient-to-r from-[#17243A] via-[#1c2c47] to-[#121c2c] text-white p-8 sm:p-14 shadow-card-hover overflow-hidden border border-[#B99A5B]/30">
+          {/* Animated Ambient Light Rings */}
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#B99A5B]/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
+
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
             <div className="lg:col-span-8 space-y-4">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#eedda5] block">
-                Interactive Cartography
-              </span>
-              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight font-serif">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-[#B99A5B]/40 text-xs font-bold text-[#eedda5]">
+                <Globe className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '12s' }} />
+                <span>Photorealistic WebGL Cartography</span>
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight font-serif leading-tight">
                 Explore the Planet in Real 3D Space
               </h2>
-              <p className="text-slate-300 text-sm sm:text-base max-w-xl leading-relaxed">
+              <p className="text-slate-300 text-sm sm:text-base max-w-xl leading-relaxed font-normal">
                 Step into a photorealistic, rotating 3D Earth globe. Inspect high-altitude research expeditions, ancient Silk Road waypoints, and diplomatic summits across Eurasia and the Americas.
               </p>
             </div>
             <div className="lg:col-span-4 flex lg:justify-end">
               <Link
                 href={`/${locale}/globe`}
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-[#B99A5B] text-black font-bold text-sm shadow-card hover:bg-[#eedda5] transition-all"
+                className="group relative inline-flex items-center gap-3 px-8 py-4.5 rounded-2xl bg-[#B99A5B] text-black font-extrabold text-sm shadow-card hover:bg-[#eedda5] hover:scale-105 transition-all duration-300"
               >
-                <Globe className="w-5 h-5 text-black" />
+                <Globe className="w-5 h-5 text-black group-hover:rotate-180 transition-transform duration-700" />
                 <span>Launch 3D Globe</span>
-                <ArrowRight className="w-4 h-4 ml-1" />
+                <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
@@ -216,23 +167,23 @@ export default async function LocalizedHomePage({
               <Link
                 key={dest.id}
                 href={`/${locale}/travels/${dest.slug}`}
-                className="group rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-subtle hover:shadow-card-hover transition-all flex flex-col justify-between"
+                className="group rounded-3xl bg-white border border-slate-200/90 overflow-hidden shadow-subtle hover:shadow-card-hover hover:border-[#B99A5B]/50 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                   <img
                     src={cover}
                     alt={dest.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
                   />
-                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[11px] font-bold text-[#17243A] shadow-sm flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-[#B99A5B]" />
+                  <div className="absolute top-3 left-3 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-[11px] font-bold text-[#17243A] shadow-sm flex items-center gap-1.5 border border-white/40">
+                    <MapPin className="w-3.5 h-3.5 text-[#B99A5B]" />
                     <span>{dest.city ? `${dest.city}, ` : ''}{dest.country}</span>
                   </div>
                 </div>
 
                 <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
                   <div className="space-y-2">
-                    <h3 className="text-lg font-bold text-[#17243A] group-hover:text-[#B99A5B] transition-colors line-clamp-2">
+                    <h3 className="text-lg font-bold text-[#17243A] group-hover:text-[#B99A5B] transition-colors line-clamp-2 font-serif">
                       {dest.title}
                     </h3>
                     <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
@@ -244,7 +195,7 @@ export default async function LocalizedHomePage({
                     <span className="text-slate-400 font-normal">
                       {new Date(dest.visitedAt).toLocaleDateString()}
                     </span>
-                    <span className="flex items-center gap-1 text-[#B99A5B] group-hover:underline">
+                    <span className="flex items-center gap-1.5 text-[#B99A5B] group-hover:translate-x-1 transition-transform">
                       Read Chronicle &rarr;
                     </span>
                   </div>
@@ -258,12 +209,13 @@ export default async function LocalizedHomePage({
       {/* 5. FEATURED RESEARCH TEASER */}
       {featuredPub && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="p-8 sm:p-12 rounded-3xl bg-[#EAF1F8] border border-[#ACC7E1]/50 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div className="relative p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-[#EAF1F8] via-[#f0f5fb] to-white border border-[#ACC7E1]/70 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-8 overflow-hidden group">
             <div className="space-y-3 max-w-2xl">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#2B4D76] block">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-[#ACC7E1] text-[11px] font-bold uppercase tracking-wider text-[#2B4D76]">
+                <BookOpen className="w-3.5 h-3.5 text-[#B99A5B]" />
                 Featured Scholarly Treatise
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#17243A] font-serif">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#17243A] font-serif leading-snug">
                 {featuredPub.title}
               </h3>
               <p className="text-xs text-slate-600 font-medium">
@@ -274,10 +226,10 @@ export default async function LocalizedHomePage({
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 shrink-0">
+            <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0">
               <Link
                 href={`/${locale}/research`}
-                className="px-6 py-3 rounded-xl bg-[#17243A] text-white font-bold text-xs shadow-card hover:bg-[#2B4D76] transition-colors text-center"
+                className="px-7 py-3.5 rounded-2xl bg-[#17243A] text-white font-bold text-xs tracking-wide shadow-card hover:bg-[#2B4D76] transition-all text-center"
               >
                 Access Research Papers
               </Link>
@@ -286,7 +238,7 @@ export default async function LocalizedHomePage({
                   href={featuredPub.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-3 rounded-xl bg-white border border-slate-200 text-[#17243A] font-bold text-xs hover:border-[#B99A5B] transition-colors flex items-center justify-center gap-1.5"
+                  className="px-6 py-3.5 rounded-2xl bg-white border border-slate-200 text-[#17243A] font-bold text-xs hover:border-[#B99A5B] hover:shadow-subtle transition-all flex items-center justify-center gap-1.5"
                 >
                   <span>Direct DOI Link</span>
                   <ExternalLink className="w-3.5 h-3.5 text-[#B99A5B]" />

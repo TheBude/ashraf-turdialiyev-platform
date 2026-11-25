@@ -35,13 +35,24 @@ export default async function AboutPage({
 
       {/* Full Portrait & Narrative */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
-        <div className="md:col-span-5 rounded-3xl overflow-hidden border border-slate-200 shadow-card bg-white p-3">
-          <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-slate-100">
+        <div className="md:col-span-5 rounded-3xl overflow-hidden border border-slate-200 shadow-card bg-white p-3 sm:p-4 group">
+          <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-gradient-to-br from-[#17243A] to-[#223B5A] relative">
             <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200"
+              src="/images/ashraf-turdialiyev.jpg"
               alt="Ashraf Turdialiyev"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#17243A]/85 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute bottom-5 left-5 right-5 text-white space-y-1">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-[#eedda5] flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#B99A5B] animate-pulse" />
+                Geneva &bull; Tashkent &bull; Global
+              </span>
+              <div className="text-xl font-bold font-serif">Ashraf Turdialiyev</div>
+              <div className="text-xs text-slate-300 font-normal">
+                International Explorer &bull; Scholar &bull; Envoy
+              </div>
+            </div>
           </div>
         </div>
 
