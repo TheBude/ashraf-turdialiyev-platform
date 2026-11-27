@@ -106,7 +106,7 @@ export const metadata: Metadata = {
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '',
-    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || 'feea90810f4cdcd4',
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || '3180fe00f463381c',
   },
 };
 
