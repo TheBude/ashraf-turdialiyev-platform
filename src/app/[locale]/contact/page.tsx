@@ -1,9 +1,20 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '@/lib/page-seo';
 import ContactSection from '@/components/ContactSection';
 import { Mail, Sparkles } from 'lucide-react';
 
 interface ContactPageProps {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetadata(locale, 'contact');
 }
 
 export default async function ContactPage({ params }: ContactPageProps) {

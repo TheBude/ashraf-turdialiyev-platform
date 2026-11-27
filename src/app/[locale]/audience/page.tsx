@@ -1,4 +1,6 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '@/lib/page-seo';
 import prisma from '@/lib/prisma';
 import AudienceStatsSection from '@/components/AudienceStatsSection';
 import { Activity, Sparkles } from 'lucide-react';
@@ -8,6 +10,15 @@ interface AudiencePageProps {
 }
 
 export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetadata(locale, 'audience');
+}
 
 export default async function AudiencePage({ params }: AudiencePageProps) {
   const { locale } = await params;

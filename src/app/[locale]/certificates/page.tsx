@@ -1,4 +1,6 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '@/lib/page-seo';
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import { Award, ExternalLink, ShieldCheck, Sparkles } from 'lucide-react';
@@ -8,6 +10,15 @@ interface CertificatesPageProps {
 }
 
 export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetadata(locale, 'certificates');
+}
 
 export default async function CertificatesPage({ params }: CertificatesPageProps) {
   const { locale } = await params;

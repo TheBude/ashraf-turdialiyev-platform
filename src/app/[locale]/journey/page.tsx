@@ -1,4 +1,6 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '@/lib/page-seo';
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import { Milestone, MapPin, Sparkles } from 'lucide-react';
@@ -8,6 +10,15 @@ interface JourneyPageProps {
 }
 
 export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetadata(locale, 'journey');
+}
 
 export default async function JourneyPage({ params }: JourneyPageProps) {
   const { locale } = await params;

@@ -1,4 +1,6 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '@/lib/page-seo';
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import { BookOpen, ExternalLink, Sparkles, Award } from 'lucide-react';
@@ -8,6 +10,15 @@ interface ResearchPageProps {
 }
 
 export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetadata(locale, 'research');
+}
 
 export default async function ResearchPage({ params }: ResearchPageProps) {
   const { locale } = await params;

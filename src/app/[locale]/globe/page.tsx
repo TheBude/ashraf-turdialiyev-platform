@@ -1,4 +1,6 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '@/lib/page-seo';
 import prisma from '@/lib/prisma';
 import EarthGlobe3D, { GlobeLocationItem } from '@/components/globe/EarthGlobe3D';
 import Link from 'next/link';
@@ -9,6 +11,15 @@ interface GlobePageProps {
 }
 
 export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetadata(locale, 'globe');
+}
 
 export default async function GlobePage({ params }: GlobePageProps) {
   const { locale } = await params;

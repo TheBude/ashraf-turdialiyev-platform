@@ -1,4 +1,6 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import { buildDestinationMetadata } from '@/lib/page-seo';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
@@ -28,6 +30,34 @@ const SLUG_I18N = {
     galleryTitle: (count: number) => `Sefer Fotoğraf Galerisi (${count} fotoğraf)`,
   },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const destination = await prisma.destination.findUnique({ where: { slug } });
+  if (!destination) return {};
+  const isUz = locale === 'uz';
+  const isRu = locale === 'ru';
+  const isTr = locale === 'tr';
+  const title =
+    (isUz && destination.titleUz) || (isRu && destination.titleRu) || (isTr && destination.titleTr) || destination.title;
+  const description =
+    (isUz && destination.descriptionUz) ||
+    (isRu && destination.descriptionRu) ||
+    (isTr && destination.descriptionTr) ||
+    destination.description;
+  let image: string | undefined;
+  try {
+    const photos = JSON.parse(destination.photos);
+    if (Array.isArray(photos) && typeof photos[0] === 'string') image = photos[0];
+  } catch {
+    image = undefined;
+  }
+  return buildDestinationMetadata(locale, slug, title, description, image);
+}
 
 export default async function DestinationStoryPage({
   params,

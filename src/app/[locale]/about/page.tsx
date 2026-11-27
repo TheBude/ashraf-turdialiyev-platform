@@ -1,4 +1,6 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '@/lib/page-seo';
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
 import { Compass, BookOpen, Award, ArrowRight, Sparkles, MapPin, CheckCircle2 } from 'lucide-react';
@@ -79,6 +81,15 @@ const ABOUT_I18N = {
     ctaButton: '3D Küreyi Başlat',
   },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetadata(locale, 'about');
+}
 
 export default async function AboutPage({
   params,

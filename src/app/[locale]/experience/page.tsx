@@ -1,4 +1,6 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '@/lib/page-seo';
 import prisma from '@/lib/prisma';
 import { Briefcase, Building, MapPin, Sparkles } from 'lucide-react';
 
@@ -52,6 +54,15 @@ const DEFAULT_ROLES = [
     type: 'EXPEDITION',
   },
 ];
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildPageMetadata(locale, 'experience');
+}
 
 export default async function ExperiencePage({ params }: ExperiencePageProps) {
   const { locale } = await params;

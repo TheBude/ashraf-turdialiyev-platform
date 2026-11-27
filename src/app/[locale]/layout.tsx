@@ -108,15 +108,8 @@ export async function generateMetadata({
     description: meta.description,
     keywords: meta.keywords,
     authors: [{ name: 'Ashraf Turdialiyev' }],
-    alternates: {
-      canonical: `/${locale}`,
-      languages: {
-        uz: '/uz',
-        en: '/en',
-        ru: '/ru',
-        tr: '/tr',
-      },
-    },
+    // NOTE: canonical/hreflang are set per page (see src/lib/page-seo.ts).
+    // A layout-level canonical would point every sub-page at the home page.
     metadataBase: new URL('https://ashrafturdialiyev.uz'),
     openGraph: {
       title: meta.title,

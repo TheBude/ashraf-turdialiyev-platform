@@ -1,4 +1,6 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import { buildHomeMetadata } from '@/lib/page-seo';
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
 import ModernHeroSection from '@/components/ModernHeroSection';
@@ -76,6 +78,15 @@ const I18N = {
     doiLink: 'Doğrudan DOI Bağlantısı',
   },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildHomeMetadata(locale);
+}
 
 export default async function LocalizedHomePage({
   params,
